@@ -1,36 +1,45 @@
-#include"vtx/vector.hpp"
-#include"vtx/matrix.hpp"
-
 namespace vtx{
-    Vector::Vector(bool isColumn):
+    template<typename T>
+    Vector<T>::Vector(bool isColumn):
         length_(0),isColumn_(isColumn),data_(0){}
-    Vector::Vector(const std::vector<Vector::vtype> &vct,bool isColumn):
+    template<typename T>
+    Vector<T>::Vector(const std::vector<Vector::vtype> &vct,bool isColumn):
         length_(vct.size()),isColumn_(isColumn),data_(vct){}
-    Vector::Vector(size_t length,bool isColumn,vtype value):
+    template<typename T>
+    Vector<T>::Vector(size_t length,bool isColumn,vtype value):
         length_(length),isColumn_(isColumn),data_(length,value){}
-    Vector::Vector(const Vector &other):
+    template<typename T>
+    Vector<T>::Vector(const Vector &other):
         length_(other.length_),isColumn_(other.isColumn_),data_(other.data_){}
-    Vector::Vector(std::initializer_list<vtype> init,bool isColumn):
+    template<typename T>
+    Vector<T>::Vector(std::initializer_list<vtype> init,bool isColumn):
         length_(init.size()),isColumn_(isColumn),data_(init){}
-    Vector::~Vector()=default;
+    template<typename T>
+    Vector<T>::~Vector()=default;
 
-    Vector::vtype &Vector::operator[](size_t i){
+    template<typename T>
+    typename Vector<T>::vtype &Vector<T>::operator[](size_t i){
         return data_[i];
     }
-    const Vector::vtype &Vector::operator[](size_t i) const{
+    template<typename T>
+    const typename Vector<T>::vtype &Vector<T>::operator[](size_t i) const{
         return data_[i];
     }
-    size_t Vector::length() const{
+    template<typename T>
+    size_t Vector<T>::length() const{
         return length_;
     }
-    bool Vector::isColumn() const{
+    template<typename T>
+    bool Vector<T>::isColumn() const{
         return isColumn_;
     }
-    const std::vector<Vector::vtype> &Vector::data() const{
+    template<typename T>
+    const std::vector<typename Vector<T>::vtype> &Vector<T>::data() const{
         return data_;
     }
 
-    Vector &Vector::operator=(const Vector &other){
+    template<typename T>
+    Vector<T> &Vector<T>::operator=(const Vector<T> &other){
         if(this!=&other){
             length_=other.length_;
             isColumn_=other.isColumn_;
@@ -38,17 +47,19 @@ namespace vtx{
         }
         return *this;
     }
-    Vector Vector::operator+(const Vector &other) const{ 
+    template<typename T>
+    Vector<T> Vector<T>::operator+(const Vector<T> &other) const{ 
         if(length_!=other.length_ || isColumn_!=other.isColumn_){
             throw std::invalid_argument("");
         }
-        Vector rsl((*this));
+        Vector<T> rsl((*this));
         for(size_t i=0;i<length_;++i){
             rsl.data_[i]+=other.data_[i];
         }
         return rsl;
     }
-    Vector Vector::operator-(const Vector &other) const{ 
+    template<typename T>
+    Vector<T> Vector<T>::operator-(const Vector<T> &other) const{ 
         if(length_!=other.length_ || isColumn_!=other.isColumn_){
             throw std::invalid_argument("");
         }
@@ -58,17 +69,20 @@ namespace vtx{
         }
         return rsl;
     }
-    Vector Vector::operator*(Vector::ctype s) const{
-        Vector rsl((*this));
+    template<typename T>
+    Vector<T> Vector<T>::operator*(Vector<T>::ctype s) const{
+        Vector<T> rsl((*this));
         for(size_t i=0;i<length_;++i){
             rsl.data_[i]*=s;
         }
         return rsl;
     }
-    Vector operator*(Vector::ctype s,const Vector &self){
+    template<typename T>
+    Vector<T> operator*(typename Vector<T>::ctype s,const Vector<T> &self){
         return self*s;
     }
-    std::ostream &operator<<(std::ostream& os,const Vector& self){
+    template<typename T>
+    std::ostream &operator<<(std::ostream& os,const Vector<T>& self){
         if(self.isColumn()){
             for(size_t i=0;i<self.length();i++){
                 if(i==0) os<<"["<<self[i]<<" "<<std::endl;
@@ -85,7 +99,8 @@ namespace vtx{
         }
         return os;
     }
-    Vector &Vector::operator+=(const Vector &other){
+    template<typename T>
+    Vector<T> &Vector<T>::operator+=(const Vector<T> &other){
         if(length_!=other.length_ || isColumn_!=other.isColumn_){
             throw std::invalid_argument("");
         }
@@ -94,7 +109,8 @@ namespace vtx{
         }
         return *this;
     }
-    Vector &Vector::operator-=(const Vector &other){
+    template<typename T>
+    Vector<T> &Vector<T>::operator-=(const Vector<T> &other){
         if(length_!=other.length_ || isColumn_!=other.isColumn_){
             throw std::invalid_argument("");
         }
@@ -103,59 +119,67 @@ namespace vtx{
         }
         return *this;
     }
-    Vector &Vector::operator*=(ctype s){
+    template<typename T>
+    Vector<T> &Vector<T>::operator*=(ctype s){
         for(size_t i=0;i<length_;++i){
             data_[i]*=s;
         }
         return *this;
     }
-    Matrix Vector::operator*(const Vector &other) const{
-        Matrix matSelf=this->toMatrix();
-        Matrix matOther=other.toMatrix();
-        Matrix rsl=matSelf*matOther;
+    template<typename T>
+    Matrix<T> Vector<T>::operator*(const Vector<T> &other) const{
+        Matrix<T> matSelf=this->toMatrix();
+        Matrix<T> matOther=other.toMatrix();
+        Matrix<T> rsl=matSelf*matOther;
         return rsl;
     }
-    Matrix Vector::operator*(const Matrix &other) const{
-        Matrix matSelf=this->toMatrix();
-        Matrix rsl=matSelf*other;
+    template<typename T>
+    Matrix<T> Vector<T>::operator*(const Matrix<T> &other) const{
+        Matrix<T> matSelf=this->toMatrix();
+        Matrix<T> rsl=matSelf*other;
         return rsl;
     }
 
-    Matrix Vector::toMatrix() const{
-        Matrix rsl;
+    template<typename T>
+    Matrix<T> Vector<T>::toMatrix() const{
+        Matrix<T> rsl;
         if(isColumn_){
-            rsl=Matrix(length_,1);
+            rsl=Matrix<T>(length_,1);
             for(size_t i=0;i<length_;++i){
                 rsl[i][0]=data_[i];
             }
         }else{
-            rsl=Matrix(1,length_);
+            rsl=Matrix<T>(1,length_);
             for(size_t i=0;i<length_;++i){
                 rsl[0][i]=data_[i];
             }
         }
         return rsl;
     }
-    Vector Vector::iter(Vector &other,std::function<vtype(vtype,vtype)> func) const{
+    template<typename T>
+    Vector<T> Vector<T>::iter(Vector &other,std::function<vtype(vtype,vtype)> func) const{
         if(length_!=other.length_ || isColumn_!=other.isColumn_){
 
         }
-        Vector rst(length_,isColumn_);
+        Vector<T> rst(length_,isColumn_);
         for(size_t i=0;i<length_;++i){
             rst.data_[i]=func(data_[i],other.data_[i]);
         }
         return rst;
     }
-    Vector Vector::trans() const{
-        Vector transV(data_,!isColumn_);
+    template<typename T>
+    Vector<T> Vector<T>::trans() const{
+        Vector<T> transV(data_,!isColumn_);
         return transV;
     }
-    Vector Vector::flip() const{
-        Vector flipV(*this);
+    template<typename T>
+    Vector<T> Vector<T>::flip() const{
+        Vector<T> flipV(*this);
         std::reverse(flipV.data_.begin(),flipV.data_.end());
         return flipV;
     }
-    Vector::vtype Vector::norm(const double &p) const{
+    template<typename T>
+    typename Vector<T>::vtype Vector<T>::norm(const double &p) const{
     if(p==0){
         size_t count=0;
         for(double value:data_){

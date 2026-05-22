@@ -11,16 +11,18 @@
 #include"vtx/matrix.hpp"
 
 namespace vtx{
+    template<typename T>
     class Matrix;
+    template<typename T>
     class Vector{
         public:
-            using vtype=double;
-            using ctype=double;
+            using vtype=T;
+            using ctype=T;
 
             Vector(bool isColumn=true);
             Vector(const std::vector<vtype> &vct,bool isCol=true);
-            Vector(size_t length,bool isCol=true,vtype value=0.0);
-            Vector(const Vector &other);
+            Vector(size_t length,bool isCol=true,vtype value=T{});
+            Vector(const Vector<T> &other);
             Vector(std::initializer_list<vtype> init,bool isColumn=true);
             ~Vector();
 
@@ -30,22 +32,24 @@ namespace vtx{
             bool isColumn() const;
             const std::vector<vtype> &data() const;
 
-            Vector &operator=(const Vector &other);
-            Vector operator+(const Vector &other) const;
-            Vector operator-(const Vector &other) const;
-            Vector operator*(ctype s) const;
-            friend Vector operator*(ctype s,const Vector &self);
-            friend std::ostream &operator<<(std::ostream &os,const Vector &self);
-            Vector &operator+=(const Vector &other);
-            Vector &operator-=(const Vector &other);
-            Vector &operator*=(ctype s);
-            Matrix operator*(const Vector &other) const;
-            Matrix operator*(const Matrix &other) const;
+            Vector<T> &operator=(const Vector<T> &other);
+            Vector<T> operator+(const Vector<T> &other) const;
+            Vector<T> operator-(const Vector<T> &other) const;
+            Vector<T> operator*(ctype s) const;
+            template<typename U>
+            friend Vector<U> operator*(typename Vector<U>::ctype s, const Vector<U> &self);
+            template<typename U>
+            friend std::ostream &operator<<(std::ostream &os, const Vector<U> &self);
+            Vector<T> &operator+=(const Vector<T> &other);
+            Vector<T> &operator-=(const Vector<T> &other);
+            Vector<T> &operator*=(ctype s);
+            Matrix<T> operator*(const Vector<T> &other) const;
+            Matrix<T> operator*(const Matrix<T> &other) const;
 
-            Matrix toMatrix() const;
-            Vector iter(Vector &other,std::function<vtype(vtype,vtype)>)const;
-            Vector trans() const;
-            Vector flip() const;
+            Matrix<T> toMatrix() const;
+            Vector<T> iter(Vector<T> &other,std::function<vtype(vtype,vtype)>)const;
+            Vector<T> trans() const;
+            Vector<T> flip() const;
             vtype norm(const double &p) const;
         private:
             size_t length_;
@@ -53,3 +57,5 @@ namespace vtx{
             std::vector<vtype> data_;
     };
 }
+
+#include"vtx/vector.tpp"
