@@ -1,10 +1,16 @@
+#include"vtx/Vector.hpp"
+#include"vtx/Range.hpp"
+
 namespace vtx{
     template<typename T>
-    Vector<T>::Vector(bool isColumn):
-        length_(0),isColumn_(isColumn),data_(0){}
+    Vector<T>::Vector():
+        length_(0),isColumn_(true),data_(0){}
     template<typename T>
     Vector<T>::Vector(const std::vector<Vector::vtype> &vct,bool isColumn):
         length_(vct.size()),isColumn_(isColumn),data_(vct){}
+    template<typename T>
+    Vector<T>::Vector(bool isColumn):
+        length_(0),isColumn_(isColumn),data_(0){}
     template<typename T>
     Vector<T>::Vector(size_t length,bool isColumn,vtype value):
         length_(length),isColumn_(isColumn),data_(length,value){}
@@ -85,9 +91,11 @@ namespace vtx{
     std::ostream &operator<<(std::ostream& os,const Vector<T>& self){
         if(self.isColumn()){
             for(size_t i=0;i<self.length();i++){
-                if(i==0) os<<"["<<self[i]<<" "<<std::endl;
-                else if(i==self.length()-1) os<<" "<<self[i]<<"]"<<std::endl;
-                else os<<" "<<self[i]<<" "<<std::endl;
+                if(i==0) os<<"[";
+                else os<<" ";
+                os<<self[i];
+                if(i==self.length()-1) os<<"]"<<std::endl;
+                else os<<" "<<std::endl;
             }
         }else{
             os<<"[";
@@ -141,6 +149,15 @@ namespace vtx{
     }
 
     template<typename T>
+    typename Vector<T>::iterator Vector<T>::begin(){return data_.begin();}
+    template<typename T>
+    typename Vector<T>::iterator Vector<T>::end(){return data_.end();}
+    template<typename T>
+    typename Vector<T>::const_iterator Vector<T>::begin() const{return data_.begin();}
+    template<typename T>
+    typename Vector<T>::const_iterator Vector<T>::end() const{return data_.end();}
+
+    template<typename T>
     Matrix<T> Vector<T>::toMatrix() const{
         Matrix<T> rsl;
         if(isColumn_){
@@ -157,7 +174,7 @@ namespace vtx{
         return rsl;
     }
     template<typename T>
-    Vector<T> Vector<T>::iter(Vector &other,std::function<vtype(vtype,vtype)> func) const{
+    Vector<T> Vector<T>::combine(Vector &other,std::function<vtype(vtype,vtype)> func) const{
         if(length_!=other.length_ || isColumn_!=other.isColumn_){
 
         }
@@ -177,6 +194,12 @@ namespace vtx{
         Vector<T> flipV(*this);
         std::reverse(flipV.data_.begin(),flipV.data_.end());
         return flipV;
+    }
+    template<typename T>
+    Vector<T> Vector<T>::slice(const Range &range) const{
+        size_t rLower=range.isNoLower()?0:range.lower();
+        size_t rUpper=range.isNoUpper()?length_:range.upper();
+        return Vector<T>(std::vector<T>(data_.begin()+rLower,data_.begin()+rUpper),isColumn_);
     }
     template<typename T>
     typename Vector<T>::vtype Vector<T>::norm(const double &p) const{

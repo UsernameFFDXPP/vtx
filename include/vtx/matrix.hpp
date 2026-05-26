@@ -8,20 +8,26 @@
 #include<algorithm>
 #include<stdexcept>
 
-#include<vtx\vector.hpp>
+#include<vtx\Vector.hpp>
 
 namespace vtx{
+    class Range;
+
     template<typename T>
     class Vector;
+
     template<typename T>
     class Matrix{
         public:
             using vtype=T;
             using ctype=T;
 
+            using iterator=typename std::vector<Vector<T>>::iterator;
+            using const_iterator=typename std::vector<Vector<T>>::const_iterator;
+
             Matrix();
-            Matrix(const std::vector<std::vector<vtype>> &vct);
-            Matrix(size_t r,size_t c,vtype v=0.0);
+            explicit Matrix(const std::vector<std::vector<vtype>> &vct);
+            explicit Matrix(size_t r,size_t c,vtype value=T{});
             Matrix(const Matrix<T> &other);
             Matrix(std::initializer_list<std::initializer_list<vtype>> init);
             ~Matrix();
@@ -43,11 +49,17 @@ namespace vtx{
             Matrix<T> operator*(const Matrix<T> &other) const;
             Matrix<T> operator*(const Vector<T> &other) const;
 
+            iterator begin();
+            iterator end();
+            const_iterator begin() const;
+            const_iterator end() const;
+
             std::vector<Vector<T>> toVector(bool isColumn) const;
-            Matrix<T> iter(Matrix<T> &other,std::function<vtype(vtype,vtype)> func) const;
-            Matrix<T> iter(Vector<T> &vct,std::function<vtype(vtype,vtype)> func) const;
+            Matrix<T> combine(const Matrix<T> &other,std::function<vtype(vtype,vtype)> func) const;
+            Matrix<T> combine(const Vector<T> &vct,std::function<vtype(vtype,vtype)> func) const;
             Matrix<T> trans(bool isMaindiag=true) const;
             Matrix<T> flip(bool isVertical=true) const;
+            Matrix<T> slice(const Range &rRange,const Range &cRange) const;
             Matrix<T> getDiag() const;
             Matrix<T> getUTrig() const;
             Matrix<T> getLTrig() const;
@@ -61,4 +73,4 @@ namespace vtx{
     };
 }
 
-#include"vtx/matrix.tpp"
+#include"vtx/Matrix.tpp"

@@ -1,5 +1,5 @@
-#include"vtx/vector.hpp"
-#include"vtx/matrix.hpp"
+#include"vtx/Matrix.hpp"
+#include"vtx/Range.hpp"
 
 namespace vtx{
     template<typename T>
@@ -14,8 +14,8 @@ namespace vtx{
             }
         }
     template<typename T>
-    Matrix<T>::Matrix(size_t r,size_t c,vtype v):
-        rowLength_(r),columnLength_(c),data_(r,Vector<T>(c,false,v)){}
+    Matrix<T>::Matrix(size_t r,size_t c,vtype value):
+        rowLength_(r),columnLength_(c),data_(r,Vector<T>(c,false,value)){}
     template<typename T>
     Matrix<T>::Matrix(const Matrix<T> &other):
         rowLength_(other.rowLength_),columnLength_(other.columnLength_),data_(other.data_){}
@@ -132,6 +132,15 @@ namespace vtx{
     }
 
     template<typename T>
+    typename Matrix<T>::iterator Matrix<T>::begin(){return data_.begin();}
+    template<typename T>
+    typename Matrix<T>::iterator Matrix<T>::end(){return data_.end();}
+    template<typename T>
+    typename Matrix<T>::const_iterator Matrix<T>::begin() const{return data_.begin();}
+    template<typename T>
+    typename Matrix<T>::const_iterator Matrix<T>::end() const{return data_.end();}
+
+    template<typename T>
     std::vector<Vector<T>> Matrix<T>::toVector(bool isColumn) const{
         std::vector<Vector<T>> vList;
         if(isColumn){
@@ -149,7 +158,7 @@ namespace vtx{
         return vList;
     }
     template<typename T>
-    Matrix<T> Matrix<T>::iter(Matrix<T> &other,std::function<Matrix<T>::vtype(vtype,vtype)> func) const{
+    Matrix<T> Matrix<T>::combine(const Matrix<T> &other,std::function<Matrix<T>::vtype(vtype,vtype)> func) const{
         if(rowLength_!=other.rowLength_ || columnLength_!=other.columnLength_){
 
         }
@@ -162,7 +171,7 @@ namespace vtx{
         return rst;
     }
     template<typename T>
-    Matrix<T> Matrix<T>::iter(Vector<T> &vct,std::function<Matrix<T>::vtype(vtype,vtype)> func) const{
+    Matrix<T> Matrix<T>::combine(const Vector<T> &vct,std::function<Matrix<T>::vtype(vtype,vtype)> func) const{
         Matrix<T> rst(rowLength_,columnLength_);
         if(vct.isColumn()){
             if(vct.length()!=rowLength_){
@@ -214,6 +223,18 @@ namespace vtx{
             }
         }
         return flipM;
+    }
+    template<typename T>
+    Matrix<T> Matrix<T>::slice(const Range &rRange,const Range &cRange) const{
+        size_t rLower=rRange.isNoLower()?0:rRange.lower();
+        size_t rUpper=rRange.isNoUpper()?rowLength_:rRange.upper();
+        size_t cLower=cRange.isNoLower()?0:cRange.lower();
+        size_t cUpper=cRange.isNoUpper()?columnLength_:cRange.upper();
+        Matrix<T> rsl(rUpper-rLower,cUpper-cLower);
+        for(size_t r=rLower;r<rUpper;++r){
+            rsl.data_[r-rLower]=data_[r].slice(cRange);
+        }
+        return rsl;
     }
     template<typename T>
     Matrix<T> Matrix<T>::getDiag() const{

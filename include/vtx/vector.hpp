@@ -8,20 +8,27 @@
 #include<algorithm>
 #include<stdexcept>
 
-#include"vtx/matrix.hpp"
+#include"vtx/Matrix.hpp"
 
 namespace vtx{
+    class Range;
+
     template<typename T>
     class Matrix;
+
     template<typename T>
     class Vector{
         public:
             using vtype=T;
             using ctype=T;
 
-            Vector(bool isColumn=true);
-            Vector(const std::vector<vtype> &vct,bool isCol=true);
-            Vector(size_t length,bool isCol=true,vtype value=T{});
+            using iterator=typename std::vector<T>::iterator;
+            using const_iterator=typename std::vector<T>::const_iterator;
+
+            Vector();
+            explicit Vector(const std::vector<vtype> &vct,bool isCol=true);
+            explicit Vector(bool isColumn);
+            explicit Vector(size_t length,bool isCol=true,vtype value=T{});
             Vector(const Vector<T> &other);
             Vector(std::initializer_list<vtype> init,bool isColumn=true);
             ~Vector();
@@ -46,10 +53,16 @@ namespace vtx{
             Matrix<T> operator*(const Vector<T> &other) const;
             Matrix<T> operator*(const Matrix<T> &other) const;
 
+            iterator begin();
+            iterator end();
+            const_iterator begin() const;
+            const_iterator end() const;
+
             Matrix<T> toMatrix() const;
-            Vector<T> iter(Vector<T> &other,std::function<vtype(vtype,vtype)>)const;
+            Vector<T> combine(Vector<T> &other,std::function<vtype(vtype,vtype)>)const;
             Vector<T> trans() const;
             Vector<T> flip() const;
+            Vector<T> slice(const Range &range) const;
             vtype norm(const double &p) const;
         private:
             size_t length_;
@@ -58,4 +71,4 @@ namespace vtx{
     };
 }
 
-#include"vtx/vector.tpp"
+#include"vtx/Vector.tpp"
