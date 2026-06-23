@@ -2,7 +2,7 @@
 #include<stdexcept>
 
 namespace vtx{
-    template<typename T>
+    template<typename VType>
     class Vector;
     class Range{
         public:
