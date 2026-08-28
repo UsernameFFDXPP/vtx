@@ -9,8 +9,8 @@ namespace vtx{
         public:
             using value_type=VType;
             using size_type=std::size_t;
-            using iterator=std::vector<value_type>::iterator;
-            using const_iterator=std::vector<value_type>::const_iterator;
+            using iterator=typename std::vector<value_type>::iterator;
+            using const_iterator=typename std::vector<value_type>::const_iterator;
 
             Storage();
             explicit Storage(size_type size);

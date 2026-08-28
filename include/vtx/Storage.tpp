@@ -3,7 +3,7 @@
 namespace vtx{
     template<typename VType>
     Storage<VType>::Storage()=default;
-    
+
     template<typename VType>
     Storage<VType>::Storage(std::size_t size):
         data_(size){}
@@ -23,20 +23,20 @@ namespace vtx{
     }
 
     template<typename VType>
-    Storage<VType>::iterator Storage<VType>::begin(){
+    typename Storage<VType>::iterator Storage<VType>::begin(){
         return data_.begin();
     }
     template<typename VType>
-    Storage<VType>::const_iterator Storage<VType>::begin() const{
+    typename Storage<VType>::const_iterator Storage<VType>::begin() const{
         return data_.cbegin();
     }
 
     template<typename VType>
-    Storage<VType>::iterator Storage<VType>::end(){
+    typename Storage<VType>::iterator Storage<VType>::end(){
         return data_.end();
     }
     template<typename VType>
-    Storage<VType>::const_iterator Storage<VType>::end() const{
+    typename Storage<VType>::const_iterator Storage<VType>::end() const{
         return data_.cend();
     }
 }
