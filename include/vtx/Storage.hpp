@@ -9,18 +9,25 @@ namespace vtx{
         public:
             using value_type=VType;
             using size_type=std::size_t;
+            using iterator=std::vector<value_type>::iterator;
+            using const_iterator=std::vector<value_type>::const_iterator;
 
             Storage();
             explicit Storage(size_type size);
 
             size_type size() const;
 
-            value_type& operator[](size_type index);
-            const value_type& operator[](size_type index) const;
+            value_type &operator[](size_type index);
+            const value_type &operator[](size_type index) const;
 
-            value_type* data();
-            const value_type* data() const;
+            iterator begin();
+            const_iterator begin() const;
+
+            iterator end();
+            const_iterator end() const;
         private:
             std::vector<value_type> data_;
     };
 }
+
+#include"Storage.tpp"
