@@ -25,6 +25,8 @@ namespace vtx{
 
             iterator end();
             const_iterator end() const;
+
+            void resize(size_type size);
         private:
             std::vector<value_type> data_;
     };

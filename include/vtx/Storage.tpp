@@ -39,4 +39,9 @@ namespace vtx{
     typename Storage<VType>::const_iterator Storage<VType>::end() const{
         return data_.cend();
     }
+
+    template<typename VType>
+    void Storage<VType>::resize(size_type size){
+        data_.resize(size);
+    }
 }
