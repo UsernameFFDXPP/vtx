@@ -1,3 +1,5 @@
+#pragma once
+
 #include"vtx/core/Matrix.hpp"
 
 namespace vtx{
