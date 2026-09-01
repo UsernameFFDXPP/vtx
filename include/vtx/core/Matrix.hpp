@@ -10,6 +10,10 @@ namespace vtx{
             using value_type=VType;
             using size_type=std::size_t;
 
+            using storage_type=Storage<value_type>;
+            using reference=typename storage_type::reference;
+            using const_reference=typename storage_type::const_reference;
+
             Matrix();
             explicit Matrix(size_type rowLength,size_type colLength);
 
@@ -18,8 +22,8 @@ namespace vtx{
             size_type size() const;
             bool isEmpty() const;
 
-            value_type &operator()(size_type row,size_type col);
-            const value_type &operator()(size_type row,size_type col) const;
+            reference operator()(size_type row,size_type col);
+            const_reference operator()(size_type row,size_type col) const;
 
             Matrix<value_type> resized(size_type rowsNew,size_type colsNew) const;
             

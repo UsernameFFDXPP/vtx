@@ -2,9 +2,6 @@
 
 namespace vtx{
     template<typename VType>
-    Storage<VType>::Storage()=default;
-
-    template<typename VType>
     Storage<VType>::Storage(std::size_t size):
         data_(size){}
 

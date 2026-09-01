@@ -31,11 +31,11 @@ namespace vtx{
     }
 
     template<typename VType>
-    VType &Matrix<VType>::operator()(std::size_t row,std::size_t col){
+    typename Matrix<VType>::reference Matrix<VType>::operator()(std::size_t row,std::size_t col){
         return data_[row*colLength_+col];
     }
     template<typename VType>
-    const VType &Matrix<VType>::operator()(std::size_t row,std::size_t col) const{
+    typename Matrix<VType>::const_reference Matrix<VType>::operator()(std::size_t row,std::size_t col) const{
         return data_[row*colLength_+col];
     }
 
