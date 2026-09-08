@@ -13,10 +13,10 @@ namespace vtx{
 
             using reference=value_type&;
             using const_reference=const value_type&;
-
+            /*
             using iterator=typename std::vector<value_type>::iterator;
             using const_iterator=typename std::vector<value_type>::const_iterator;
-
+            */
             Storage()=default;
             explicit Storage(size_type size);
 
@@ -24,13 +24,13 @@ namespace vtx{
 
             value_type &operator[](size_type index);
             const value_type &operator[](size_type index) const;
-
+            /*
             iterator begin();
             const_iterator begin() const;
 
             iterator end();
             const_iterator end() const;
-
+            */
             void resize(size_type size);
         private:
             std::vector<value_type> data_;
@@ -55,7 +55,7 @@ namespace vtx{
                     }
                     operator bool() const{
                         return value_!=0;
-                    }      
+                    }
                 private:
                     std::uint8_t &value_;
             };

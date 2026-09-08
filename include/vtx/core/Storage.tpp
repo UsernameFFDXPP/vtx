@@ -18,7 +18,7 @@ namespace vtx{
     const VType &Storage<VType>::operator[](std::size_t index) const{
         return data_[index];
     }
-
+    /*
     template<typename VType>
     typename Storage<VType>::iterator Storage<VType>::begin(){
         return data_.begin();
@@ -36,7 +36,7 @@ namespace vtx{
     typename Storage<VType>::const_iterator Storage<VType>::end() const{
         return data_.cend();
     }
-
+    */
     template<typename VType>
     void Storage<VType>::resize(size_type size){
         data_.resize(size);
