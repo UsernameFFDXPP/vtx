@@ -24,6 +24,7 @@ namespace vtx{
             MatMul,
             MatDiv,
         /*Reduction*/
+            /*1 Oprand 1 Axis*/
             Sum,
             Max,
             Min,
@@ -31,9 +32,11 @@ namespace vtx{
             ArgMin,
             Mean,
             Variance,
-            Mediam,
-            Quantile,
+            Mediem,
             Covariance,
-            Correlation
+            Correlation,
+            /*1 Oprand 1 Arg 1 Axis*/
+            Quantile
+        /*Reshape*/
     };
 }
