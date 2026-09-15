@@ -1,7 +1,6 @@
 #include<cstddef>
 
 #include"vtx/core/ASTNode.hpp"
-#include"vtx/alg/Arithm.hpp"
 
 namespace vtx{
     template<typename VType>
@@ -18,6 +17,11 @@ namespace vtx{
         return colLength_;
     }
 
+    template<typename VType>
+    Operation ASTNode<VType>::opr() const{
+        return opr_;
+    }
+
     /*Mat*/
     template<typename VType>
     MatNode<VType>::MatNode(Operation opr,const Matrix<VType> *mat):
@@ -28,8 +32,8 @@ namespace vtx{
         }
 
     template<typename VType>
-    VType MatNode<VType>::evalAt(typename MatNode<VType>::size_type row,typename MatNode<VType>::size_type col) const{
-        return (*mat_)(row,col);
+    VType MatNode<VType>::accept(const NodeVisitor<VType> &visitor,typename MatNode<VType>::size_type row,typename MatNode<VType>::size_type col) const{
+        return visitor.visit(*this,row,col);
     }
 
     /*Unary*/
@@ -40,18 +44,20 @@ namespace vtx{
             if(opr==Operation::Neg){
                 this->rowLength_=node->rowLength();
                 this->colLength_=node->colLength();
+            }else if(opr==Operation::MatInv){
+                this->rowLength_=node->colLength();
+                this->colLength_=node->rowLength();
             }else if(opr==Operation::Transpose){
                 this->rowLength_=node->colLength();
                 this->colLength_=node->rowLength();
-            }else if(opr==Operation::MatInv){
-
+            }else{
+                /*Operation Error*/
             }
-            
         }
-
+    
     template<typename VType>
-    VType UnaryNode<VType>::evalAt(size_type row,size_type col) const{
-        return unaryEwiseArithm(this->opr_,node_->evalAt(row,col));
+    VType UnaryNode<VType>::accept(const NodeVisitor<VType> &visitor,typename UnaryNode<VType>::size_type row,typename UnaryNode<VType>::size_type col) const{
+        return visitor.visit(*this,row,col);
     }
 
     /*Binary*/
@@ -59,18 +65,33 @@ namespace vtx{
     BinaryNode<VType>::BinaryNode(Operation opr,typename BinaryNode<VType>::node_sptr lhs,typename BinaryNode<VType>::node_sptr rhs):
         lhs_(lhs),rhs_(rhs){
             this->opr_=opr;
-            if(opr==Operation::MatMul){
+            if(opr==Operation::Add || opr==Operation::Sub){
+                this->rowLength_=lhs->rowLength();
+                this->colLength_=lhs->colLength();
+            }else if(opr==Operation::MatMul){
                 this->rowLength_=lhs->rowLength();
                 this->colLength_=rhs->colLength();
             }else{
-                this->rowLength_=lhs->rowLength();
-                this->colLength_=lhs->colLength();
+                /*Operation Error*/
             }
-            
         }
-
+    
     template<typename VType>
-    VType BinaryNode<VType>::evalAt(std::size_t row,std::size_t col) const{
-        return binaryEwiseArithm(this->opr_,lhs_->evalAt(row,col),rhs_->evalAt(row,col));
+    VType BinaryNode<VType>::accept(const NodeVisitor<VType> &visitor,typename BinaryNode<VType>::size_type row,typename BinaryNode<VType>::size_type col) const{
+        return visitor.visit(*this,row,col);
+    }
+    
+    /*Arg*/
+    template<typename VType>
+    ArgNode<VType>::ArgNode(Operation opr,typename ArgNode<VType>::node_sptr node,VType arg):
+        node_(node),arg_(arg){
+            this->opr_=opr;
+            this->rowLength_=node->rowLength();
+            this->colLength_=node->colLength();
+        }
+    
+    template<typename VType>
+    VType ArgNode<VType>::accept(const NodeVisitor<VType> &visitor,typename ArgNode<VType>::size_type row,typename ArgNode<VType>::size_type col) const{
+        return visitor.visit(*this,row,col);
     }
 }

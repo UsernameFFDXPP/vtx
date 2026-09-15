@@ -15,12 +15,13 @@ namespace vtx{
 
     template<typename VType>
     Matrix<VType> Expression<VType>::eval() const{
+        EvalVisitor<VType> visitor;
         size_type rows=root_->rowLength();
         size_type cols=root_->colLength();
         Matrix<VType> rsl(rows,cols);
         for(size_type row=0;row<rows;++row){
             for(size_type col=0;col<cols;++col){
-                rsl(row,col)=root_->evalAt(row,col);
+                rsl(row,col)=root_->accept(visitor,row,col);
             }
         }
         return rsl;
@@ -28,8 +29,9 @@ namespace vtx{
 
     template<typename VType>
     VType Expression<VType>::evalAt(size_type row,size_type col) const{
+        EvalVisitor<VType> visitor;
         if(useTempRsl_ && tempRslMask_(row,col)) return tempRsl_(row,col);
-        VType rsl=root_->evalAt(row,col);
+        VType rsl=root_->accept(visitor,row,col);
         if(useTempRsl_){
             /*
             tempRsl_(row,col)=rsl;

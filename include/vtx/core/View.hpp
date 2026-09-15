@@ -3,6 +3,7 @@
 #include<memory>
 #include"vtx/core/Matrix.hpp"
 #include"vtx/core/ASTNode.hpp"
+#include"vtx/core/Visitor.hpp"
 
 namespace vtx{
     template<typename VType>
