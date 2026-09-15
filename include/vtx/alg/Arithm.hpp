@@ -5,12 +5,12 @@
 
 namespace vtx{
     template<typename VType>
-    VType unaryEwiseArithm(Operation opr,VType value){
+    VType unaryEwiseArithm(Operation opr,VType val){
         switch(opr){
             case Operation::Neg:
-                return -value;
+                return -val;
             case Operation::EwiseInv:
-                return 1/value;
+                return 1/val;
             default:
                 break;
         }

@@ -14,17 +14,17 @@ namespace vtx{
     View<VType> ewiseInv(const View<VType> &view){
         return View(Operation::EwiseInv,view);
     }
-    /*EWiseMul*/
+    /*EwiseMul*/
     template<typename VType>
     View<VType> ewiseMul(const View<VType> &view,const VType &arg){
         return View(Operation::EwiseMul,view);/*?*/
     }
-    /*EWiseDiv*/
+    /*EwiseDiv*/
     template<typename VType>
     View<VType> ewiseDiv(const View<VType> &view){
         return View(Operation::EwiseDiv,view);
     }
-    /*EWiseMod*/
+    /*EwiseMod*/
     template<typename VType>
     View<VType> ewiseMod(const View<VType> &view){
         return View(Operation::EwiseMod,view);
