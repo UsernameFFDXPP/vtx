@@ -7,24 +7,38 @@ namespace vtx{
     Matrix<VType>::Matrix()=default;
 
     template<typename VType>
-    Matrix<VType>::Matrix(std::size_t rowLength,std::size_t colLength):
-        rowLength_(rowLength),colLength_(colLength),data_(rowLength*colLength){}
+    Matrix<VType>::Matrix(std::size_t rowLength,std::size_t colLength,value_type val):
+        rowLength_(rowLength),colLength_(colLength),data_(rowLength*colLength,val){}
+
+    template<typename VType>
+    Matrix<VType> Matrix<VType>::zeros(size_type rowLength,size_type colLength){
+        return Matrix<VType>(rowLength,colLength,VType{});
+    }
+    template<typename VType>
+    Matrix<VType> Matrix<VType>::ones(size_type rowLength,size_type colLength){
+        return Matrix<VType>(rowLength,colLength,VType{1});
+    }
+    template<typename VType>
+    Matrix<VType> Matrix<VType>::identity(size_type length){
+        Matrix<VType> rsl=Matrix<VType>::zeros(length,length);
+        for(std::size_t i=0;i<length;++i){
+            rsl(i,i)=VType{1};
+        }
+        return rsl;
+    }
 
     template<typename VType>
     std::size_t Matrix<VType>::rowLength() const{
         return rowLength_;
     }
-
     template<typename VType>
     std::size_t Matrix<VType>::colLength() const{
         return colLength_;
     }
-
     template<typename VType>
     std::size_t Matrix<VType>::size() const{
         return data_.size();
     }
-
     template<typename VType>
     bool Matrix<VType>::isEmpty() const{
         return (rowLength_==0 && colLength_==0);

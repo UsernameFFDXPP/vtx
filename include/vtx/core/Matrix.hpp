@@ -1,7 +1,8 @@
 #pragma once
 
 #include<cstddef>
-#include"Storage.hpp"
+#include"vtx/core/Storage.hpp"
+#include"vtx/core/Axis.hpp"
 
 namespace vtx{
     template<typename VType>
@@ -15,7 +16,11 @@ namespace vtx{
             using const_reference=typename storage_type::const_reference;
 
             Matrix();
-            explicit Matrix(size_type rowLength,size_type colLength);
+            explicit Matrix(size_type rowLength,size_type colLength,value_type val=VType{});
+
+            static Matrix zeros(size_type rowLength,size_type colLength);
+            static Matrix ones(size_type rowLength,size_type colLength);
+            static Matrix identity(size_type length);
 
             size_type rowLength() const;
             size_type colLength() const;
