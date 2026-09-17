@@ -3,9 +3,12 @@
 #include<cstddef>
 #include"vtx/core/Matrix.hpp"
 #include"vtx/core/Operation.hpp"
+#include"vtx/core/Axis.hpp"
 #include"vtx/alg/Arithm.hpp"
 
 namespace vtx{
+    template<typename VType> class View;
+    template<typename VType> class ASTNode;
     template<typename VType> class MatNode;
     template<typename VType> class UnaryNode;
     template<typename VType> class BinaryNode;
@@ -37,9 +40,16 @@ namespace vtx{
                 return unaryEwiseArithm(node.opr(),val);
             }
             VType visit(const BinaryNode<VType> &node,size_type row,size_type col) const override{
-                VType lhs=node.lhs_->accept(*this,row,col);
-                VType rhs=node.rhs_->accept(*this,row,col);
-                return binaryEwiseArithm(node.opr(),lhs,rhs);
+                if(node.opr()==Operation::MatMul){
+                    View<ASTNode<VType>> lhs(node.lhs_.get(),Axis::Row,row);
+                    View<ASTNode<VType>> rhs(node.rhs_.get(),Axis::Col,col);
+                    return matMulArithm(lhs,rhs);
+                }
+                else{
+                    VType lhs=node.lhs_->accept(*this,row,col);
+                    VType rhs=node.rhs_->accept(*this,row,col);
+                    return binaryEwiseArithm(node.opr(),lhs,rhs);
+                }
             }
             VType visit(const ArgNode<VType> &node,size_type row,size_type col) const override{
                 VType val=node.node_->accept(*this,row,col);
