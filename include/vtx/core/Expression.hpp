@@ -17,6 +17,8 @@ namespace vtx{
             Expression(Operation opr,const Expression<VType> &lexpr,const Expression<VType> &rexpr);
             Expression(Operation opr,const Expression<VType> &expr,const VType &arg);
 
+            size_type rowLength() const;
+            size_type colLength() const;
             Matrix<value_type> eval() const;
             value_type evalAt(size_type row,size_type col) const;
 

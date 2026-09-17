@@ -18,6 +18,16 @@ namespace vtx{
         root_(std::make_shared<ArgNode<value_type>>(opr,expr.root_,arg)){}
 
     template<typename VType>
+    std::size_t Expression<VType>::rowLength() const{
+        return root_->rowLength();
+    }
+    template<typename VType>
+
+    std::size_t Expression<VType>::colLength() const{
+        return root_->colLength();
+    }
+
+    template<typename VType>
     Matrix<VType> Expression<VType>::eval() const{
         EvalVisitor<VType> visitor;
         size_type rows=root_->rowLength();
