@@ -174,5 +174,13 @@ namespace vtx{
     Matrix<VType> transpose(const Matrix<VType> &mat);
     /*MatMul*/
     template<typename VType>
-    Matrix<VType> matMul(const Matrix<VType> &lhs,const Matrix<VType> &rhs);
+    Matrix<VType> matMul(const Matrix<VType> &lhs,const Matrix<VType> &rhs){
+        Matrix<VType> rsl(lhs.rowLength(),rhs.colLength());
+        for(std::size_t row=0;row<lhs.rowLength();++row){
+            for(std::size_t col=0;col<lhs.rowLength();++col){
+                rsl(row,col)=matMulArithm(View<Matrix<VType>>(&lhs,Axis::Row,row),View<Matrix<VType>>(&rhs,Axis::Col,col));
+            }
+        }
+        return rsl;
+    }
 }
