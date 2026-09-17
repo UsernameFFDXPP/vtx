@@ -12,6 +12,7 @@ namespace vtx{
     class ASTNode{
         friend class EvalVisitor<VType>;
         public:
+            using value_type=VType;
             using size_type=std::size_t;
 
             virtual ~ASTNode()=default;
