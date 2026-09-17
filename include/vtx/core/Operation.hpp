@@ -32,7 +32,8 @@ namespace vtx{
             ArgMin,
             Mean,
             Variance,
-            Mediem,
+            SampleVraiance,
+            Median,
             Covariance,
             Correlation,
             /*1 Oprand 1 Arg 1 Axis*/
