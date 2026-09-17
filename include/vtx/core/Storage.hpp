@@ -18,7 +18,7 @@ namespace vtx{
             using const_iterator=typename std::vector<value_type>::const_iterator;
             */
             Storage()=default;
-            explicit Storage(size_type size);
+            explicit Storage(size_type size,value_type val);
 
             size_type size() const;
 
@@ -65,8 +65,8 @@ namespace vtx{
             using const_iterator=typename std::vector<value_type>::const_iterator;
 
             Storage()=default;
-            explicit Storage(size_type size):
-                data_(size){}
+            explicit Storage(size_type size,value_type val):
+                data_(size,val){}
 
             size_type size() const{
                 return data_.size();
