@@ -36,25 +36,51 @@ namespace vtx{
                 return (*node.mat_)(row,col);
             }
             VType visit(const UnaryNode<VType> &node,size_type row,size_type col) const override{
-                VType val=node.node_->accept(*this,row,col);
-                return unaryEwiseArithm(node.opr(),val);
+                switch(node.opr()){
+                    case Operation::Neg:
+                    case Operation::EwiseInv:{
+                        VType val=node.node_->accept(*this,row,col);
+                        return unaryEwiseArithm(node.opr(),val);
+                    }
+                    default:{
+                        /*Operation Error*/
+                    }
+                }
+                return VType{};
             }
             VType visit(const BinaryNode<VType> &node,size_type row,size_type col) const override{
-                if(node.opr()==Operation::MatMul){
-                    View<ASTNode<VType>> lhs(node.lhs_.get(),Axis::Row,row);
-                    View<ASTNode<VType>> rhs(node.rhs_.get(),Axis::Col,col);
-                    return matMulArithm(lhs,rhs);
+                switch(node.opr()){
+                    case Operation::MatMul:{
+                        View<ASTNode<VType>> lhs(node.lhs_.get(),Axis::Row,row);
+                        View<ASTNode<VType>> rhs(node.rhs_.get(),Axis::Col,col);
+                        return matMulArithm(lhs,rhs);
+                    }
+                    case Operation::Add:
+                    case Operation::Sub:{
+                        VType lhs=node.lhs_->accept(*this,row,col);
+                        VType rhs=node.rhs_->accept(*this,row,col);
+                        return binaryEwiseArithm(node.opr(),lhs,rhs);
+                    }
+                    default:{
+                        /*Operation Error*/
+                    }
                 }
-                else{
-                    VType lhs=node.lhs_->accept(*this,row,col);
-                    VType rhs=node.rhs_->accept(*this,row,col);
-                    return binaryEwiseArithm(node.opr(),lhs,rhs);
-                }
+                return VType{};
             }
             VType visit(const ArgNode<VType> &node,size_type row,size_type col) const override{
-                VType val=node.node_->accept(*this,row,col);
-                VType arg=node.arg_;
-                return binaryEwiseArithm(node.opr(),val,arg);
+                switch(node.opr()){
+                    case Operation::EwiseMul:
+                    case Operation::EwiseDiv:
+                    case Operation::EwiseMod:{
+                        VType val=node.node_->accept(*this,row,col);
+                        VType arg=node.arg_;
+                        return binaryEwiseArithm(node.opr(),val,arg);
+                    }
+                    default:{
+                        /*Operation Error*/
+                    }
+                }
+                return VType{};
             }
     };
 }
