@@ -8,39 +8,42 @@
 
 namespace vtx{
     template<typename VType>
-    VType unaryEwiseArithm(Operation opr,VType val){
-        switch(opr){
-            case Operation::Neg:
-                return -val;
-            case Operation::EwiseInv:
-                return 1/val;
-            default:
-                break;
-        }
-        return VType{};
+    VType arithmNeg(const VType &val){
+        return -val;
     }
 
     template<typename VType>
-    VType binaryEwiseArithm(Operation opr,VType lhs,VType rhs){
-        switch(opr){
-            case Operation::Add:
-                return lhs+rhs;
-            case Operation::Sub:
-                return lhs-rhs;
-            case Operation::EwiseMul:
-                return lhs*rhs;
-            case Operation::EwiseDiv:
-                return lhs/rhs;
-            case Operation::EwiseMod:
-                return lhs%rhs;
-            default:
-                break;
-        }
-        return VType{};
+    VType arithmEwiseInv(const VType &val){
+        return VType{}/val;
+    }
+
+    template<typename VType>
+    VType arithmEwiseMul(const VType &rhs,const VType &lhs){
+        return rhs*lhs;
+    }
+
+    template<typename VType>
+    VType arithmEwiseDiv(const VType &rhs,const VType &lhs){
+        return rhs/lhs;
+    }
+
+    template<typename VType>
+    VType arithmEwiseMod(const VType &rhs,const VType &lhs){
+        return rhs%lhs;
+    }
+
+    template<typename VType>
+    VType arithmAdd(const VType &rhs,const VType &lhs){
+        return rhs+lhs;
+    }
+
+    template<typename VType>
+    VType arithmSub(const VType &rhs,const VType &lhs){
+        return rhs-lhs;
     }
 
     template<typename VType,template<typename> typename Source>
-    VType matMulArithm(View<Source<VType>> lhs,View<Source<VType>> rhs){
+    VType arithmMatMul(View<Source<VType>> lhs,View<Source<VType>> rhs){
         VType rsl{};
         for(std::size_t i=0;i<lhs.size();i++){
             rsl+=lhs(i)*rhs(i);
@@ -49,7 +52,7 @@ namespace vtx{
     }
 
     template<typename VType,template<typename> typename Source>
-    VType reductionArithm(Operation opr,View<Source<VType>> val){
+    VType arithmReduction(Operation opr,View<Source<VType>> val){
         switch(opr){
             case Operation::Sum:{
                 VType rsl{};
@@ -110,7 +113,7 @@ namespace vtx{
     }
 
     template<typename VType,template<typename> typename Source>
-    std::size_t argReductionArithm(Operation opr,View<Source<VType>> val){
+    std::size_t arithmArgReduction(Operation opr,View<Source<VType>> val){
         switch(opr){
             case Operation::ArgMax:{
                 VType rsl=val(0);std::size_t tIdx=0;

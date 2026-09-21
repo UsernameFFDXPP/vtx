@@ -8,16 +8,16 @@
 namespace vtx{
     namespace arithmmap{
         template<typename VType>
-        void reductionMap(Matrix<VType> &rsl,Operation opr,const Matrix<VType> &mat,Axis axis){
+        void mapReduction(Matrix<VType> &rsl,Operation opr,const Matrix<VType> &mat,Axis axis){
             if(axis==Axis::Row){
                 for(std::size_t row=0;row<mat.rowLength();++row){
                     View<Matrix<VType>> tempView(&mat,Axis::Row,row);
-                    rsl(row,0)=reductionArithm(opr,tempView);
+                    rsl(row,0)=arithmReduction(opr,tempView);
                 }
             }else if(axis==Axis::Col){
                 for(std::size_t col=0;col<mat.rowLength();++col){
                     View<Matrix<VType>> tempView(&mat,Axis::Col,col);
-                    rsl(0,col)=reductionArithm(opr,tempView);
+                    rsl(0,col)=arithmReduction(opr,tempView);
                 }
             }else{
                 /*Axis Error*/
@@ -25,16 +25,16 @@ namespace vtx{
         }
 
         template<typename VType>
-        void argReductionMap(Matrix<VType> &rsl,Operation opr,const Matrix<VType> &mat,Axis axis){
+        void mapArgReduction(Matrix<VType> &rsl,Operation opr,const Matrix<VType> &mat,Axis axis){
             if(axis==Axis::Row){
                 for(std::size_t row=0;row<mat.rowLength();++row){
                     View<Matrix<VType>> tempView(&mat,Axis::Row,row);
-                    rsl(row,1)=argReductionArithm(opr,tempView);
+                    rsl(row,1)=arithmArgReduction(opr,tempView);
                 }
             }else if(axis==Axis::Col){
                 for(std::size_t col=0;col<mat.rowLength();++col){
                     View<Matrix<VType>> tempView(&mat,Axis::Col,col);
-                    rsl(1,col)=argReductionArithm(opr,tempView);
+                    rsl(1,col)=arithmArgReduction(opr,tempView);
                 }
             }else{
                 /*Axis Error*/
@@ -49,7 +49,7 @@ namespace vtx{
         if(axis==Axis::Row) rsl=Matrix<VType>(mat.rowLength(),1);
         else if(axis==Axis::Col) rsl=Matrix<VType>(1,mat.colLength());
         else /*Axis Error*/;
-        arithmmap::reductionMap(rsl,Operation::Sum,mat,axis);
+        arithmmap::mapReduction(rsl,Operation::Sum,mat,axis);
         return rsl;
     }
     /*Max*/
@@ -59,7 +59,7 @@ namespace vtx{
         if(axis==Axis::Row) rsl=Matrix<VType>(mat.rowLength(),1);
         else if(axis==Axis::Col) rsl=Matrix<VType>(1,mat.colLength());
         else /*Axis Error*/;
-        arithmmap::reductionMap(rsl,Operation::Max,mat,axis);
+        arithmmap::mapReduction(rsl,Operation::Max,mat,axis);
         return rsl;
     }
     /*Min*/
@@ -69,7 +69,7 @@ namespace vtx{
         if(axis==Axis::Row) rsl=Matrix<VType>(mat.rowLength(),1);
         else if(axis==Axis::Col) rsl=Matrix<VType>(1,mat.colLength());
         else /*Axis Error*/;
-        arithmmap::reductionMap(rsl,Operation::Min,mat,axis);
+        arithmmap::mapReduction(rsl,Operation::Min,mat,axis);
         return rsl;
     }
     /*ArgMax*/
@@ -79,7 +79,7 @@ namespace vtx{
         if(axis==Axis::Row) Matrix<std::size_t> rsl(mat.rowLength(),1);
         else if(axis==Axis::Col) Matrix<std::size_t> rsl(1,mat.colLength());
         else /*Axis Error*/;
-        arithmmap::argReductionMap(rsl,Operation::ArgMax,mat,axis);
+        arithmmap::mapArgReduction(rsl,Operation::ArgMax,mat,axis);
         return rsl;
     }
     /*ArgMin*/
@@ -89,7 +89,7 @@ namespace vtx{
         if(axis==Axis::Row) Matrix<std::size_t> rsl(mat.rowLength(),1);
         else if(axis==Axis::Col) Matrix<std::size_t> rsl(1,mat.colLength());
         else /*Axis Error*/;
-        arithmmap::argReductionMap(rsl,Operation::ArgMin,mat,axis);
+        arithmmap::mapArgReduction(rsl,Operation::ArgMin,mat,axis);
         return rsl;
     }
     /*Mean*/
@@ -99,7 +99,7 @@ namespace vtx{
         if(axis==Axis::Row) rsl=Matrix<VType>(mat.rowLength(),1);
         else if(axis==Axis::Col) rsl=Matrix<VType>(1,mat.colLength());
         else /*Axis Error*/;
-        arithmmap::reductionMap(rsl,Operation::Mean,mat,axis);
+        arithmmap::mapReduction(rsl,Operation::Mean,mat,axis);
         return rsl;
     }
     /*Variance*/
@@ -109,7 +109,7 @@ namespace vtx{
         if(axis==Axis::Row) rsl=Matrix<VType>(mat.rowLength(),1);
         else if(axis==Axis::Col) rsl=Matrix<VType>(1,mat.colLength());
         else /*Axis Error*/;
-        arithmmap::reductionMap(rsl,Operation::Variance,mat,axis);
+        arithmmap::mapReduction(rsl,Operation::Variance,mat,axis);
         return rsl;
     }
     /*SampleVariance*/
@@ -119,7 +119,7 @@ namespace vtx{
         if(axis==Axis::Row) rsl=Matrix<VType>(mat.rowLength(),1);
         else if(axis==Axis::Col) rsl=Matrix<VType>(1,mat.colLength());
         else /*Axis Error*/;
-        arithmmap::reductionMap(rsl,Operation::SampleVariance,mat,axis);
+        arithmmap::mapReduction(rsl,Operation::SampleVariance,mat,axis);
         return rsl;
     }
     /*Median*/
@@ -129,7 +129,7 @@ namespace vtx{
         if(axis==Axis::Row) rsl=Matrix<VType>(mat.rowLength(),1);
         else if(axis==Axis::Col) rsl=Matrix<VType>(1,mat.colLength());
         else /*Axis Error*/;
-        arithmmap::reductionMap(rsl,Operation::Median,mat,axis);
+        arithmmap::mapReduction(rsl,Operation::Median,mat,axis);
         return rsl;
     }
     /*Covariance*/
