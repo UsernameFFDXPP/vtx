@@ -1,9 +1,11 @@
 #pragma once
 
 #include<algorithm>
+#include<cmath>
+#include<cstddef>
+#include<type_traits>
 #include<vector>
-#include"vtx/core/Matrix.hpp"
-#include"vtx/core/View.hpp"
+
 #include"vtx/core/Operation.hpp"
 
 namespace vtx{
@@ -42,60 +44,62 @@ namespace vtx{
         return rhs-lhs;
     }
 
-    template<typename VType,template<typename> typename Source>
-    VType arithmMatMul(View<Source<VType>> lhs,View<Source<VType>> rhs){
-        VType rsl{};
-        for(std::size_t i=0;i<lhs.size();i++){
-            rsl+=lhs(i)*rhs(i);
+    template<typename Lhs,typename Rhs>
+    auto arithmMatMul(const Lhs &lhs,const Rhs &rhs)->typename Lhs::value_type{
+        using value_type=typename Lhs::value_type;
+        value_type rsl{};
+        for(std::size_t idx=0;idx<lhs.size();++idx){
+            rsl+=lhs(idx)*rhs(idx);
         }
         return rsl;
     }
 
-    template<typename VType,template<typename> typename Source>
-    VType arithmReduction(Operation opr,View<Source<VType>> val){
+    template<typename Line>
+    auto arithmReduction(Operation opr,const Line &val)->typename Line::value_type{
+        using value_type=typename Line::value_type;
         switch(opr){
             case Operation::Sum:{
-                VType rsl{};
+                value_type rsl{};
                 for(std::size_t i=0;i<val.size();++i) rsl+=val(i);
                 return rsl;
             }
             case Operation::Max:{
-                VType rsl=val(0);
+                value_type rsl=val(0);
                 for(std::size_t i=0;i<val.size();++i) if(val(i)>rsl) rsl=val(i);
                 return rsl;
             }
             case Operation::Min:{
-                VType rsl=val(0);
+                value_type rsl=val(0);
                 for(std::size_t i=0;i<val.size();++i) if(val(i)<rsl) rsl=val(i);
                 return rsl;
             }
             case Operation::Mean:{
-                VType rsl{};
+                value_type rsl{};
                 for(std::size_t i=0;i<val.size();++i) rsl+=val(i);
-                return rsl/static_cast<VType>(val.size());
+                return rsl/static_cast<value_type>(val.size());
             }
             case Operation::Variance:{
-                VType mean{},m2{};
+                value_type mean{},m2{};
                 for(std::size_t i=0;i<val.size();++i){
-                    VType d1=val(i)-mean;
-                    mean+=d1/static_cast<VType>(i+1);
-                    VType d2=val(i)-mean;
+                    value_type d1=val(i)-mean;
+                    mean+=d1/static_cast<value_type>(i+1);
+                    value_type d2=val(i)-mean;
                     m2+=d1*d2;
                 }
-                return m2/static_cast<VType>(val.size());
+                return m2/static_cast<value_type>(val.size());
             }
             case Operation::SampleVariance:{
-                VType mean{},m2{};
+                value_type mean{},m2{};
                 for(std::size_t i=0;i<val.size();++i){
-                    VType d1=val(i)-mean;
-                    mean+=d1/static_cast<VType>(i+1);
-                    VType d2=val(i)-mean;
+                    value_type d1=val(i)-mean;
+                    mean+=d1/static_cast<value_type>(i+1);
+                    value_type d2=val(i)-mean;
                     m2+=d1*d2;
                 }
-                return m2/static_cast<VType>(val.size()-1);
+                return m2/static_cast<value_type>(val.size()-1);
             }
             case Operation::Median:{
-                std::vector<VType> temp(val.size());
+                std::vector<value_type> temp(val.size());
                 for(std::size_t i=0;i<val.size();++i) temp[i]=val(i);
                 if(val.size()%2==1){
                     std::nth_element(temp.begin(),temp.begin()+temp.size()/2,temp.end());
@@ -109,19 +113,19 @@ namespace vtx{
                 /*Operation Error*/
             }
         }
-        return VType{};
+        return value_type{};
     }
 
-    template<typename VType,template<typename> typename Source>
-    std::size_t arithmArgReduction(Operation opr,View<Source<VType>> val){
+    template<typename Line>
+    std::size_t arithmArgReduction(Operation opr,const Line &val){
         switch(opr){
             case Operation::ArgMax:{
-                VType rsl=val(0);std::size_t tIdx=0;
+                auto rsl=val(0);std::size_t tIdx=0;
                 for(std::size_t i=0;i<val.size();++i) if(val(i)>rsl) rsl=val(i),tIdx=i;
                 return tIdx;
             }
             case Operation::ArgMin:{
-                VType rsl=val(0);std::size_t tIdx=0;
+                auto rsl=val(0);std::size_t tIdx=0;
                 for(std::size_t i=0;i<val.size();++i) if(val(i)<rsl) rsl=val(i),tIdx=i;
                 return tIdx;
             }
