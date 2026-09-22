@@ -11,11 +11,13 @@ namespace vtx{
                 for(std::size_t col=0;col<rsl.colLength();++col){
                     switch(opr){
                         case Operation::Neg:
-                            rsl(row,col)=arithmNeg(mat(row,col));
-                            break;
+                            if constexpr(type_opr_traits::isNegAble<VType>::value)
+                                rsl(row,col)=arithmNeg(mat(row,col));
+                            else /*Operation Error*/;break;
                         case Operation::EwiseInv:
-                            rsl(row,col)=arithmEwiseInv(mat(row,col));
-                            break;
+                            if constexpr(type_opr_traits::isDivAble<VType,VType>::value)
+                                rsl(row,col)=arithmEwiseInv(mat(row,col));
+                            else /*Operation Error*/;break;
                         default:
                             /*Operation Error*/
                             break;
@@ -30,11 +32,13 @@ namespace vtx{
                 for(std::size_t col=0;col<rsl.colLength();++col){
                     switch(opr){
                         case Operation::Add:
-                            rsl(row,col)=arithmAdd(lhs(row,col),rhs(row,col));
-                            break;
+                            if constexpr(type_opr_traits::isAddAble<VType,VType>::value)
+                                rsl(row,col)=arithmAdd(lhs(row,col),rhs(row,col));
+                            else /*Operation Error*/;break;
                         case Operation::Sub:
-                            rsl(row,col)=arithmSub(lhs(row,col),rhs(row,col));
-                            break;
+                            if constexpr(type_opr_traits::isSubAble<VType,VType>::value)
+                                rsl(row,col)=arithmSub(lhs(row,col),rhs(row,col));
+                            else /*Operation Error*/;break;
                         default:
                             /*Operation Error*/
                             break;
@@ -51,11 +55,13 @@ namespace vtx{
                     std::size_t rrow=row%rhs.rowLength(),rcol=col%rhs.colLength();
                     switch(opr){
                         case Operation::Add:
-                            rsl(row,col)=arithmAdd(lhs(lrow,lcol),rhs(rrow,rcol));
-                            break;
+                            if constexpr(type_opr_traits::isAddAble<VType,VType>::value)
+                                rsl(row,col)=arithmAdd(lhs(lrow,lcol),rhs(rrow,rcol));
+                            else /*Operation Error*/;break;
                         case Operation::Sub:
-                            rsl(row,col)=arithmSub(lhs(lrow,lcol),rhs(rrow,rcol));
-                            break;
+                            if constexpr(type_opr_traits::isSubAble<VType,VType>::value)
+                                rsl(row,col)=arithmSub(lhs(lrow,lcol),rhs(rrow,rcol));
+                            else /*Operation Error*/;break;
                         default:
                             /*Operation Error*/
                             break;
@@ -70,14 +76,17 @@ namespace vtx{
                     std::size_t lrow=row%lhs.rowLength(),lcol=col%lhs.colLength();
                     switch(opr){
                         case Operation::EwiseMul:
-                            rsl(row,col)=arithmEwiseMul(lhs(lrow,lcol),arg);
-                            break;
+                            if constexpr(type_opr_traits::isMulAble<VType,VType>::value)
+                                rsl(row,col)=arithmEwiseMul(lhs(lrow,lcol),arg);
+                            else /*Operation Error*/;break;
                         case Operation::EwiseDiv:
-                            rsl(row,col)=arithmEwiseDiv(lhs(lrow,lcol),arg);
-                            break;
+                            if constexpr(type_opr_traits::isDivAble<VType,VType>::value)
+                                rsl(row,col)=arithmEwiseDiv(lhs(lrow,lcol),arg);
+                            else /*Operation Error*/;break;
                         case Operation::EwiseMod:
-                            rsl(row,col)=arithmEwiseMod(lhs(lrow,lcol),arg);
-                            break;
+                            if constexpr(type_opr_traits::isModAble<VType,VType>::value)
+                                rsl(row,col)=arithmEwiseMod(lhs(lrow,lcol),arg);
+                            else /*Operation Error*/;break;
                         default:
                             /*Operation Error*/
                             break;
@@ -92,14 +101,17 @@ namespace vtx{
                     std::size_t rrow=row%rhs.rowLength(),rcol=col%rhs.colLength();
                     switch(opr){
                         case Operation::EwiseMul:
-                            rsl(row,col)=arithmEwiseMul(arg,rhs(rrow,rcol));
-                            break;
+                            if constexpr(type_opr_traits::isMulAble<VType,VType>::value)
+                                rsl(row,col)=arithmEwiseMul(arg,rhs(rrow,rcol));
+                            else /*Operation Error*/;break;
                         case Operation::EwiseDiv:
-                            rsl(row,col)=arithmEwiseDiv(arg,rhs(rrow,rcol));
-                            break;
+                            if constexpr(type_opr_traits::isDivAble<VType,VType>::value)
+                                rsl(row,col)=arithmEwiseDiv(arg,rhs(rrow,rcol));
+                            else /*Operation Error*/;break;
                         case Operation::EwiseMod:
-                            rsl(row,col)=arithmEwiseMod(arg,rhs(rrow,rcol));
-                            break;
+                            if constexpr(type_opr_traits::isModAble<VType,VType>::value)
+                                rsl(row,col)=arithmEwiseMod(arg,rhs(rrow,rcol));
+                            else /*Operation Error*/;break;
                         default:
                             /*Operation Error*/
                             break;
@@ -107,7 +119,7 @@ namespace vtx{
                 }
             }
         }
-    }
+    }//namespace arithm_map
 
     /*Neg*/
     template<typename VType>
@@ -235,23 +247,27 @@ namespace vtx{
     /*MatMul*/
     template<typename VType>
     Matrix<VType> matMul(const Matrix<VType> &lhs,const Matrix<VType> &rhs){
-        Matrix<VType> rsl(lhs.rowLength(),rhs.colLength());
-        for(std::size_t row=0;row<lhs.rowLength();++row){
-            for(std::size_t col=0;col<lhs.rowLength();++col){
-                rsl(row,col)=arithmMatMul(View<Matrix<VType>>(&lhs,Axis::Row,row),View<Matrix<VType>>(&rhs,Axis::Col,col));
+        if constexpr(type_opr_traits::isMulAble<VType,VType>::value){
+            Matrix<VType> rsl(lhs.rowLength(),rhs.colLength());
+            for(std::size_t row=0;row<lhs.rowLength();++row){
+                for(std::size_t col=0;col<rhs.rowLength();++col){
+                    rsl(row,col)=arithmMatMul(View<Matrix<VType>>(&lhs,Axis::Row,row),View<Matrix<VType>>(&rhs,Axis::Col,col));
+                }
             }
-        }
-        return rsl;
+            return rsl;
+        }else /*Operation Error*/;
     }
     template<typename VType>
     Matrix<VType> &matMul_(Matrix<VType> &lhs,const Matrix<VType> &rhs){
-        Matrix<VType> rsl(lhs.rowLength(),rhs.colLength());
-        for(std::size_t row=0;row<lhs.rowLength();++row){
-            for(std::size_t col=0;col<lhs.rowLength();++col){
-                rsl(row,col)=arithmMatMul(View<Matrix<VType>>(&lhs,Axis::Row,row),View<Matrix<VType>>(&rhs,Axis::Col,col));
+        if constexpr(type_opr_traits::isMulAble<VType,VType>::value){
+            Matrix<VType> rsl(lhs.rowLength(),rhs.colLength());
+            for(std::size_t row=0;row<lhs.rowLength();++row){
+                for(std::size_t col=0;col<rhs.rowLength();++col){
+                    rsl(row,col)=arithmMatMul(View<Matrix<VType>>(&lhs,Axis::Row,row),View<Matrix<VType>>(&rhs,Axis::Col,col));
+                }
             }
-        }
-        lhs=std::move(rsl);
+            lhs=std::move(rsl);
+        }else /*Operation Error*/;
         return lhs;
     }
-}
+}//namespace vtx

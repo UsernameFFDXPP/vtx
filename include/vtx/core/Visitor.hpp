@@ -39,9 +39,13 @@ namespace vtx{
                 VType val=node.node_->accept(*this,row,col);
                 switch(node.opr()){
                     case Operation::Neg:
-                        return arithmNeg(val);
+                        if constexpr(type_opr_traits::isNegAble<VType>::value)
+                            return arithmNeg(val);
+                        else /*Operation Error*/;break;
                     case Operation::EwiseInv:
-                        return arithmEwiseInv(val);
+                        if constexpr(type_opr_traits::isDivAble<VType,VType>::value)
+                            return arithmEwiseInv(val);
+                        else /*Operation Error*/;break;
                     default:
                         /*Operation Error*/
                         break;
@@ -51,19 +55,25 @@ namespace vtx{
             VType visit(const BinaryNode<VType> &node,size_type row,size_type col) const override{
                 switch(node.opr()){
                     case Operation::MatMul:{
-                        View<ASTNode<VType>> lhs(node.lhs_.get(),Axis::Row,row);
-                        View<ASTNode<VType>> rhs(node.rhs_.get(),Axis::Col,col);
-                        return arithmMatMul(lhs,rhs);
+                        if constexpr(type_opr_traits::isMulAble<VType,VType>::value){
+                            View<ASTNode<VType>> lhs(node.lhs_.get(),Axis::Row,row);
+                            View<ASTNode<VType>> rhs(node.rhs_.get(),Axis::Col,col);
+                            return arithmMatMul(lhs,rhs);
+                        }else /*Operation Error*/;break;
                     }
                     case Operation::Add:{
-                        VType lhs=node.lhs_->accept(*this,row,col);
-                        VType rhs=node.rhs_->accept(*this,row,col);
-                        return arithmAdd(lhs,rhs);
+                        if constexpr(type_opr_traits::isAddAble<VType,VType>::value){
+                            VType lhs=node.lhs_->accept(*this,row,col);
+                            VType rhs=node.rhs_->accept(*this,row,col);
+                            return arithmAdd(lhs,rhs);
+                        }else /*Operation Error*/;break;
                     }
                     case Operation::Sub:{
-                        VType lhs=node.lhs_->accept(*this,row,col);
-                        VType rhs=node.rhs_->accept(*this,row,col);
-                        return arithmSub(lhs,rhs);
+                        if constexpr(type_opr_traits::isSubAble<VType,VType>::value){
+                            VType lhs=node.lhs_->accept(*this,row,col);
+                            VType rhs=node.rhs_->accept(*this,row,col);
+                            return arithmSub(lhs,rhs);
+                        }else /*Operation Error*/;break;
                     }
                     default:
                         /*Operation Error*/
@@ -76,11 +86,17 @@ namespace vtx{
                 VType arg=node.arg_;
                 switch(node.opr()){
                     case Operation::EwiseMul:
-                        return arithmEwiseMul(val,arg);
+                        if constexpr(type_opr_traits::isMulAble<VType,VType>::value)
+                            return arithmEwiseMul(val,arg);
+                        else /*Operation Error*/;break;
                     case Operation::EwiseDiv:
-                        return arithmEwiseDiv(val,arg);
+                        if constexpr(type_opr_traits::isDivAble<VType,VType>::value)
+                            return arithmEwiseDiv(val,arg);
+                        else /*Operation Error*/;break;
                     case Operation::EwiseMod:
-                        return arithmEwiseMod(val,arg);
+                        if constexpr(type_opr_traits::isModAble<VType,VType>::value)
+                            return arithmEwiseMod(val,arg);
+                        else /*Operation Error*/;break;
                     default:
                         /*Operation Error*/
                         break;
@@ -88,4 +104,4 @@ namespace vtx{
                 return VType{};
             }
     };
-}
+}//namespace vtx
