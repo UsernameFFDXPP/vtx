@@ -37,6 +37,7 @@ namespace vtx{
         lhs=ewiseMul(lhs,arg);
         return lhs;
     }
+
     template<typename VType>
     Expression<VType> operator*(const VType &arg,const Expression<VType> &rhs){
         return ewiseMul(arg,rhs);
@@ -45,6 +46,10 @@ namespace vtx{
     template<typename VType>
     Expression<VType> operator*(const Expression<VType> &lhs,const Expression<VType> &rhs){
         return matMul(lhs,rhs);
+    }
+    template<typename VType>
+    Expression<VType> &operator*=(Expression<VType> &lhs,const Expression<VType> &rhs){
+        return matMul_(lhs,rhs);
     }
 
     template<typename VType>

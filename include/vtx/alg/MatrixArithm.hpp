@@ -4,7 +4,7 @@
 #include"vtx/alg/Arithm.hpp"
 
 namespace vtx{
-    namespace arithmmap{
+    namespace arithm_map{
         template<typename VType>
         void mapUnaryEwise(Matrix<VType> &rsl,Operation opr,const Matrix<VType> &mat){
             for(std::size_t row=0;row<rsl.rowLength();++row){
@@ -113,117 +113,117 @@ namespace vtx{
     template<typename VType>
     Matrix<VType> neg(const Matrix<VType> &mat){
         Matrix<VType> rsl(mat.rowLength(),mat.colLength());
-        arithmmap::mapUnaryEwise(rsl,Operation::Neg,mat);
+        arithm_map::mapUnaryEwise(rsl,Operation::Neg,mat);
         return rsl;
     }
     template<typename VType>
     Matrix<VType> &neg_(Matrix<VType> &mat){
-        arithmmap::mapUnaryEwise(mat,Operation::Neg,mat);
+        arithm_map::mapUnaryEwise(mat,Operation::Neg,mat);
         return mat;
     }
     /*EwiseInv*/
     template<typename VType>
     Matrix<VType> ewiseInv(const Matrix<VType> &mat){
         Matrix<VType> rsl(mat.rowLength(),mat.colLength());
-        arithmmap::mapUnaryEwise(rsl,Operation::EwiseInv,mat);
+        arithm_map::mapUnaryEwise(rsl,Operation::EwiseInv,mat);
         return rsl;
     }
     template<typename VType>
     Matrix<VType> &ewiseInv_(Matrix<VType> &mat){
-        arithmmap::mapUnaryEwise(mat,Operation::EwiseInv,mat);
+        arithm_map::mapUnaryEwise(mat,Operation::EwiseInv,mat);
         return mat;
     }
     /*EwiseMul*/
     template<typename VType>
     Matrix<VType> ewiseMul(const Matrix<VType> &mat,const VType &arg){
         Matrix<VType> rsl(mat.rowLength(),mat.colLength());
-        arithmmap::mapBroadcastEwise(rsl,Operation::EwiseMul,mat,arg);
+        arithm_map::mapBroadcastEwise(rsl,Operation::EwiseMul,mat,arg);
         return rsl;
     }
     template<typename VType>
     Matrix<VType> &ewiseMul_(Matrix<VType> &mat,const VType &arg){
-        arithmmap::mapBroadcastEwise(mat,Operation::EwiseMul,mat,arg);
+        arithm_map::mapBroadcastEwise(mat,Operation::EwiseMul,mat,arg);
         return mat;
     }
     template<typename VType>
     Matrix<VType> ewiseMul(VType arg,const Matrix<VType> &mat){
         Matrix<VType> rsl(mat.rowLength(),mat.colLength());
-        arithmmap::mapBroadcastEwise(rsl,Operation::EwiseMul,mat,arg);
+        arithm_map::mapBroadcastEwise(rsl,Operation::EwiseMul,mat,arg);
         return rsl;
     }
         template<typename VType>
     Matrix<VType> &ewiseMul_(VType arg,Matrix<VType> &mat){
-        arithmmap::mapBroadcastEwise(mat,Operation::EwiseMul,mat,arg);
+        arithm_map::mapBroadcastEwise(mat,Operation::EwiseMul,mat,arg);
         return mat;
     }
     /*EwiseDiv*/
     template<typename VType>
     Matrix<VType> ewiseDiv(const Matrix<VType> &mat,const VType &arg){
         Matrix<VType> rsl(mat.rowLength(),mat.colLength());
-        arithmmap::mapBroadcastEwise(rsl,Operation::EwiseDiv,mat,arg);
+        arithm_map::mapBroadcastEwise(rsl,Operation::EwiseDiv,mat,arg);
         return rsl;
     }
     template<typename VType>
     Matrix<VType> &ewiseDiv_(Matrix<VType> &mat,const VType &arg){
-        arithmmap::mapBroadcastEwise(mat,Operation::EwiseDiv,mat,arg);
+        arithm_map::mapBroadcastEwise(mat,Operation::EwiseDiv,mat,arg);
         return mat;
     }
     template<typename VType>
     Matrix<VType> ewiseDiv(const VType &arg,const Matrix<VType> &mat){
         Matrix<VType> rsl(mat.rowLength(),mat.colLength());
-        arithmmap::mapBroadcastEwise(rsl,Operation::EwiseDiv,arg,mat);
+        arithm_map::mapBroadcastEwise(rsl,Operation::EwiseDiv,arg,mat);
         return rsl;
     }
     template<typename VType>
     Matrix<VType> &ewiseDiv_(const VType &arg,Matrix<VType> &mat){
-        arithmmap::mapBroadcastEwise(mat,Operation::EwiseDiv,arg,mat);
+        arithm_map::mapBroadcastEwise(mat,Operation::EwiseDiv,arg,mat);
         return mat;
     }
     /*EwiseMod*/
     template<typename VType>
     Matrix<VType> ewiseMod(const Matrix<VType> &mat,const VType &arg){
         Matrix<VType> rsl(mat.rowLength(),mat.colLength());
-        arithmmap::mapBroadcastEwise(rsl,Operation::EwiseMod,mat,arg);
+        arithm_map::mapBroadcastEwise(rsl,Operation::EwiseMod,mat,arg);
         return rsl;
     }
     template<typename VType>
     Matrix<VType> &ewiseMod_(Matrix<VType> &mat,const VType &arg){
-        arithmmap::mapBroadcastEwise(mat,Operation::EwiseMod,mat,arg);
+        arithm_map::mapBroadcastEwise(mat,Operation::EwiseMod,mat,arg);
         return mat;
     }
     template<typename VType>
     Matrix<VType> ewiseMod(const VType &arg,const Matrix<VType> &mat){
         Matrix<VType> rsl(mat.rowLength(),mat.colLength());
-        arithmmap::mapBroadcastEwise(rsl,Operation::EwiseMod,arg,mat);
+        arithm_map::mapBroadcastEwise(rsl,Operation::EwiseMod,arg,mat);
         return rsl;
     }
     template<typename VType>
     Matrix<VType> &ewiseMod_(const VType &arg,Matrix<VType> &mat){
-        arithmmap::mapBroadcastEwise(mat,Operation::EwiseMod,arg,mat);
+        arithm_map::mapBroadcastEwise(mat,Operation::EwiseMod,arg,mat);
         return mat;
     }
     /*Add*/
     template<typename VType>
     Matrix<VType> add(const Matrix<VType> &lhs,const Matrix<VType> &rhs){
         Matrix<VType> rsl(lhs.rowLength(),lhs.colLength());
-        arithmmap::mapBinaryEwise(rsl,Operation::Add,lhs,rhs);
+        arithm_map::mapBinaryEwise(rsl,Operation::Add,lhs,rhs);
         return rsl;
     }
     template<typename VType>
     Matrix<VType> &add_(Matrix<VType> &lhs,const Matrix<VType> &rhs){
-        arithmmap::mapBinaryEwise(lhs,Operation::Add,lhs,rhs);
+        arithm_map::mapBinaryEwise(lhs,Operation::Add,lhs,rhs);
         return lhs;
     }
     /*Sub*/
     template<typename VType>
     Matrix<VType> sub(const Matrix<VType> &lhs,const Matrix<VType> &rhs){
         Matrix<VType> rsl(lhs.rowLength(),lhs.colLength());
-        arithmmap::mapBinaryEwise(rsl,Operation::Sub,lhs,rhs);
+        arithm_map::mapBinaryEwise(rsl,Operation::Sub,lhs,rhs);
         return rsl;
     }
     template<typename VType>
     Matrix<VType> &sub_(Matrix<VType> &lhs,const Matrix<VType> &rhs){
-        arithmmap::mapBinaryEwise(lhs,Operation::Sub,lhs,rhs);
+        arithm_map::mapBinaryEwise(lhs,Operation::Sub,lhs,rhs);
         return lhs;
     }
     /*MatInv*/
@@ -242,5 +242,16 @@ namespace vtx{
             }
         }
         return rsl;
+    }
+    template<typename VType>
+    Matrix<VType> &matMul_(Matrix<VType> &lhs,const Matrix<VType> &rhs){
+        Matrix<VType> rsl(lhs.rowLength(),rhs.colLength());
+        for(std::size_t row=0;row<lhs.rowLength();++row){
+            for(std::size_t col=0;col<lhs.rowLength();++col){
+                rsl(row,col)=arithmMatMul(View<Matrix<VType>>(&lhs,Axis::Row,row),View<Matrix<VType>>(&rhs,Axis::Col,col));
+            }
+        }
+        lhs=std::move(rsl);
+        return lhs;
     }
 }

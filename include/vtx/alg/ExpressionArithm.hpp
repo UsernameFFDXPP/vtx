@@ -44,4 +44,9 @@ namespace vtx{
     Expression<VType> matMul(const Expression<VType> &lhs,const Expression<VType> &rhs){
         return Expression(Operation::MatMul,lhs,rhs);
     }
+    template<typename VType>
+    Expression<VType> &matMul_(Expression<VType> &lhs,const Expression<VType> &rhs){
+        lhs=Expression(Operation::MatMul,lhs,rhs);
+        return lhs;
+    }
 }

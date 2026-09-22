@@ -60,6 +60,10 @@ namespace vtx{
     Matrix<VType> operator*(const Matrix<VType> &lhs,const Matrix<VType> &rhs){
         return matMul(lhs,rhs);
     }
+    template<typename VType>
+    Matrix<VType> &operator*=(Matrix<VType> &lhs,const Matrix<VType> &rhs){
+        return matMul_(lhs,rhs);
+    }
 
     template<typename VType>
     Matrix<VType> operator/(const Matrix<VType> &lhs,const VType &arg){
