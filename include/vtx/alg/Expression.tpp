@@ -3,19 +3,19 @@
 namespace vtx{
     template<typename VType>
     Expression<VType>::Expression(const Matrix<VType> *mat):
-        root_(std::make_shared<MatNode<value_type>>(Operation::Mat,mat)){}
+    root_(std::make_shared<MatNode<value_type>>(Operation::Mat,mat)){}
 
     template<typename VType>
     Expression<VType>::Expression(Operation opr,const Expression<VType> &expr):
-        root_(std::make_shared<UnaryNode<value_type>>(opr,expr.root_)){}
+    root_(std::make_shared<UnaryNode<value_type>>(opr,expr.root_)){}
 
     template<typename VType>
     Expression<VType>::Expression(Operation opr,const Expression<VType> &lexpr,const Expression<VType> &rexpr):
-        root_(std::make_shared<BinaryNode<value_type>>(opr,lexpr.root_,rexpr.root_)){}
+    root_(std::make_shared<BinaryNode<value_type>>(opr,lexpr.root_,rexpr.root_)){}
 
     template<typename VType>
     Expression<VType>::Expression(Operation opr,const Expression<VType> &expr,const VType &arg):
-        root_(std::make_shared<ArgNode<value_type>>(opr,expr.root_,arg)){}
+    root_(std::make_shared<ArgNode<value_type>>(opr,expr.root_,arg)){}
 
     template<typename VType>
     std::size_t Expression<VType>::rowLength() const{
@@ -65,4 +65,4 @@ namespace vtx{
         useTempRsl_=set;
         return;
     }
-}
+}//namespace vtx

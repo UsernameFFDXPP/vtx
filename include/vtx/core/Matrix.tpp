@@ -8,7 +8,7 @@ namespace vtx{
 
     template<typename VType>
     Matrix<VType>::Matrix(std::size_t rowLength,std::size_t colLength,value_type val):
-        rowLength_(rowLength),colLength_(colLength),data_(rowLength*colLength,val){}
+    rowLength_(rowLength),colLength_(colLength),data_(rowLength*colLength,val){}
 
     template<typename VType>
     Matrix<VType> Matrix<VType>::zeros(size_type rowLength,size_type colLength){
@@ -65,4 +65,4 @@ namespace vtx{
         }
         return rsl;
     }
-}
+}//namespace vtx

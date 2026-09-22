@@ -14,7 +14,7 @@ namespace vtx{
             using size_type=std::size_t;
 
             View(const Matrix<VType> *source,Axis axis=Axis::None,size_type index=0):
-                source_(source),axis_(axis),index_(index){}
+            source_(source),axis_(axis),index_(index){}
 
             size_type size() const{
                 if(axis_==Axis::Row) return (*source_).colLength();
@@ -38,4 +38,4 @@ namespace vtx{
             Axis axis_;
             size_type index_;
     };
-}
+}//namespace vtx

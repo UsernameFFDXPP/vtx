@@ -37,6 +37,6 @@ namespace vtx{
             size_type colLength_=0;
             Storage<value_type> data_;
     };
-}
+}//namespace vtx
 
 #include"Matrix.tpp"

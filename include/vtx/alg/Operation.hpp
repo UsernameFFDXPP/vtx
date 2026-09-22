@@ -40,4 +40,4 @@ namespace vtx{
             Quantile
         /*Reshape*/
     };
-}
+}//namespace vtx

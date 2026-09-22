@@ -3,7 +3,7 @@
 namespace vtx{
     template<typename VType>
     Storage<VType>::Storage(std::size_t size,VType val):
-        data_(size,val){}
+    data_(size,val){}
 
     template<typename VType>
     std::size_t Storage<VType>::size() const{
@@ -41,4 +41,4 @@ namespace vtx{
     void Storage<VType>::resize(size_type size){
         data_.resize(size);
     }
-}
+}//namespace vtx

@@ -45,7 +45,7 @@ namespace vtx{
             class reference{
                 public:
                     reference(std::uint8_t &value):
-                        value_(value){}
+                    value_(value){}
                     reference &operator=(bool value){
                         value_=value?1:0;
                         return *this;
@@ -66,7 +66,7 @@ namespace vtx{
 
             Storage()=default;
             explicit Storage(size_type size,value_type val):
-                data_(size,val){}
+            data_(size,val){}
 
             size_type size() const{
                 return data_.size();
@@ -99,6 +99,6 @@ namespace vtx{
         private:
             std::vector<std::uint8_t> data_;
     };
-}
+}//namespace vtx
 
 #include"Storage.tpp"

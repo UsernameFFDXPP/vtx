@@ -76,4 +76,4 @@ namespace vtx{
             Axis axis_;
             size_type index_;
     };
-}
+}//namespace vtx

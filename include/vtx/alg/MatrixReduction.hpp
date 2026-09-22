@@ -141,4 +141,4 @@ namespace vtx{
     /*Quantile*/
     template<typename VType>
     Matrix<VType> quantile(const Matrix<VType> &mat,Axis axis=Axis::None);
-}
+}//namespace vtx

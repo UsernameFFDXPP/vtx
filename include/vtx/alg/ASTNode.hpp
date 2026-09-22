@@ -102,6 +102,6 @@ namespace vtx{
             Axis axis_;
     };
     */
-}
+}//namespace vtx
 
 #include"vtx/alg/ASTNode.tpp"

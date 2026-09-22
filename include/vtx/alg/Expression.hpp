@@ -32,6 +32,6 @@ namespace vtx{
             Matrix<value_type> tempRsl_;
             Matrix<bool> tempRslMask_;
     };
-}
+}//namespace vtx
 
 #include"vtx/alg/Expression.tpp"

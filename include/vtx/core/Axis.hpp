@@ -6,4 +6,4 @@ namespace vtx{
         Row,
         Col
     };
-}
+}//namespace vtx
