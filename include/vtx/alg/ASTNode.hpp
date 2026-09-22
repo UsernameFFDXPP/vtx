@@ -2,10 +2,11 @@
 
 #include<memory>
 #include<cstddef>
+
 #include"vtx/core/Matrix.hpp"
-#include"vtx/core/Visitor.hpp"
-#include"vtx/core/Operation.hpp"
 #include"vtx/core/Axis.hpp"
+#include"vtx/alg/Visitor.hpp"
+#include"vtx/alg/Operation.hpp"
 
 namespace vtx{
     template<typename VType>
@@ -103,4 +104,4 @@ namespace vtx{
     */
 }
 
-#include"vtx/core/ASTNode.tpp"
+#include"vtx/alg/ASTNode.tpp"

@@ -1,7 +1,7 @@
 #pragma once
 
-#include"vtx/core/Expression.hpp"
-#include"vtx/core/Operation.hpp"
+#include"vtx/alg/Expression.hpp"
+#include"vtx/alg/Operation.hpp"
 
 namespace vtx{
     /*Neg*/

@@ -1,6 +1,6 @@
 #include<cstddef>
 
-#include"vtx/core/ASTNode.hpp"
+#include"vtx/alg/ASTNode.hpp"
 
 namespace vtx{
     template<typename VType>

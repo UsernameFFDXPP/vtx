@@ -6,7 +6,7 @@
 #include<type_traits>
 #include<vector>
 
-#include"vtx/core/Operation.hpp"
+#include"vtx/alg/Operation.hpp"
 
 namespace vtx{
     namespace type_opr_traits{

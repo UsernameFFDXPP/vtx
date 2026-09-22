@@ -2,8 +2,8 @@
 
 #include<memory>
 #include"vtx/core/Matrix.hpp"
-#include"vtx/core/ASTNode.hpp"
-#include"vtx/core/Visitor.hpp"
+#include"vtx/alg/ASTNode.hpp"
+#include"vtx/alg/Visitor.hpp"
 
 namespace vtx{
     template<typename VType>
@@ -34,4 +34,4 @@ namespace vtx{
     };
 }
 
-#include"vtx/core/Expression.tpp"
+#include"vtx/alg/Expression.tpp"

@@ -1,4 +1,4 @@
-#include"vtx/core/Expression.hpp"
+#include"vtx/alg/Expression.hpp"
 
 namespace vtx{
     template<typename VType>
