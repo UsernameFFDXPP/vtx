@@ -6,13 +6,15 @@ namespace vtx{
     enum class OprDefault;
     enum class OprArithm;
     enum class OprCompare;
+    enum class OprLayout;
     enum class OprReduction;
     enum class OprStatistics;
 
-    using Operation=std::variant<std::monostate,
+    using Operator=std::variant<std::monostate,
         OprDefault,
         OprArithm,
         OprCompare,
+        OprLayout,
         OprReduction,
         OprStatistics
     >;
@@ -26,7 +28,6 @@ namespace vtx{
         Neg,
         EwiseInv,
         MatInv,
-        Transpose,
         /*1 Operand 1 Arg*/
         EwiseMul,
         EwiseDiv,
@@ -48,7 +49,7 @@ namespace vtx{
     };
     enum class OprLayout{
         /*1 Operand*/
-        Transparent,
+        Transpose,
         /*1 Operand 1 Axis*/
         Flip,
         /*1 Operand 2 Arg*/
@@ -85,4 +86,29 @@ namespace vtx{
         /*1 Operand 1 Axis 1 Arg*/
         Quantile,
     };
+
+    inline bool operator==(const Operator &opr,OprDefault target){
+        if(const auto *v=std::get_if<OprDefault>(&opr)) return *v==target;
+        return false;
+    }
+    inline bool operator==(const Operator &opr,OprArithm target){
+        if(const auto *v=std::get_if<OprArithm>(&opr)) return *v==target;
+        return false;
+    }
+    inline bool operator==(const Operator &opr,OprCompare target){
+        if(const auto *v=std::get_if<OprCompare>(&opr)) return *v==target;
+        return false;
+    }
+    inline bool operator==(const Operator &opr,OprLayout target){
+        if(const auto *v=std::get_if<OprLayout>(&opr)) return *v==target;
+        return false;
+    }
+    inline bool operator==(const Operator &opr,OprReduction target){
+        if(const auto *v=std::get_if<OprReduction>(&opr)) return *v==target;
+        return false;
+    }
+    inline bool operator==(const Operator &opr,OprStatistics target){
+        if(const auto *v=std::get_if<OprStatistics>(&opr)) return *v==target;
+        return false;
+    }
 }//namespace vtx
