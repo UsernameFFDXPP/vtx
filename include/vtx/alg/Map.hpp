@@ -1,6 +1,7 @@
 #pragma once
 
 #include"vtx/core/Matrix.hpp"
+#include"vtx/core/Axis.hpp"
 #include"vtx/core/View.hpp"
 #include"vtx/alg/Operator.hpp"
 #include"vtx/alg/OperatorTraits.hpp"

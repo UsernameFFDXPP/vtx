@@ -16,8 +16,7 @@ namespace vtx{
                                 rsl(row,col)=arithmEwiseInv(mat(row,col));
                             else /*Operator Error*/;break;
                         default:
-                            /*Operator Error*/
-                            break;
+                            /*Operator Error*/;break;
                     }
                 }
             }
@@ -37,8 +36,7 @@ namespace vtx{
                                 rsl(row,col)=arithmSub(lhs(row,col),rhs(row,col));
                             else /*Operator Error*/;break;
                         default:
-                            /*Operator Error*/
-                            break;
+                            /*Operator Error*/;break;
                     }
                 }
             }
@@ -60,8 +58,7 @@ namespace vtx{
                                 rsl(row,col)=arithmSub(lhs(lrow,lcol),rhs(rrow,rcol));
                             else /*Operator Error*/;break;
                         default:
-                            /*Operator Error*/
-                            break;
+                            /*Operator Error*/;break;
                     }
                 }
             }
@@ -85,8 +82,7 @@ namespace vtx{
                                 rsl(row,col)=arithmEwiseMod(lhs(lrow,lcol),arg);
                             else /*Operator Error*/;break;
                         default:
-                            /*Operator Error*/
-                            break;
+                            /*Operator Error*/;break;
                     }
                 }
             }
@@ -110,8 +106,7 @@ namespace vtx{
                                 rsl(row,col)=arithmEwiseMod(arg,rhs(rrow,rcol));
                             else /*Operator Error*/;break;
                         default:
-                            /*Operator Error*/
-                            break;
+                            /*Operator Error*/;break;
                     }
                 }
             }
@@ -144,8 +139,7 @@ namespace vtx{
                                 rsl(row,0)=arithmArgMin(tempView);
                             else /*Operator Error*/;break;
                         default:
-                            /*Operator Error*/
-                            break;
+                            /*Operator Error*/;break;
                     }
                 }
             }else if(axis==Axis::Col){
@@ -173,9 +167,34 @@ namespace vtx{
                                 rsl(0,col)=arithmArgMin(tempView);
                             else /*Operator Error*/;break;
                         default:
-                            /*Operator Error*/
-                            break;
+                            /*Operator Error*/;break;
                     }
+                }
+            }else if(axis==Axis::None){
+                View<Matrix<VType>> tempView(&mat,Axis::None);
+                switch(opr){
+                    case OprReduction::Sum:
+                        if constexpr(opr_traits::getOprDemand<VType,OprReduction::Sum>())
+                            rsl(0,0)=arithmSum(tempView);
+                        else /*Operator Error*/;break;
+                    case OprReduction::Max:
+                        if constexpr(opr_traits::getOprDemand<VType,OprReduction::Max>())
+                            rsl(0,0)=arithmMax(tempView);
+                        else /*Operator Error*/;break;
+                    case OprReduction::Min:
+                        if constexpr(opr_traits::getOprDemand<VType,OprReduction::Min>())
+                            rsl(0,0)=arithmMin(tempView);
+                        else /*Operator Error*/;break;
+                    case OprReduction::ArgMax:
+                        if constexpr(opr_traits::getOprDemand<VType,OprReduction::ArgMax>())
+                            rsl(0,0)=arithmArgMax(tempView);
+                        else /*Operator Error*/;break;
+                    case OprReduction::ArgMin:
+                        if constexpr(opr_traits::getOprDemand<VType,OprReduction::ArgMin>())
+                            rsl(0,0)=arithmArgMin(tempView);
+                        else /*Operator Error*/;break;
+                    default:
+                        /*Operator Error*/;break;
                 }
             }else /*Axis Error*/;
         }
