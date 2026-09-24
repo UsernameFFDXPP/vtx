@@ -38,7 +38,7 @@ namespace vtx{
     }
     */
     template<typename VType>
-    void Storage<VType>::resize(size_type size){
+    void Storage<VType>::resize(std::size_t size){
         data_.resize(size);
     }
 }//namespace vtx

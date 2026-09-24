@@ -1,0 +1,67 @@
+#pragma once
+
+#include<algorithm>
+#include<cmath>
+#include<cstddef>
+#include<vector>
+
+#include"vtx/alg/Operator.hpp"
+#include"vtx/alg/OperatorTraits.hpp"
+
+namespace vtx{
+    /*Mean*/
+    template<typename Line,typename VType=typename Line::value_type>
+    auto arithmMean(const Line &val)->std::enable_if_t<
+        opr_traits::getOprDemand<VType>(OprStatistics::Mean),VType
+    >{
+        VType rsl{};
+        for(std::size_t i=0;i<val.size();++i) rsl+=val(i);
+        return rsl/static_cast<VType>(val.size());
+    }
+    /*Variance*/
+    template<typename Line,typename VType=typename Line::value_type>
+    auto arithmVariance(const Line &val)->std::enable_if_t<
+        opr_traits::getOprDemand<VType>(OprStatistics::Variance),VType
+    >{
+        VType mean{},m2{};
+        for(std::size_t i=0;i<val.size();++i){
+            VType d1=val(i)-mean;
+            mean+=d1/static_cast<VType>(i+1);
+            VType d2=val(i)-mean;
+            m2+=d1*d2;
+        }
+        return m2/static_cast<VType>(val.size());
+    }
+    /*SampleVariance*/
+    template<typename Line,typename VType=typename Line::value_type>
+    auto arithmSampleVariance(const Line &val)->std::enable_if_t<
+        opr_traits::getOprDemand<VType>(OprStatistics::SampleVariance),VType
+    >{
+        VType mean{},m2{};
+        for(std::size_t i=0;i<val.size();++i){
+            VType d1=val(i)-mean;
+            mean+=d1/static_cast<VType>(i+1);
+            VType d2=val(i)-mean;
+            m2+=d1*d2;
+        }
+        return m2/static_cast<VType>(val.size()-1);
+    }
+    /*Median*/
+    template<typename Line,typename VType=typename Line::value_type>
+    auto arithmMedian(const Line &val)->std::enable_if_t<
+        opr_traits::getOprDemand<VType>(OprStatistics::Median),VType
+    >{
+        std::vector<VType> temp(val.size());
+        for(std::size_t i=0;i<val.size();++i) temp[i]=val(i);
+        if(val.size()%2==1){
+            std::nth_element(temp.begin(),temp.begin()+temp.size()/2,temp.end());
+            return temp[temp.size()/2];
+        }else{
+            std::nth_element(temp.begin(),temp.begin()+temp.size()/2+1,temp.end());
+            return (temp[temp.size()/2-1]+temp[temp.size()/2])/static_cast<VType>(2);
+        }
+    }
+    /*Quantile*/
+    /*Covariance*/
+    /*Correlation*/
+}//namespace vtx

@@ -1,6 +1,6 @@
 #pragma once
 
-#include"vtx/alg/ExpressionArithm.hpp"
+#include"vtx/alg/arithm/ExpressionArithm.hpp"
 
 namespace vtx{
     template<typename VType>

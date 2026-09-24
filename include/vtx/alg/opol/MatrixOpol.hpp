@@ -1,7 +1,7 @@
 #pragma once
 
 #include<iostream>
-#include"vtx/alg/MatrixArithm.hpp"
+#include"vtx/alg/arithm/MatrixArithm.hpp"
 
 namespace vtx{
     template<typename VType>

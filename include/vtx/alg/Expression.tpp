@@ -3,18 +3,18 @@
 namespace vtx{
     template<typename VType>
     Expression<VType>::Expression(const Matrix<VType> *mat):
-    root_(std::make_shared<MatNode<value_type>>(Operation::Mat,mat)){}
+    root_(std::make_shared<MatNode<value_type>>(OprDefault::Mat,mat)){}
 
     template<typename VType>
-    Expression<VType>::Expression(Operation opr,const Expression<VType> &expr):
+    Expression<VType>::Expression(Operator opr,const Expression<VType> &expr):
     root_(std::make_shared<UnaryNode<value_type>>(opr,expr.root_)){}
 
     template<typename VType>
-    Expression<VType>::Expression(Operation opr,const Expression<VType> &lexpr,const Expression<VType> &rexpr):
+    Expression<VType>::Expression(Operator opr,const Expression<VType> &lexpr,const Expression<VType> &rexpr):
     root_(std::make_shared<BinaryNode<value_type>>(opr,lexpr.root_,rexpr.root_)){}
 
     template<typename VType>
-    Expression<VType>::Expression(Operation opr,const Expression<VType> &expr,const VType &arg):
+    Expression<VType>::Expression(Operator opr,const Expression<VType> &expr,const VType &arg):
     root_(std::make_shared<ArgNode<value_type>>(opr,expr.root_,arg)){}
 
     template<typename VType>
@@ -53,6 +53,11 @@ namespace vtx{
             */
         }
         return rsl;
+    }
+
+    template<typename VType>
+    VType Expression<VType>::operator()(size_type row,size_type col) const{
+        return Expression<VType>::evalAt(row,col);
     }
 
     template<typename VType>

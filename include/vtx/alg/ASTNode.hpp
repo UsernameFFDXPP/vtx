@@ -6,7 +6,8 @@
 #include"vtx/core/Matrix.hpp"
 #include"vtx/core/Axis.hpp"
 #include"vtx/alg/Visitor.hpp"
-#include"vtx/alg/Operation.hpp"
+#include"vtx/alg/Operator.hpp"
+#include"vtx/alg/OperatorTraits.hpp"
 
 namespace vtx{
     template<typename VType>
@@ -18,17 +19,18 @@ namespace vtx{
 
             virtual ~ASTNode()=default;
 
-            size_type rowLength() const;
-            size_type colLength() const;
-            Operation opr() const;
+            std::size_t rowLength() const;
+            std::size_t colLength() const;
+            Operator opr() const;
 
-            virtual VType accept(const NodeVisitor<VType> &visitor,size_type row,size_type col) const=0;
+            virtual VType accept(const NodeVisitor<VType> &visitor,std::size_t row,std::size_t col) const=0;
+            VType operator()(std::size_t row,std::size_t col) const;
 
         protected:
             ASTNode();
-            size_type rowLength_;
-            size_type colLength_;
-            Operation opr_;
+            std::size_t rowLength_;
+            std::size_t colLength_;
+            Operator opr_;
         private:
     };
 
@@ -37,7 +39,7 @@ namespace vtx{
         friend class EvalVisitor<VType>;
         public:
             using size_type=std::size_t;
-            MatNode(Operation opr,const Matrix<VType> *mat);
+            MatNode(Operator opr,const Matrix<VType> *mat);
 
             VType accept(const NodeVisitor<VType> &visitor,size_type row,size_type col) const override;
 
@@ -51,7 +53,7 @@ namespace vtx{
         public:
             using size_type=std::size_t;
             using node_sptr=std::shared_ptr<ASTNode<VType>>;
-            UnaryNode(Operation opr,node_sptr node);
+            UnaryNode(Operator opr,node_sptr node);
 
             VType accept(const NodeVisitor<VType> &visitor,size_type row,size_type col) const override;
 
@@ -65,7 +67,7 @@ namespace vtx{
         public:
             using size_type=std::size_t;
             using node_sptr=std::shared_ptr<ASTNode<VType>>;
-            BinaryNode(Operation opr,node_sptr lhs,node_sptr rhs);
+            BinaryNode(Operator opr,node_sptr lhs,node_sptr rhs);
 
             VType accept(const NodeVisitor<VType> &visitor,size_type row,size_type col) const override;
 
@@ -80,7 +82,7 @@ namespace vtx{
         public:
             using size_type=std::size_t;
             using node_sptr=std::shared_ptr<ASTNode<VType>>;
-            ArgNode(Operation opr,node_sptr node,VType arg);
+            ArgNode(Operator opr,node_sptr node,VType arg);
 
             VType accept(const NodeVisitor<VType> &visitor,size_type row,size_type col) const override;
 
@@ -89,19 +91,18 @@ namespace vtx{
             VType arg_;
     };
 
-    /*
     template<typename VType>
     class ReductionNode:public ASTNode<VType>{
         public:
             using size_type=std::size_t;
             using node_sptr=std::shared_ptr<ASTNode<VType>>;
-            ReductionNode(Operation opr,node_sptr node,Axis axis);
+            ReductionNode(Operator opr,node_sptr node,Axis axis);
             VType evalAt(size_type row,size_type col) const override;
         private:
             node_sptr node_;
             Axis axis_;
     };
-    */
+    
 }//namespace vtx
 
 #include"vtx/alg/ASTNode.tpp"

@@ -13,23 +13,24 @@ namespace vtx{
             using size_type=std::size_t;
 
             Expression(const Matrix<VType> *mat);
-            Expression(Operation opr,const Expression<VType> &expr);
-            Expression(Operation opr,const Expression<VType> &lexpr,const Expression<VType> &rexpr);
-            Expression(Operation opr,const Expression<VType> &expr,const VType &arg);
+            Expression(Operator opr,const Expression<VType> &expr);
+            Expression(Operator opr,const Expression<VType> &lexpr,const Expression<VType> &rexpr);
+            Expression(Operator opr,const Expression<VType> &expr,const VType &arg);
 
-            size_type rowLength() const;
-            size_type colLength() const;
-            Matrix<value_type> eval() const;
-            value_type evalAt(size_type row,size_type col) const;
+            std::size_t rowLength() const;
+            std::size_t colLength() const;
+            Matrix<VType> eval() const;
+            VType evalAt(std::size_t row,std::size_t col) const;
+            VType operator()(std::size_t row,std::size_t col) const;
 
             bool useTempRsl() const;
             void setTempRsl(bool set);
             void clearTempRsl();
 
         private:
-            std::shared_ptr<ASTNode<value_type>> root_=nullptr;
+            std::shared_ptr<ASTNode<VType>> root_=nullptr;
             bool useTempRsl_=false;
-            Matrix<value_type> tempRsl_;
+            Matrix<VType> tempRsl_;
             Matrix<bool> tempRslMask_;
     };
 }//namespace vtx

@@ -2,18 +2,19 @@
 
 #include<cstddef>
 #include<memory>
-#include"vtx/core/Matrix.hpp"
 #include"vtx/core/Axis.hpp"
 
 namespace vtx{
-    template<typename VType>
-    class View<Matrix<VType>>{
+    template<typename VType> class View;
+
+    template<typename Source>
+    class View{
         public:
-            using source_type=Matrix<VType>;
-            using value_type=VType;
+            using source_type=Source;
+            using value_type=typename Source::value_type;
             using size_type=std::size_t;
 
-            View(const Matrix<VType> *source,Axis axis=Axis::None,size_type index=0):
+            View(const Source *source,Axis axis=Axis::None,size_type index=0):
             source_(source),axis_(axis),index_(index){}
 
             size_type size() const{
@@ -34,7 +35,7 @@ namespace vtx{
             }
 
         private:
-            const Matrix<VType> *source_;
+            const Source *source_;
             Axis axis_;
             size_type index_;
     };
