@@ -39,7 +39,7 @@ namespace vtx{
             value_type operator()(std::size_t index) const{
                 if(axis_==Axis::Row) return (*source_)(index_,index);
                 else if(axis_==Axis::Col) return (*source_)(index,index_);
-                else if(axis_==Axis::None) return (*source_)(index%(*source_).colLength(),index/(*source_).colLength());
+                else if(axis_==Axis::None) return (*source_)(index/(*source_).colLength(),index%(*source_).colLength());
                 else /*Axis Error*/;
                 return {};
             }
