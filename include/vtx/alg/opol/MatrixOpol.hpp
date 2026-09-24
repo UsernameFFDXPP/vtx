@@ -1,6 +1,9 @@
 #pragma once
 
 #include<iostream>
+#include<iomanip>
+
+#include"vtx/config/Config.hpp"
 #include"vtx/alg/arithm/MatrixArithm.hpp"
 
 namespace vtx{
@@ -10,8 +13,8 @@ namespace vtx{
             if(row==0) os<<'[';
             else os<<' ';
             for(std::size_t col=0;col<mat.colLength();++col){
-                if(col!=mat.colLength()-1) os<<mat(row,col)<<' ';
-                else os<<mat(row,col);
+                if(col!=mat.colLength()-1) os<<std::setw(config::outputWidth)<<mat(row,col)<<' ';
+                else os<<std::setw(config::outputWidth)<<mat(row,col);
             }
             if(row==mat.rowLength()-1) os<<']';
             os<<'\n';
