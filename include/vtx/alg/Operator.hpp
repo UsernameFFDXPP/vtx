@@ -52,13 +52,13 @@ namespace vtx{
         Transpose,
         /*1 Operand 1 Axis*/
         Flip,
-        /*1 Operand 2 Arg*/
+        /*1 Operand 2 Index*/
         Reshape,
         Resize,
-        /*1 Operand 1 Axis 1 Arg*/
+        /*1 Operand 1 Axis 1 Index*/
         Insert,
         Drop,
-        /*1 Operand 1 Axis 2 Arg*/
+        /*1 Operand 1 Axis 2 Index*/
         Swap,
         Slice,
         /*2 Operand 1 Axis*/
@@ -86,6 +86,17 @@ namespace vtx{
         /*1 Operand 1 Axis 1 Arg*/
         Quantile,
     };
+
+    // Node      Axis   size_t  VType
+    // 1 Operand                         =NegLike
+    // 2 Operand                         =AddLike
+    // 1 Operand 1 Axis                  =FlipLike
+    // 2 Operand 1 Axis                  =ConcatLike
+    // 1 Operand        2 Index          =ResizeLike
+    // 1 Operand 1 Axis 1 Index          =DropLike
+    // 1 Operand 1 Axis 2 Index          =SwapLike
+    // 1 Operand                1 Arg    =EwiseLike
+    // 1 Operand 1 Axis         1 Arg    =QuantileLike
 
     inline bool operator==(const Operator &opr,OprDefault target){
         if(const auto *v=std::get_if<OprDefault>(&opr)) return *v==target;

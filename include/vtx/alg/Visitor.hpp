@@ -11,9 +11,9 @@
 namespace vtx{
     template<typename VType> class ASTNode;
     template<typename VType> class MatNode;
-    template<typename VType> class UnaryNode;
-    template<typename VType> class BinaryNode;
-    template<typename VType> class ArgNode;
+    template<typename VType> class NegLikeNode;
+    template<typename VType> class AddLikeNode;
+    template<typename VType> class EwiseLikeNode;
     
     template<typename VType> class NodeVisitor;
     template<typename VType> class EvalVisitor;
@@ -53,9 +53,9 @@ namespace vtx{
             virtual ~NodeVisitor()=default;
             
             virtual VType visit(const MatNode<VType> &node,size_type row,size_type col) const=0;
-            virtual VType visit(const UnaryNode<VType> &node,size_type row,size_type col) const=0;
-            virtual VType visit(const BinaryNode<VType> &node,size_type row,size_type col) const=0;
-            virtual VType visit(const ArgNode<VType> &node,size_type row,size_type col) const=0;
+            virtual VType visit(const NegLikeNode<VType> &node,size_type row,size_type col) const=0;
+            virtual VType visit(const AddLikeNode<VType> &node,size_type row,size_type col) const=0;
+            virtual VType visit(const EwiseLikeNode<VType> &node,size_type row,size_type col) const=0;
     };
 
     template<typename VType>
@@ -66,7 +66,7 @@ namespace vtx{
             VType visit(const MatNode<VType> &node,size_type row,size_type col) const override{
                 return (*node.mat_)(row,col);
             }
-            VType visit(const UnaryNode<VType> &node,size_type row,size_type col) const override{
+            VType visit(const NegLikeNode<VType> &node,size_type row,size_type col) const override{
                 VType val=node.node_->accept(*this,row,col);
                 if(node.opr()==OprArithm::Neg){
                     if constexpr(opr_traits::isNegAble<VType>::value)
@@ -81,7 +81,7 @@ namespace vtx{
                 }
                 return VType{};
             }
-            VType visit(const BinaryNode<VType> &node,size_type row,size_type col) const override{
+            VType visit(const AddLikeNode<VType> &node,size_type row,size_type col) const override{
                 if(node.opr()==OprArithm::MatMul){
                     if constexpr(opr_traits::isMulAble<VType,VType>::value){
                         View<ASTNode<VType>> lhs(node.lhs_.get(),Axis::Row,row);
@@ -107,7 +107,7 @@ namespace vtx{
                 }
             return VType{};
             }
-            VType visit(const ArgNode<VType> &node,size_type row,size_type col) const override{
+            VType visit(const EwiseLikeNode<VType> &node,size_type row,size_type col) const override{
                 VType val=node.node_->accept(*this,row,col);
                 VType arg=node.arg_;
                 if(node.opr()==OprArithm::EwiseMul){
