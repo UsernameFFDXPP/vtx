@@ -15,8 +15,9 @@ namespace vtx{
         Matrix<VType> rsl;
         if(axis==Axis::Row) rsl=Matrix<VType>(mat.rowLength(),1);
         else if(axis==Axis::Col) rsl=Matrix<VType>(1,mat.colLength());
+        else if(axis==Axis::None) rsl=Matrix<VType>(1,1);
         else /*Axis Error*/;
-        arithmmap::mapReduction(rsl,Operator::Sum,mat,axis);
+        map::mapReduction(rsl,OprReduction::Sum,mat,axis);
         return rsl;
     }
     /*Max*/
@@ -25,8 +26,9 @@ namespace vtx{
         Matrix<VType> rsl;
         if(axis==Axis::Row) rsl=Matrix<VType>(mat.rowLength(),1);
         else if(axis==Axis::Col) rsl=Matrix<VType>(1,mat.colLength());
+        else if(axis==Axis::None) rsl=Matrix<VType>(1,1);
         else /*Axis Error*/;
-        arithmmap::mapReduction(rsl,Operator::Max,mat,axis);
+        map::mapReduction(rsl,OprReduction::Max,mat,axis);
         return rsl;
     }
     /*Min*/
@@ -35,8 +37,9 @@ namespace vtx{
         Matrix<VType> rsl;
         if(axis==Axis::Row) rsl=Matrix<VType>(mat.rowLength(),1);
         else if(axis==Axis::Col) rsl=Matrix<VType>(1,mat.colLength());
+        else if(axis==Axis::None) rsl=Matrix<VType>(1,1);
         else /*Axis Error*/;
-        arithmmap::mapReduction(rsl,Operator::Min,mat,axis);
+        map::mapReduction(rsl,OprReduction::Min,mat,axis);
         return rsl;
     }
     /*ArgMax*/
@@ -45,8 +48,9 @@ namespace vtx{
         Matrix<VType> rsl;
         if(axis==Axis::Row) Matrix<std::size_t> rsl(mat.rowLength(),1);
         else if(axis==Axis::Col) Matrix<std::size_t> rsl(1,mat.colLength());
+        else if(axis==Axis::None) rsl=Matrix<VType>(1,1);
         else /*Axis Error*/;
-        arithmmap::mapArgReduction(rsl,Operator::ArgMax,mat,axis);
+        map::mapReduction(rsl,OprReduction::ArgMax,mat,axis);
         return rsl;
     }
     /*ArgMin*/
@@ -55,8 +59,9 @@ namespace vtx{
         Matrix<VType> rsl;
         if(axis==Axis::Row) Matrix<std::size_t> rsl(mat.rowLength(),1);
         else if(axis==Axis::Col) Matrix<std::size_t> rsl(1,mat.colLength());
+        else if(axis==Axis::None) rsl=Matrix<VType>(1,1);
         else /*Axis Error*/;
-        arithmmap::mapArgReduction(rsl,Operator::ArgMin,mat,axis);
+        map::mapReduction(rsl,OprReduction::ArgMin,mat,axis);
         return rsl;
     }
 }//namespace vtx

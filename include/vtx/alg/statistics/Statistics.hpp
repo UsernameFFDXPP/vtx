@@ -9,6 +9,8 @@
 #include"vtx/alg/OperatorTraits.hpp"
 
 namespace vtx{
+    /*Covariance*/
+    /*Correlation*/
     /*Mean*/
     template<typename Line,typename VType=typename Line::value_type>
     auto arithmMean(const Line &val)->std::enable_if_t<
@@ -61,7 +63,7 @@ namespace vtx{
             return (temp[temp.size()/2-1]+temp[temp.size()/2])/static_cast<VType>(2);
         }
     }
+    /*Center*/
+    /*Standardize*/
     /*Quantile*/
-    /*Covariance*/
-    /*Correlation*/
 }//namespace vtx

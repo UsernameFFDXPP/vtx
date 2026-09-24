@@ -12,7 +12,7 @@ namespace vtx{
     /*Sum*/
     template<typename Line,typename VType=typename Line::value_type>
     auto arithmSum(const Line &val)->std::enable_if_t<
-        opr_traits::getOprDemand<VType>(OprReduction::Sum),VType
+        opr_traits::getOprDemand<VType,OprReduction::Sum>(),VType
     >{
         VType rsl{};
         for(std::size_t i=0;i<val.size();++i) rsl+=val(i);
@@ -21,7 +21,7 @@ namespace vtx{
     /*Max,ArgMax*/
     template<typename Line,typename VType=typename Line::value_type>
     auto arithmMax(const Line &val)->std::enable_if_t<
-        opr_traits::getOprDemand<VType>(OprReduction::Max),VType
+        opr_traits::getOprDemand<VType,OprReduction::Max>(),VType
     >{
         VType rsl=val(0);
         for(std::size_t i=0;i<val.size();++i) if(val(i)>rsl) rsl=val(i);
@@ -29,7 +29,7 @@ namespace vtx{
     }
     template<typename Line,typename VType=typename Line::value_type>
     auto arithmArgMax(const Line &val)->std::enable_if_t<
-        opr_traits::getOprDemand<VType>(OprReduction::ArgMax),std::size_t
+        opr_traits::getOprDemand<VType,OprReduction::ArgMax>(),std::size_t
     >{
         auto rsl=val(0);std::size_t tIdx=0;
         for(std::size_t i=0;i<val.size();++i) if(val(i)>rsl) rsl=val(i),tIdx=i;
@@ -38,7 +38,7 @@ namespace vtx{
     /*Min,ArgMin*/
     template<typename Line,typename VType=typename Line::value_type>
     auto arithmMin(const Line &val)->std::enable_if_t<
-        opr_traits::getOprDemand<VType>(OprReduction::Min),VType
+        opr_traits::getOprDemand<VType,OprReduction::Min>(),VType
     >{
         VType rsl=val(0);
         for(std::size_t i=0;i<val.size();++i) if(val(i)<rsl) rsl=val(i);
@@ -46,7 +46,7 @@ namespace vtx{
     }
     template<typename Line,typename VType=typename Line::value_type>
     auto arithmArgMin(const Line &val)->std::enable_if_t<
-        opr_traits::getOprDemand<VType>(OprReduction::ArgMin),std::size_t
+        opr_traits::getOprDemand<VType,OprReduction::ArgMin>(),std::size_t
     >{
         auto rsl=val(0);std::size_t tIdx=0;
         for(std::size_t i=0;i<val.size();++i) if(val(i)<rsl) rsl=val(i),tIdx=i;

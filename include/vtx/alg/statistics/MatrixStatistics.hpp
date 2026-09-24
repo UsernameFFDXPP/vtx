@@ -16,7 +16,7 @@ namespace vtx{
         if(axis==Axis::Row) rsl=Matrix<VType>(mat.rowLength(),1);
         else if(axis==Axis::Col) rsl=Matrix<VType>(1,mat.colLength());
         else /*Axis Error*/;
-        arithmmap::mapReduction(rsl,Operator::Mean,mat,axis);
+        map::mapReduction(rsl,OprStatistics::Mean,mat,axis);
         return rsl;
     }
     /*Variance*/
@@ -26,7 +26,7 @@ namespace vtx{
         if(axis==Axis::Row) rsl=Matrix<VType>(mat.rowLength(),1);
         else if(axis==Axis::Col) rsl=Matrix<VType>(1,mat.colLength());
         else /*Axis Error*/;
-        arithmmap::mapReduction(rsl,Operator::Variance,mat,axis);
+        map::mapReduction(rsl,OprStatistics::Variance,mat,axis);
         return rsl;
     }
     /*SampleVariance*/
@@ -36,7 +36,7 @@ namespace vtx{
         if(axis==Axis::Row) rsl=Matrix<VType>(mat.rowLength(),1);
         else if(axis==Axis::Col) rsl=Matrix<VType>(1,mat.colLength());
         else /*Axis Error*/;
-        arithmmap::mapReduction(rsl,Operator::SampleVariance,mat,axis);
+        map::mapReduction(rsl,OprStatistics::SampleVariance,mat,axis);
         return rsl;
     }
     /*Median*/
@@ -46,7 +46,7 @@ namespace vtx{
         if(axis==Axis::Row) rsl=Matrix<VType>(mat.rowLength(),1);
         else if(axis==Axis::Col) rsl=Matrix<VType>(1,mat.colLength());
         else /*Axis Error*/;
-        arithmmap::mapReduction(rsl,Operator::Median,mat,axis);
+        map::mapReduction(rsl,OprStatistics::Median,mat,axis);
         return rsl;
     }
     /*Covariance*/
