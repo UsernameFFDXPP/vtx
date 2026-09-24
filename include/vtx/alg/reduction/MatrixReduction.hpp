@@ -44,24 +44,24 @@ namespace vtx{
     }
     /*ArgMax*/
     template<typename VType>
-    Matrix<std::size_t> argmax(const Matrix<VType> &mat,Axis axis=Axis::None){
-        Matrix<VType> rsl;
-        if(axis==Axis::Row) Matrix<std::size_t> rsl(mat.rowLength(),1);
-        else if(axis==Axis::Col) Matrix<std::size_t> rsl(1,mat.colLength());
-        else if(axis==Axis::None) rsl=Matrix<VType>(1,1);
+    Matrix<std::size_t> argMax(const Matrix<VType> &mat,Axis axis=Axis::None){
+        Matrix<std::size_t> rsl;
+        if(axis==Axis::Row) rsl=Matrix<std::size_t>(mat.rowLength(),1);
+        else if(axis==Axis::Col) rsl=Matrix<std::size_t>(1,mat.colLength());
+        else if(axis==Axis::None) rsl=Matrix<std::size_t>(1,1);
         else /*Axis Error*/;
-        map::mapReduction(rsl,OprReduction::ArgMax,mat,axis);
+        map::mapArgReduction(rsl,OprReduction::ArgMax,mat,axis);
         return rsl;
     }
     /*ArgMin*/
     template<typename VType>
-    Matrix<std::size_t> argmin(const Matrix<VType> &mat,Axis axis=Axis::None){
-        Matrix<VType> rsl;
-        if(axis==Axis::Row) Matrix<std::size_t> rsl(mat.rowLength(),1);
-        else if(axis==Axis::Col) Matrix<std::size_t> rsl(1,mat.colLength());
-        else if(axis==Axis::None) rsl=Matrix<VType>(1,1);
+    Matrix<std::size_t> argMin(const Matrix<VType> &mat,Axis axis=Axis::None){
+        Matrix<std::size_t> rsl;
+        if(axis==Axis::Row) rsl=Matrix<std::size_t>(mat.rowLength(),1);
+        else if(axis==Axis::Col) rsl=Matrix<std::size_t>(1,mat.colLength());
+        else if(axis==Axis::None) rsl=Matrix<std::size_t>(1,1);
         else /*Axis Error*/;
-        map::mapReduction(rsl,OprReduction::ArgMin,mat,axis);
+        map::mapArgReduction(rsl,OprReduction::ArgMin,mat,axis);
         return rsl;
     }
 }//namespace vtx

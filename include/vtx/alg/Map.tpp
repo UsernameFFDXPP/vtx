@@ -130,14 +130,6 @@ namespace vtx{
                             if constexpr(opr_traits::getOprDemand<VType,OprReduction::Min>())
                                 rsl(row,0)=arithmMin(tempView);
                             else /*Operator Error*/;break;
-                        case OprReduction::ArgMax:
-                            if constexpr(opr_traits::getOprDemand<VType,OprReduction::ArgMax>())
-                                rsl(row,0)=arithmArgMax(tempView);
-                            else /*Operator Error*/;break;
-                        case OprReduction::ArgMin:
-                            if constexpr(opr_traits::getOprDemand<VType,OprReduction::ArgMin>())
-                                rsl(row,0)=arithmArgMin(tempView);
-                            else /*Operator Error*/;break;
                         default:
                             /*Operator Error*/;break;
                     }
@@ -158,14 +150,6 @@ namespace vtx{
                             if constexpr(opr_traits::getOprDemand<VType,OprReduction::Min>())
                                 rsl(0,col)=arithmMin(tempView);
                             else /*Operator Error*/;break;
-                        case OprReduction::ArgMax:
-                            if constexpr(opr_traits::getOprDemand<VType,OprReduction::ArgMax>())
-                                rsl(0,col)=arithmArgMax(tempView);
-                            else /*Operator Error*/;break;
-                        case OprReduction::ArgMin:
-                            if constexpr(opr_traits::getOprDemand<VType,OprReduction::ArgMin>())
-                                rsl(0,col)=arithmArgMin(tempView);
-                            else /*Operator Error*/;break;
                         default:
                             /*Operator Error*/;break;
                     }
@@ -185,6 +169,49 @@ namespace vtx{
                         if constexpr(opr_traits::getOprDemand<VType,OprReduction::Min>())
                             rsl(0,0)=arithmMin(tempView);
                         else /*Operator Error*/;break;
+                    default:
+                        /*Operator Error*/;break;
+                }
+            }else /*Axis Error*/;
+        }
+
+        template<typename VType>
+        void mapArgReduction(Matrix<std::size_t> &rsl,OprReduction opr,const Matrix<VType> &mat,Axis axis){
+            if(axis==Axis::Row){
+                for(std::size_t row=0;row<mat.rowLength();++row){
+                    View<Matrix<VType>> tempView(&mat,Axis::Row,row);
+                    switch(opr){
+                        case OprReduction::ArgMax:
+                            if constexpr(opr_traits::getOprDemand<VType,OprReduction::ArgMax>())
+                                rsl(row,0)=arithmArgMax(tempView);
+                            else /*Operator Error*/;break;
+                        case OprReduction::ArgMin:
+                            if constexpr(opr_traits::getOprDemand<VType,OprReduction::ArgMin>())
+                                rsl(row,0)=arithmArgMin(tempView);
+                            else /*Operator Error*/;break;
+                        default:
+                            /*Operator Error*/;break;
+                    }
+                }
+            }else if(axis==Axis::Col){
+                for(std::size_t col=0;col<mat.rowLength();++col){
+                    View<Matrix<VType>> tempView(&mat,Axis::Col,col);
+                    switch(opr){
+                        case OprReduction::ArgMax:
+                            if constexpr(opr_traits::getOprDemand<VType,OprReduction::ArgMax>())
+                                rsl(0,col)=arithmArgMax(tempView);
+                            else /*Operator Error*/;break;
+                        case OprReduction::ArgMin:
+                            if constexpr(opr_traits::getOprDemand<VType,OprReduction::ArgMin>())
+                                rsl(0,col)=arithmArgMin(tempView);
+                            else /*Operator Error*/;break;
+                        default:
+                            /*Operator Error*/;break;
+                    }
+                }
+            }else if(axis==Axis::None){
+                View<Matrix<VType>> tempView(&mat,Axis::None);
+                switch(opr){
                     case OprReduction::ArgMax:
                         if constexpr(opr_traits::getOprDemand<VType,OprReduction::ArgMax>())
                             rsl(0,0)=arithmArgMax(tempView);
