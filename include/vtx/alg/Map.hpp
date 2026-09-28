@@ -6,6 +6,7 @@
 #include"vtx/alg/Operator.hpp"
 #include"vtx/alg/OperatorTraits.hpp"
 #include"vtx/alg/arithm/Arithm.hpp"
+#include"vtx/alg/compare/Compare.hpp"
 #include"vtx/alg/reduction/Reduction.hpp"
 #include"vtx/alg/statistics/Statistics.hpp"
 

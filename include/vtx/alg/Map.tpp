@@ -19,8 +19,8 @@ namespace vtx{
             }
         }
 
-        template<typename VType>
-        void mapBinaryEwise(Matrix<VType> &rsl,Operator opr,const Matrix<VType> &lhs,const Matrix<VType> &rhs){
+        template<typename VType,typename VTypeR>
+        void mapBinaryEwise(Matrix<VTypeR> &rsl,Operator opr,const Matrix<VType> &lhs,const Matrix<VType> &rhs){
             for(std::size_t row=0;row<rsl.rowLength();++row){
                 for(std::size_t col=0;col<rsl.colLength();++col){
                     if(opr==OprArithm::Add){
@@ -30,6 +30,30 @@ namespace vtx{
                     }else if(opr==OprArithm::Sub){
                         if constexpr(opr_traits::getOprDemand<VType,OprArithm::Sub>())
                             rsl(row,col)=arithmSub(lhs(row,col),rhs(row,col));
+                        else /*Operator Error*/;
+                    }else if(opr==OprCompare::Equal){
+                        if constexpr(opr_traits::getOprDemand<VType,OprCompare::Equal>())
+                            rsl(row,col)=arithmEqual(lhs(row,col),rhs(row,col));
+                        else /*Operator Error*/;
+                    }else if(opr==OprCompare::Greater){
+                        if constexpr(opr_traits::getOprDemand<VType,OprCompare::Greater>())
+                            rsl(row,col)=arithmGreater(lhs(row,col),rhs(row,col));
+                        else /*Operator Error*/;
+                    }else if(opr==OprCompare::GreaterEqual){
+                        if constexpr(opr_traits::getOprDemand<VType,OprCompare::GreaterEqual>())
+                            rsl(row,col)=arithmGreaterEqual(lhs(row,col),rhs(row,col));
+                        else /*Operator Error*/;
+                    }else if(opr==OprCompare::Less){
+                        if constexpr(opr_traits::getOprDemand<VType,OprCompare::Less>())
+                            rsl(row,col)=arithmLess(lhs(row,col),rhs(row,col));
+                        else /*Operator Error*/;
+                    }else if(opr==OprCompare::LessEqual){
+                        if constexpr(opr_traits::getOprDemand<VType,OprCompare::LessEqual>())
+                            rsl(row,col)=arithmLessEqual(lhs(row,col),rhs(row,col));
+                        else /*Operator Error*/;
+                    }else if(opr==OprCompare::NotEqual){
+                        if constexpr(opr_traits::getOprDemand<VType,OprCompare::NotEqual>())
+                            rsl(row,col)=arithmNotEqual(lhs(row,col),rhs(row,col));
                         else /*Operator Error*/;
                     }else /*Operator Error*/;
                 }

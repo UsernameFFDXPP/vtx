@@ -5,6 +5,7 @@
 
 #include"vtx/config/Config.hpp"
 #include"vtx/alg/arithm/MatrixArithm.hpp"
+#include"vtx/alg/compare/MatrixCompare.hpp"
 
 namespace vtx{
     template<typename VType>
@@ -85,5 +86,34 @@ namespace vtx{
     Matrix<VType> &operator%=(Matrix<VType> &lhs,const VType &arg){
         return ewiseMod_(lhs,arg);
     }
-    
+
+    template<typename VType>
+    Matrix<VType> operator==(const Matrix<VType> &lhs,const Matrix<VType> &rhs){
+        return equal(lhs,rhs);
+    }
+
+    template<typename VType>
+    Matrix<VType> operator>(const Matrix<VType> &lhs,const Matrix<VType> &rhs){
+        return greater(lhs,rhs);
+    }
+
+    template<typename VType>
+    Matrix<VType> operator>=(const Matrix<VType> &lhs,const Matrix<VType> &rhs){
+        return graeterEqual(lhs,rhs);
+    }
+
+    template<typename VType>
+    Matrix<VType> operator<(const Matrix<VType> &lhs,const Matrix<VType> &rhs){
+        return less(lhs,rhs);
+    }
+
+    template<typename VType>
+    Matrix<VType> operator<=(const Matrix<VType> &lhs,const Matrix<VType> &rhs){
+        return lessEqual(lhs,rhs);
+    }
+
+    template<typename VType>
+    Matrix<VType> operator!=(const Matrix<VType> &lhs,const Matrix<VType> &rhs){
+        return notEqual(lhs,rhs);
+    }
 }
