@@ -27,10 +27,10 @@ namespace vtx{
             size_type size() const;
             bool isEmpty() const;
 
+            reference operator()(size_type idx);
+            const_reference operator()(size_type idx) const;
             reference operator()(size_type row,size_type col);
             const_reference operator()(size_type row,size_type col) const;
-
-            Matrix<value_type> resized(size_type rowsNew,size_type colsNew) const;
             
         private:
             size_type rowLength_=0;

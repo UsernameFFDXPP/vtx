@@ -45,24 +45,20 @@ namespace vtx{
     }
 
     template<typename VType>
+    typename Matrix<VType>::reference Matrix<VType>::operator()(std::size_t idx){
+        return data_[idx];
+    }
+    template<typename VType>
+    typename Matrix<VType>::const_reference Matrix<VType>::operator()(std::size_t idx) const{
+        return data_[idx];
+    }
+
+    template<typename VType>
     typename Matrix<VType>::reference Matrix<VType>::operator()(std::size_t row,std::size_t col){
         return data_[row*colLength_+col];
     }
     template<typename VType>
     typename Matrix<VType>::const_reference Matrix<VType>::operator()(std::size_t row,std::size_t col) const{
         return data_[row*colLength_+col];
-    }
-
-    template<typename VType>
-    Matrix<VType> Matrix<VType>::resized(size_type rowsNew,size_type colsNew) const{
-        Matrix<VType> rsl(rowsNew,colsNew);
-        std::size_t rows=std::min(rowsNew,rowLength_);
-        std::size_t cols=std::min(colsNew,colLength_);
-        for(std::size_t row=0;row<rows;++row){
-            for(std::size_t col=0;col<cols;++col){
-                rsl(row,col)=(*this)(row,col);
-            }
-        }
-        return rsl;
     }
 }//namespace vtx
