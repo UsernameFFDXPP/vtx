@@ -2,8 +2,8 @@
 
 namespace vtx{
     namespace map{
-        template<typename VType>
-        void mapUnaryEwise(Matrix<VType> &rsl,Operator opr,const Matrix<VType> &mat){
+        template<typename VType,typename VTypeR>
+        void mapUnaryEwise(Matrix<VTypeR> &rsl,Operator opr,const Matrix<VType> &mat){
             for(std::size_t row=0;row<rsl.rowLength();++row){
                 for(std::size_t col=0;col<rsl.colLength();++col){
                     if(opr==OprArithm::Neg){
@@ -60,8 +60,8 @@ namespace vtx{
             }
         }
         
-        template<typename VType>
-        void mapBroadcastEwise(Matrix<VType> &rsl,Operator opr,const Matrix<VType> &lhs,const Matrix<VType> &rhs){
+        template<typename VType,typename VTypeR>
+        void mapBroadcastEwise(Matrix<VTypeR> &rsl,Operator opr,const Matrix<VType> &lhs,const Matrix<VType> &rhs){
             for(std::size_t row=0;row<rsl.rowLength();++row){
                 for(std::size_t col=0;col<rsl.colLength();++col){
                     std::size_t lrow=row%lhs.rowLength(),lcol=col%lhs.colLength();
@@ -78,8 +78,8 @@ namespace vtx{
                 }
             }
         }
-        template<typename VType>
-        void mapBroadcastEwise(Matrix<VType> &rsl,Operator opr,const Matrix<VType> &lhs,const VType &arg){
+        template<typename VType,typename VTypeR>
+        void mapBroadcastEwise(Matrix<VTypeR> &rsl,Operator opr,const Matrix<VType> &lhs,const VType &arg){
             for(std::size_t row=0;row<rsl.rowLength();++row){
                 for(std::size_t col=0;col<rsl.colLength();++col){
                     std::size_t lrow=row%lhs.rowLength(),lcol=col%lhs.colLength();
@@ -99,8 +99,8 @@ namespace vtx{
                 }
             }
         }
-        template<typename VType>
-        void mapBroadcastEwise(Matrix<VType> &rsl,Operator opr,const VType &arg,const Matrix<VType> &rhs){
+        template<typename VType,typename VTypeR>
+        void mapBroadcastEwise(Matrix<VTypeR> &rsl,Operator opr,const VType &arg,const Matrix<VType> &rhs){
             for(std::size_t row=0;row<rsl.rowLength();++row){
                 for(std::size_t col=0;col<rsl.colLength();++col){
                     std::size_t rrow=row%rhs.rowLength(),rcol=col%rhs.colLength();
@@ -121,8 +121,8 @@ namespace vtx{
             }
         }
 
-        template<typename VType>
-        void mapReduction(Matrix<VType> &rsl,Operator opr,const Matrix<VType> &mat,Axis axis){
+        template<typename VType,typename VTypeR>
+        void mapReduction(Matrix<VTypeR> &rsl,Operator opr,const Matrix<VType> &mat,Axis axis){
             if(axis==Axis::Row){
                 for(std::size_t row=0;row<mat.rowLength();++row){
                     View<Matrix<VType>> tempView(&mat,Axis::Row,row);
@@ -137,6 +137,14 @@ namespace vtx{
                     }else if(opr==OprReduction::Min){
                         if constexpr(opr_traits::getOprDemand<VType,OprReduction::Min>())
                             rsl(row,0)=arithmMin(tempView);
+                        else /*Operator Error*/;
+                    }else if(opr==OprReduction::ArgMax){
+                        if constexpr(opr_traits::getOprDemand<VType,OprReduction::ArgMax>())
+                            rsl(row,0)=arithmArgMax(tempView);
+                        else /*Operator Error*/;
+                    }else if(opr==OprReduction::ArgMin){
+                        if constexpr(opr_traits::getOprDemand<VType,OprReduction::ArgMin>())
+                            rsl(row,0)=arithmArgMin(tempView);
                         else /*Operator Error*/;
                     }else /*Operator Error*/;
                 }
@@ -155,6 +163,14 @@ namespace vtx{
                         if constexpr(opr_traits::getOprDemand<VType,OprReduction::Min>())
                             rsl(0,col)=arithmMin(tempView);
                         else /*Operator Error*/;
+                    }else if(opr==OprReduction::ArgMax){
+                        if constexpr(opr_traits::getOprDemand<VType,OprReduction::ArgMax>())
+                            rsl(0,col)=arithmArgMax(tempView);
+                        else /*Operator Error*/;
+                    }else if(opr==OprReduction::ArgMin){
+                        if constexpr(opr_traits::getOprDemand<VType,OprReduction::ArgMin>())
+                            rsl(0,col)=arithmArgMin(tempView);
+                        else /*Operator Error*/;
                     }else /*Operator Error*/;
                 }
             }else if(axis==Axis::None){
@@ -171,41 +187,7 @@ namespace vtx{
                     if constexpr(opr_traits::getOprDemand<VType,OprReduction::Min>())
                         rsl(0,0)=arithmMin(tempView);
                     else /*Operator Error*/;
-                }else /*Operator Error*/;
-            }else /*Axis Error*/;
-        }
-
-        template<typename VType>
-        void mapArgReduction(Matrix<std::size_t> &rsl,Operator opr,const Matrix<VType> &mat,Axis axis){
-            if(axis==Axis::Row){
-                for(std::size_t row=0;row<mat.rowLength();++row){
-                    View<Matrix<VType>> tempView(&mat,Axis::Row,row);
-                    if(opr==OprReduction::ArgMax){
-                        if constexpr(opr_traits::getOprDemand<VType,OprReduction::ArgMax>())
-                            rsl(row,0)=arithmArgMax(tempView);
-                        else /*Operator Error*/;
-                    }else if(opr==OprReduction::ArgMin){
-                        if constexpr(opr_traits::getOprDemand<VType,OprReduction::ArgMin>())
-                            rsl(row,0)=arithmArgMin(tempView);
-                        else /*Operator Error*/;
-                    }else /*Operator Error*/;
-                }
-            }else if(axis==Axis::Col){
-                for(std::size_t col=0;col<mat.rowLength();++col){
-                    View<Matrix<VType>> tempView(&mat,Axis::Col,col);
-                    if(opr==OprReduction::ArgMax){
-                        if constexpr(opr_traits::getOprDemand<VType,OprReduction::ArgMax>())
-                            rsl(0,col)=arithmArgMax(tempView);
-                        else /*Operator Error*/;
-                    }else if(opr==OprReduction::ArgMin){
-                        if constexpr(opr_traits::getOprDemand<VType,OprReduction::ArgMin>())
-                            rsl(0,col)=arithmArgMin(tempView);
-                        else /*Operator Error*/;
-                    }else /*Operator Error*/;
-                }
-            }else if(axis==Axis::None){
-                View<Matrix<VType>> tempView(&mat,Axis::None);
-                if(opr==OprReduction::ArgMax){
+                }else if(opr==OprReduction::ArgMax){
                     if constexpr(opr_traits::getOprDemand<VType,OprReduction::ArgMax>())
                         rsl(0,0)=arithmArgMax(tempView);
                     else /*Operator Error*/;

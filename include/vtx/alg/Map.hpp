@@ -12,21 +12,21 @@
 
 namespace vtx{
     namespace map{
-        template<typename VType>
-        void mapUnaryEwise(Matrix<VType> &rsl,OprArithm opr,const Matrix<VType> &mat);
+        template<typename VType,typename VTypeR>
+        void mapUnaryEwise(Matrix<VTypeR> &rsl,OprArithm opr,const Matrix<VType> &mat);
 
-        template<typename VType>
-        void mapBinaryEwise(Matrix<VType> &rsl,OprArithm opr,const Matrix<VType> &lhs,const Matrix<VType> &rhs);
+        template<typename VType,typename VTypeR>
+        void mapBinaryEwise(Matrix<VTypeR> &rsl,OprArithm opr,const Matrix<VType> &lhs,const Matrix<VType> &rhs);
         
-        template<typename VType>
-        void mapBroadcastEwise(Matrix<VType> &rsl,OprArithm opr,const Matrix<VType> &lhs,const Matrix<VType> &rhs);
-        template<typename VType>
-        void mapBroadcastEwise(Matrix<VType> &rsl,OprArithm opr,const Matrix<VType> &lhs,const VType &arg);
-        template<typename VType>
-        void mapBroadcastEwise(Matrix<VType> &rsl,OprArithm opr,const VType &arg,const Matrix<VType> &rhs);
+        template<typename VType,typename VTypeR>
+        void mapBroadcastEwise(Matrix<VTypeR> &rsl,OprArithm opr,const Matrix<VType> &lhs,const Matrix<VType> &rhs);
+        template<typename VType,typename VTypeR>
+        void mapBroadcastEwise(Matrix<VTypeR> &rsl,OprArithm opr,const Matrix<VType> &lhs,const VType &arg);
+        template<typename VType,typename VTypeR>
+        void mapBroadcastEwise(Matrix<VTypeR> &rsl,OprArithm opr,const VType &arg,const Matrix<VType> &rhs);
 
-        template<typename VType>
-        void mapReduction(Matrix<VType> &rsl,OprReduction opr,const Matrix<VType> &mat,Axis axis);
+        template<typename VType,typename VTypeR>
+        void mapReduction(Matrix<VTypeR> &rsl,OprReduction opr,const Matrix<VType> &mat,Axis axis);
     }//namespace arithm_map
 }//namespace vtx
 

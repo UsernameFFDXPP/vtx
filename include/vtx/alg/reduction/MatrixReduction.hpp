@@ -50,7 +50,7 @@ namespace vtx{
         else if(axis==Axis::Col) rsl=Matrix<std::size_t>(1,mat.colLength());
         else if(axis==Axis::None) rsl=Matrix<std::size_t>(1,1);
         else /*Axis Error*/;
-        map::mapArgReduction(rsl,OprReduction::ArgMax,mat,axis);
+        map::mapReduction(rsl,OprReduction::ArgMax,mat,axis);
         return rsl;
     }
     /*ArgMin*/
@@ -61,7 +61,7 @@ namespace vtx{
         else if(axis==Axis::Col) rsl=Matrix<std::size_t>(1,mat.colLength());
         else if(axis==Axis::None) rsl=Matrix<std::size_t>(1,1);
         else /*Axis Error*/;
-        map::mapArgReduction(rsl,OprReduction::ArgMin,mat,axis);
+        map::mapReduction(rsl,OprReduction::ArgMin,mat,axis);
         return rsl;
     }
 }//namespace vtx
