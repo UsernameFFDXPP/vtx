@@ -16,7 +16,7 @@ namespace vtx{
     >{
         return -val;
     }
-    /*Inv*/
+    /*EwiseInv*/
     template<typename VType>
     auto arithmEwiseInv(const VType &val)->std::enable_if_t<
         opr_traits::getOprDemand<VType,OprArithm::EwiseInv>(),VType
@@ -25,31 +25,31 @@ namespace vtx{
     }
     /*EwiseMul*/
     template<typename VType>
-    auto arithmEwiseMul(const VType &rhs,const VType &lhs)->std::enable_if_t<
+    auto arithmEwiseMul(const VType &lhs,const VType &rhs)->std::enable_if_t<
         opr_traits::getOprDemand<VType,OprArithm::EwiseMul>(),VType
     >{
-        return rhs*lhs;
+        return lhs*rhs;
     }
     /*EwiseDiv*/
     template<typename VType>
-    auto arithmEwiseDiv(const VType &rhs,const VType &lhs)->std::enable_if_t<
+    auto arithmEwiseDiv(const VType &lhs,const VType &rhs)->std::enable_if_t<
         opr_traits::getOprDemand<VType,OprArithm::EwiseDiv>(),VType
     >{
-        return rhs/lhs;
+        return lhs/rhs;
     }
     /*EwiseMod*/
     template<typename VType>
-    auto arithmEwiseMod(const VType &rhs,const VType &lhs)->std::enable_if_t<
+    auto arithmEwiseMod(const VType &lhs,const VType &rhs)->std::enable_if_t<
         opr_traits::getOprDemand<VType,OprArithm::EwiseMod>(),VType
     >{
-        return rhs%lhs;
+        return lhs%rhs;
     }
     /*Add*/
     template<typename VType>
-    auto arithmAdd(const VType &rhs,const VType &lhs)->std::enable_if_t<
+    auto arithmAdd(const VType &lhs,const VType &rhs)->std::enable_if_t<
         opr_traits::getOprDemand<VType,OprArithm::Add>(),VType
     >{
-        return rhs+lhs;
+        return lhs+rhs;
     }
     /*Sub*/
     template<typename VType>
