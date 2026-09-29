@@ -146,6 +146,22 @@ namespace vtx{
                         if constexpr(opr_traits::getOprDemand<VType,OprReduction::ArgMin>())
                             rsl(row,0)=arithmArgMin(tempView);
                         else /*Operator Error*/;
+                    }else if(opr==OprStatistics::Mean){
+                        if constexpr(opr_traits::getOprDemand<VType,OprStatistics::Mean>())
+                            rsl(row,0)=arithmMean(tempView);
+                        else /*Operator Error*/;
+                    }else if(opr==OprStatistics::Variance){
+                        if constexpr(opr_traits::getOprDemand<VType,OprStatistics::Variance>())
+                            rsl(row,0)=arithmVariance(tempView);
+                        else /*Operator Error*/;
+                    }else if(opr==OprStatistics::SampleVariance){
+                        if constexpr(opr_traits::getOprDemand<VType,OprStatistics::SampleVariance>())
+                            rsl(row,0)=arithmSampleVariance(tempView);
+                        else /*Operator Error*/;
+                    }else if(opr==OprStatistics::Median){
+                        if constexpr(opr_traits::getOprDemand<VType,OprStatistics::Median>())
+                            rsl(row,0)=arithmMedian(tempView);
+                        else /*Operator Error*/;
                     }else /*Operator Error*/;
                 }
             }else if(axis==Axis::Col){
@@ -171,6 +187,22 @@ namespace vtx{
                         if constexpr(opr_traits::getOprDemand<VType,OprReduction::ArgMin>())
                             rsl(0,col)=arithmArgMin(tempView);
                         else /*Operator Error*/;
+                    }else if(opr==OprStatistics::Mean){
+                        if constexpr(opr_traits::getOprDemand<VType,OprStatistics::Mean>())
+                            rsl(0,col)=arithmMean(tempView);
+                        else /*Operator Error*/;
+                    }else if(opr==OprStatistics::Variance){
+                        if constexpr(opr_traits::getOprDemand<VType,OprStatistics::Variance>())
+                            rsl(0,col)=arithmVariance(tempView);
+                        else /*Operator Error*/;
+                    }else if(opr==OprStatistics::SampleVariance){
+                        if constexpr(opr_traits::getOprDemand<VType,OprStatistics::SampleVariance>())
+                            rsl(0,col)=arithmSampleVariance(tempView);
+                        else /*Operator Error*/;
+                    }else if(opr==OprStatistics::Median){
+                        if constexpr(opr_traits::getOprDemand<VType,OprStatistics::Median>())
+                            rsl(0,col)=arithmMedian(tempView);
+                        else /*Operator Error*/;
                     }else /*Operator Error*/;
                 }
             }else if(axis==Axis::None){
@@ -194,6 +226,22 @@ namespace vtx{
                 }else if(opr==OprReduction::ArgMin){
                     if constexpr(opr_traits::getOprDemand<VType,OprReduction::ArgMin>())
                         rsl(0,0)=arithmArgMin(tempView);
+                    else /*Operator Error*/;
+                }else if(opr==OprStatistics::Mean){
+                    if constexpr(opr_traits::getOprDemand<VType,OprStatistics::Mean>())
+                        rsl(0,0)=arithmMean(tempView);
+                    else /*Operator Error*/;
+                }else if(opr==OprStatistics::Variance){
+                    if constexpr(opr_traits::getOprDemand<VType,OprStatistics::Variance>())
+                        rsl(0,0)=arithmVariance(tempView);
+                    else /*Operator Error*/;
+                }else if(opr==OprStatistics::SampleVariance){
+                    if constexpr(opr_traits::getOprDemand<VType,OprStatistics::SampleVariance>())
+                        rsl(0,0)=arithmSampleVariance(tempView);
+                    else /*Operator Error*/;
+                }else if(opr==OprStatistics::Median){
+                    if constexpr(opr_traits::getOprDemand<VType,OprStatistics::Median>())
+                        rsl(0,0)=arithmMedian(tempView);
                     else /*Operator Error*/;
                 }else /*Operator Error*/;
             }else /*Axis Error*/;

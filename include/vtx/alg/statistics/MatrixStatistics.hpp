@@ -9,12 +9,19 @@
 #include"vtx/alg/statistics/Statistics.hpp"
 
 namespace vtx{
+    /*Covariance*/
+    template<typename VType>
+    Matrix<VType> covariance(const Matrix<VType> &mat,Axis axis=Axis::None);
+    /*Correlation*/
+    template<typename VType>
+    Matrix<VType> correlation(const Matrix<VType> &mat,Axis axis=Axis::None);
     /*Mean*/
     template<typename VType>
     Matrix<VType> mean(const Matrix<VType> &mat,Axis axis=Axis::None){
         Matrix<VType> rsl;
         if(axis==Axis::Row) rsl=Matrix<VType>(mat.rowLength(),1);
         else if(axis==Axis::Col) rsl=Matrix<VType>(1,mat.colLength());
+        else if(axis==Axis::None) rsl=Matrix<VType>(1,1);
         else /*Axis Error*/;
         map::mapReduction(rsl,OprStatistics::Mean,mat,axis);
         return rsl;
@@ -25,6 +32,7 @@ namespace vtx{
         Matrix<VType> rsl;
         if(axis==Axis::Row) rsl=Matrix<VType>(mat.rowLength(),1);
         else if(axis==Axis::Col) rsl=Matrix<VType>(1,mat.colLength());
+        else if(axis==Axis::None) rsl=Matrix<VType>(1,1);
         else /*Axis Error*/;
         map::mapReduction(rsl,OprStatistics::Variance,mat,axis);
         return rsl;
@@ -35,6 +43,7 @@ namespace vtx{
         Matrix<VType> rsl;
         if(axis==Axis::Row) rsl=Matrix<VType>(mat.rowLength(),1);
         else if(axis==Axis::Col) rsl=Matrix<VType>(1,mat.colLength());
+        else if(axis==Axis::None) rsl=Matrix<VType>(1,1);
         else /*Axis Error*/;
         map::mapReduction(rsl,OprStatistics::SampleVariance,mat,axis);
         return rsl;
@@ -45,17 +54,24 @@ namespace vtx{
         Matrix<VType> rsl;
         if(axis==Axis::Row) rsl=Matrix<VType>(mat.rowLength(),1);
         else if(axis==Axis::Col) rsl=Matrix<VType>(1,mat.colLength());
+        else if(axis==Axis::None) rsl=Matrix<VType>(1,1);
         else /*Axis Error*/;
         map::mapReduction(rsl,OprStatistics::Median,mat,axis);
         return rsl;
     }
-    /*Covariance*/
-    template<typename VType>
-    Matrix<VType> covariance(const Matrix<VType> &mat,Axis axis=Axis::None);
-    /*Correlation*/
-    template<typename VType>
-    Matrix<VType> correlation(const Matrix<VType> &mat,Axis axis=Axis::None);
+    /*Center*/
+        
+    /*Standardize*/
+        
     /*Quantile*/
     template<typename VType>
-    Matrix<VType> quantile(const Matrix<VType> &mat,Axis axis=Axis::None);
+    Matrix<VType> quantile(const Matrix<VType> &mat,Axis axis=Axis::None,double q=0){
+        Matrix<VType> rsl;
+        if(axis==Axis::Row) rsl=Matrix<VType>(mat.rowLength(),1);
+        else if(axis==Axis::Col) rsl=Matrix<VType>(1,mat.colLength());
+        else if(axis==Axis::None) rsl=Matrix<VType>(1,1);
+        else /*Axis Error*/;
+        map::mapQuantile(rsl,OprStatistics::Quantile,mat,axis,q);
+        return rsl;
+    }
 }//namespace vtx
