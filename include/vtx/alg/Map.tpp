@@ -149,7 +149,7 @@ namespace vtx{
                     }else /*Operator Error*/;
                 }
             }else if(axis==Axis::Col){
-                for(std::size_t col=0;col<mat.rowLength();++col){
+                for(std::size_t col=0;col<mat.colLength();++col){
                     View<Matrix<VType>> tempView(&mat,Axis::Col,col);
                     if(opr==OprReduction::Sum){
                         if constexpr(opr_traits::getOprDemand<VType,OprReduction::Sum>())
@@ -194,6 +194,36 @@ namespace vtx{
                 }else if(opr==OprReduction::ArgMin){
                     if constexpr(opr_traits::getOprDemand<VType,OprReduction::ArgMin>())
                         rsl(0,0)=arithmArgMin(tempView);
+                    else /*Operator Error*/;
+                }else /*Operator Error*/;
+            }else /*Axis Error*/;
+        }
+
+        template<typename VType,typename VTypeR>
+        void mapQuantile(Matrix<VTypeR> &rsl,Operator opr,const Matrix<VType> &mat,Axis axis,double q){
+            if(axis==Axis::Row){
+                for(std::size_t row=0;row<mat.rowLength();++row){
+                    View<Matrix<VType>> tempView(&mat,Axis::Row,row);
+                    if(opr==OprStatistics::Quantile){
+                        if constexpr(opr_traits::getOprDemand<VType,OprStatistics::Quantile>())
+                            rsl(row,0)=arithmQuantile(tempView,q);
+                        else /*Operator Error*/;
+                    }else /*Operator Error*/;
+                }
+            }else if(axis==Axis::Col){
+                for(std::size_t col=0;col<mat.colLength();++col){
+                    View<Matrix<VType>> tempView(&mat,Axis::Col,col);
+                    if(opr==OprStatistics::Quantile){
+                        if constexpr(opr_traits::getOprDemand<VType,OprStatistics::Quantile>())
+                            rsl(0,col)=arithmQuantile(tempView,q);
+                        else /*Operator Error*/;
+                    }else /*Operator Error*/;
+                }
+            }else if(axis==Axis::None){
+                View<Matrix<VType>> tempView(&mat,Axis::None);
+                if(opr==OprStatistics::Quantile){
+                    if constexpr(opr_traits::getOprDemand<VType,OprStatistics::Quantile>())
+                        rsl(0,0)=arithmQuantile(tempView,q);
                     else /*Operator Error*/;
                 }else /*Operator Error*/;
             }else /*Axis Error*/;
