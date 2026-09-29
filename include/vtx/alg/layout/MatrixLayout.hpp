@@ -107,12 +107,14 @@ namespace vtx{
         if(axis==Axis::Row){
             for(std::size_t row=0;row<mat.rowLength();++row) for(std::size_t col=0;col<mat.colLength();++col){
                 if(row==idx1) rsl(row,col)=mat(idx2,col);
-                if(row==idx2) rsl(row,col)=mat(idx1,col);
+                else if(row==idx2) rsl(row,col)=mat(idx1,col);
+                else rsl(row,col)=mat(row,col);
             }
         }else if(axis==Axis::Col){
             for(std::size_t row=0;row<mat.rowLength();++row) for(std::size_t col=0;col<mat.colLength();++col){
                 if(col==idx1) rsl(row,col)=mat(row,idx2);
-                if(col==idx2) rsl(row,col)=mat(row,idx1);
+                else if(col==idx2) rsl(row,col)=mat(row,idx1);
+                else rsl(row,col)=mat(row,col);
             }
         }else{
             /*Axis Error*/
