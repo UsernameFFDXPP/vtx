@@ -13,6 +13,7 @@ add_library(VTX INTERFACE)
 
 target_include_directories(VTX
     INTERFACE
+        ${PROJECT_SOURCE_DIR}
         ${PROJECT_SOURCE_DIR}/include
 )
 
