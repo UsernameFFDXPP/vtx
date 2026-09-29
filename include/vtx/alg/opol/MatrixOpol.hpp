@@ -88,32 +88,32 @@ namespace vtx{
     }
 
     template<typename VType>
-    Matrix<VType> operator==(const Matrix<VType> &lhs,const Matrix<VType> &rhs){
+    Matrix<bool> operator==(const Matrix<VType> &lhs,const Matrix<VType> &rhs){
         return equal(lhs,rhs);
     }
 
     template<typename VType>
-    Matrix<VType> operator>(const Matrix<VType> &lhs,const Matrix<VType> &rhs){
+    Matrix<bool> operator>(const Matrix<VType> &lhs,const Matrix<VType> &rhs){
         return greater(lhs,rhs);
     }
 
     template<typename VType>
-    Matrix<VType> operator>=(const Matrix<VType> &lhs,const Matrix<VType> &rhs){
-        return graeterEqual(lhs,rhs);
+    Matrix<bool> operator>=(const Matrix<VType> &lhs,const Matrix<VType> &rhs){
+        return greaterEqual(lhs,rhs);
     }
 
     template<typename VType>
-    Matrix<VType> operator<(const Matrix<VType> &lhs,const Matrix<VType> &rhs){
+    Matrix<bool> operator<(const Matrix<VType> &lhs,const Matrix<VType> &rhs){
         return less(lhs,rhs);
     }
 
     template<typename VType>
-    Matrix<VType> operator<=(const Matrix<VType> &lhs,const Matrix<VType> &rhs){
+    Matrix<bool> operator<=(const Matrix<VType> &lhs,const Matrix<VType> &rhs){
         return lessEqual(lhs,rhs);
     }
 
     template<typename VType>
-    Matrix<VType> operator!=(const Matrix<VType> &lhs,const Matrix<VType> &rhs){
+    Matrix<bool> operator!=(const Matrix<VType> &lhs,const Matrix<VType> &rhs){
         return notEqual(lhs,rhs);
     }
 }

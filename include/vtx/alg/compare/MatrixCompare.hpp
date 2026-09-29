@@ -14,7 +14,7 @@ namespace vtx{
     }
     /*Greater*/
     template<typename VType>
-    Matrix<bool> graeter(const Matrix<VType> &lhs,const Matrix<VType> &rhs){
+    Matrix<bool> greater(const Matrix<VType> &lhs,const Matrix<VType> &rhs){
         Matrix<bool> rsl(lhs.rowLength(),lhs.colLength());
         map::mapBinaryEwise(rsl,OprCompare::Greater,lhs,rhs);
         return rsl;
