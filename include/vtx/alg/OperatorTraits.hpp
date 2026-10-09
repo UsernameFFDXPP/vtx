@@ -127,24 +127,27 @@ namespace vtx{
         >{};
         template<typename VType,OprStatistics Opr>
         struct OprDemandImpl<VType,OprStatistics,Opr>:std::bool_constant<
-            Opr==OprStatistics::Covariance?
-                /**/
-            :Opr==OprStatistics::Correlation?
-                /**/
-            :Opr==OprStatistics::Mean ||
-                Opr==OprStatistics::Variance ||
-                Opr==OprStatistics::SampleVariance?
+            Opr==OprStatistics::Mean?
+                isAddAble<VType,VType>::value &&
+                isDivAble<VType,VType>::value
+            :Opr==OprStatistics::Variance ||
+             Opr==OprStatistics::SampleVariance?
                 isAddAble<VType,VType>::value &&
                 isMulAble<VType,VType>::value &&
                 isDivAble<VType,VType>::value
-            :Opr==OprStatistics::Median?
+            :Opr==OprStatistics::Median ||
+             Opr==OprStatistics::Quantile?
+                isAddAble<VType,VType>::value &&
                 isDivAble<VType,VType>::value
-            :Opr==OprStatistics::Center?
-                /**/
-            :Opr==OprStatistics::Standardize?
-                /**/
-            :Opr==OprStatistics::Quantile?
-                /**/
+            :Opr==OprStatistics::Center ||
+             Opr==OprStatistics::Standardize ||
+             Opr==OprStatistics::SampleStandardize ||
+             Opr==OprStatistics::Covariance ||
+             Opr==OprStatistics::Correlation?
+                isAddAble<VType,VType>::value &&
+                isSubAble<VType,VType>::value &&
+                isMulAble<VType,VType>::value &&
+                isDivAble<VType,VType>::value
             :false
         >{};
 

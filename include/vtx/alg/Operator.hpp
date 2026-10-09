@@ -9,6 +9,7 @@ namespace vtx{
     enum class OprLayout;
     enum class OprReduction;
     enum class OprStatistics;
+    enum class OprDecomposition;
 
     using Operator=std::variant<std::monostate,
         OprDefault,
@@ -16,7 +17,8 @@ namespace vtx{
         OprCompare,
         OprLayout,
         OprReduction,
-        OprStatistics
+        OprStatistics,
+        OprDecomposition
     >;
 
     enum class OprDefault{
@@ -73,18 +75,29 @@ namespace vtx{
         ArgMin,
     };
     enum class OprStatistics{
-        /*1 Operand*/
+        /*1 Operand 1 Axis*/
         Covariance,
         Correlation,
-        /*1 Operand 1 Axis*/
         Mean,
         Variance,
         SampleVariance,
         Median,
         Center,
         Standardize,
+        SampleStandardize,
         /*1 Operand 1 Axis 1 Arg*/
         Quantile,
+    };
+    enum class OprDecomposition{
+        /*1 Operand*/
+        LU,
+        PLU,
+        QR,
+        Cholesky,
+        LDL,
+        SVD,
+        Eigen,
+        Schur,
     };
 
     // Node      Axis   size_t  VType
