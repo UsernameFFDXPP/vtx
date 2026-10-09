@@ -9,6 +9,15 @@ namespace vtx{
     template<typename VType>
     Matrix<VType>::Matrix(std::size_t rowLength,std::size_t colLength,value_type val):
     rowLength_(rowLength),colLength_(colLength),data_(rowLength*colLength,val){}
+    template<typename VType>
+    Matrix<VType>::Matrix(std::initializer_list<std::initializer_list<VType>> init):
+    rowLength_(init.size()),colLength_(init.size()?init.begin()->size():0),data_(rowLength_*colLength_,0){
+        std::size_t i=0;
+        for(const auto& row:init){
+            if(row.size()!=colLength_) /*Error*/;
+            for(const auto& value:row) data_[i++]=value;
+        }
+    }
 
     template<typename VType>
     Matrix<VType> Matrix<VType>::zeros(size_type rowLength,size_type colLength){

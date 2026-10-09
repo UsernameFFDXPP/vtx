@@ -1,6 +1,8 @@
 #pragma once
 
 #include<cstddef>
+#include<initializer_list>
+
 #include"vtx/core/Storage.hpp"
 #include"vtx/core/Axis.hpp"
 
@@ -17,6 +19,7 @@ namespace vtx{
 
             Matrix();
             explicit Matrix(size_type rowLength,size_type colLength,value_type val=VType{});
+            explicit Matrix(std::initializer_list<std::initializer_list<VType>> init);
 
             static Matrix zeros(size_type rowLength,size_type colLength);
             static Matrix ones(size_type rowLength,size_type colLength);
