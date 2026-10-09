@@ -136,7 +136,7 @@ namespace vtx{
             Matrix<VType> rsl(lhs.rowLength(),rhs.colLength());
             for(std::size_t row=0;row<lhs.rowLength();++row){
                 for(std::size_t col=0;col<rhs.colLength();++col){
-                    rsl(row,col)=arithmMatMul(View<Matrix<VType>>(&lhs,Axis::Row,row),View<Matrix<VType>>(&rhs,Axis::Col,col));
+                    rsl(row,col)=algMatMul(View<Matrix<VType>>(&lhs,Axis::Row,row),View<Matrix<VType>>(&rhs,Axis::Col,col));
                 }
             }
             return rsl;
@@ -148,7 +148,7 @@ namespace vtx{
             Matrix<VType> rsl(lhs.rowLength(),rhs.colLength());
             for(std::size_t row=0;row<lhs.rowLength();++row){
                 for(std::size_t col=0;col<rhs.rowLength();++col){
-                    rsl(row,col)=arithmMatMul(View<Matrix<VType>>(&lhs,Axis::Row,row),View<Matrix<VType>>(&rhs,Axis::Col,col));
+                    rsl(row,col)=algMatMul(View<Matrix<VType>>(&lhs,Axis::Row,row),View<Matrix<VType>>(&rhs,Axis::Col,col));
                 }
             }
             lhs=std::move(rsl);

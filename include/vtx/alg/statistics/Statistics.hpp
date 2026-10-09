@@ -15,7 +15,7 @@ namespace vtx{
     /*Correlation*/
     /*Mean*/
     template<typename Line,typename VType=typename Line::value_type>
-    auto arithmMean(const Line &val)->std::enable_if_t<
+    auto algMean(const Line &val)->std::enable_if_t<
         opr_traits::getOprDemand<VType,OprStatistics::Mean>(),VType
     >{
         VType rsl{};
@@ -24,7 +24,7 @@ namespace vtx{
     }
     /*Variance*/
     template<typename Line,typename VType=typename Line::value_type>
-    auto arithmVariance(const Line &val)->std::enable_if_t<
+    auto algVariance(const Line &val)->std::enable_if_t<
         opr_traits::getOprDemand<VType,OprStatistics::Variance>(),VType
     >{
         VType mean{},m2{};
@@ -38,7 +38,7 @@ namespace vtx{
     }
     /*SampleVariance*/
     template<typename Line,typename VType=typename Line::value_type>
-    auto arithmSampleVariance(const Line &val)->std::enable_if_t<
+    auto algSampleVariance(const Line &val)->std::enable_if_t<
         opr_traits::getOprDemand<VType,OprStatistics::SampleVariance>(),VType
     >{
         VType mean{},m2{};
@@ -52,7 +52,7 @@ namespace vtx{
     }
     /*Median*/
     template<typename Line,typename VType=typename Line::value_type>
-    auto arithmMedian(const Line &val)->std::enable_if_t<
+    auto algMedian(const Line &val)->std::enable_if_t<
         opr_traits::getOprDemand<VType,OprStatistics::Median>(),VType
     >{
         std::vector<VType> temp(val.size());
@@ -71,7 +71,7 @@ namespace vtx{
         //Variance+EwiseDiv
     /*Quantile*/
     template<typename Line,typename VType=typename Line::value_type>
-    auto arithmQuantile(const Line &val,double q)->std::enable_if_t<
+    auto algQuantile(const Line &val,double q)->std::enable_if_t<
         opr_traits::getOprDemand<VType,OprStatistics::Quantile>(),VType
     >{
         std::vector<VType> temp(val.size());

@@ -41,7 +41,7 @@ namespace vtx{
             using size_type=std::size_t;
             MatNode(Operator opr,const Matrix<VType> *mat);
 
-            VType accept(const NodeVisitor<VType> &visitor,size_type row,size_type col) const override;
+            VType accept(const NodeVisitor<VType> &visitor,std::size_t row,std::size_t col) const override;
 
         private:
             const Matrix<VType> *mat_;
@@ -55,7 +55,7 @@ namespace vtx{
             using node_sptr=std::shared_ptr<ASTNode<VType>>;
             NegLikeNode(Operator opr,node_sptr node);
 
-            VType accept(const NodeVisitor<VType> &visitor,size_type row,size_type col) const override;
+            VType accept(const NodeVisitor<VType> &visitor,std::size_t row,std::size_t col) const override;
 
         private:
             node_sptr node_;
@@ -69,7 +69,7 @@ namespace vtx{
             using node_sptr=std::shared_ptr<ASTNode<VType>>;
             AddLikeNode(Operator opr,node_sptr lhs,node_sptr rhs);
 
-            VType accept(const NodeVisitor<VType> &visitor,size_type row,size_type col) const override;
+            VType accept(const NodeVisitor<VType> &visitor,std::size_t row,std::size_t col) const override;
 
         private:
             node_sptr lhs_,rhs_;
@@ -82,7 +82,7 @@ namespace vtx{
             using node_sptr=std::shared_ptr<ASTNode<VType>>;
             FlipLikeNode(Operator opr,node_sptr node,Axis axis);
 
-            VType accept(const NodeVisitor<VType> &visitor,size_type row,size_type col) const override;
+            VType accept(const NodeVisitor<VType> &visitor,std::size_t row,std::size_t col) const override;
 
         private:
             node_sptr node_;
@@ -96,7 +96,7 @@ namespace vtx{
             using node_sptr=std::shared_ptr<ASTNode<VType>>;
             ConcatLikeNode(Operator opr,node_sptr lhs,node_sptr rhs,Axis axis);
 
-            VType accept(const NodeVisitor<VType> &visitor,size_type row,size_type col) const override;
+            VType accept(const NodeVisitor<VType> &visitor,std::size_t row,std::size_t col) const override;
             
         private:
             node_sptr lhs_,rhs_;
@@ -108,9 +108,9 @@ namespace vtx{
         public:
             using size_type=std::size_t;
             using node_sptr=std::shared_ptr<ASTNode<VType>>;
-            ResizeLikeNode(Operator opr,node_sptr node,size_type idx1,size_type idx2);
+            ResizeLikeNode(Operator opr,node_sptr node,std::size_t idx1,std::size_t idx2);
 
-            VType accept(const NodeVisitor<VType> &visitor,size_type row,size_type col) const override;
+            VType accept(const NodeVisitor<VType> &visitor,std::size_t row,std::size_t col) const override;
             
         private:
             node_sptr node_;
@@ -122,9 +122,9 @@ namespace vtx{
         public:
             using size_type=std::size_t;
             using node_sptr=std::shared_ptr<ASTNode<VType>>;
-            DropLikeNode(Operator opr,node_sptr node,Axis axis,size_type idx);
+            DropLikeNode(Operator opr,node_sptr node,Axis axis,std::size_t idx);
 
-            VType accept(const NodeVisitor<VType> &visitor,size_type row,size_type col) const override;
+            VType accept(const NodeVisitor<VType> &visitor,std::size_t row,std::size_t col) const override;
             
         private:
             node_sptr node_;
@@ -137,9 +137,9 @@ namespace vtx{
         public:
             using size_type=std::size_t;
             using node_sptr=std::shared_ptr<ASTNode<VType>>;
-            SwapLikeNode(Operator opr,node_sptr node,Axis axis,size_type arg1,size_type arg2);
+            SwapLikeNode(Operator opr,node_sptr node,Axis axis,std::size_t arg1,std::size_t arg2);
 
-            VType accept(const NodeVisitor<VType> &visitor,size_type row,size_type col) const override;
+            VType accept(const NodeVisitor<VType> &visitor,std::size_t row,std::size_t col) const override;
             
         private:
             node_sptr node_;
@@ -155,7 +155,7 @@ namespace vtx{
             using node_sptr=std::shared_ptr<ASTNode<VType>>;
             EwiseLikeNode(Operator opr,node_sptr node,VType arg);
 
-            VType accept(const NodeVisitor<VType> &visitor,size_type row,size_type col) const override;
+            VType accept(const NodeVisitor<VType> &visitor,std::size_t row,std::size_t col) const override;
 
         private:
             node_sptr node_;
@@ -169,7 +169,7 @@ namespace vtx{
             using node_sptr=std::shared_ptr<ASTNode<VType>>;
             QuantileLikeNode(Operator opr,node_sptr node,Axis axis,VType arg);
 
-            VType accept(const NodeVisitor<VType> &visitor,size_type row,size_type col) const override;
+            VType accept(const NodeVisitor<VType> &visitor,std::size_t row,std::size_t col) const override;
             
         private:
             node_sptr node_;

@@ -70,11 +70,11 @@ namespace vtx{
                 VType val=node.node_->accept(*this,row,col);
                 if(node.opr()==OprArithm::Neg){
                     if constexpr(opr_traits::isNegAble<VType>::value)
-                        return arithmNeg(val);
+                        return algNeg(val);
                     else /*Operator Error*/;
                 }else if(node.opr()==OprArithm::EwiseInv){
                     if constexpr(opr_traits::isDivAble<VType,VType>::value)
-                        return arithmEwiseInv(val);
+                        return algEwiseInv(val);
                     else /*Operator Error*/;
                 }else{
                     /*Operator Error*/;
@@ -88,19 +88,19 @@ namespace vtx{
                         View<ASTNode<VType>> rhs(node.rhs_.get(),Axis::Col,col);
                         //ViewLike<ASTNode<VType>,VType> lhs(node.lhs_.get(),Axis::Row,row);
                         //ViewLike<ASTNode<VType>,VType> rhs(node.rhs_.get(),Axis::Col,col);
-                        return arithmMatMul(lhs,rhs);
+                        return algMatMul(lhs,rhs);
                     }else /*Operator Error*/;
                 }else if(node.opr()==OprArithm::Add){
                     if constexpr(opr_traits::isAddAble<VType,VType>::value){
                         VType lhs=node.lhs_->accept(*this,row,col);
                         VType rhs=node.rhs_->accept(*this,row,col);
-                        return arithmAdd(lhs,rhs);
+                        return algAdd(lhs,rhs);
                     }else /*Operator Error*/;
                 }else if(node.opr()==OprArithm::Sub){
                     if constexpr(opr_traits::isSubAble<VType,VType>::value){
                         VType lhs=node.lhs_->accept(*this,row,col);
                         VType rhs=node.rhs_->accept(*this,row,col);
-                        return arithmSub(lhs,rhs);
+                        return algSub(lhs,rhs);
                     }else /*Operator Error*/;
                 }else{
                     /*Operator Error*/;
@@ -112,15 +112,15 @@ namespace vtx{
                 VType arg=node.arg_;
                 if(node.opr()==OprArithm::EwiseMul){
                     if constexpr(opr_traits::isMulAble<VType,VType>::value)
-                        return arithmEwiseMul(val,arg);
+                        return algEwiseMul(val,arg);
                     else /*Operator Error*/;
                 }else if(node.opr()==OprArithm::EwiseDiv){
                     if constexpr(opr_traits::isDivAble<VType,VType>::value)
-                        return arithmEwiseDiv(val,arg);
+                        return algEwiseDiv(val,arg);
                     else /*Operator Error*/;
                 }else if(node.opr()==OprArithm::EwiseMod){
                     if constexpr(opr_traits::isModAble<VType,VType>::value)
-                        return arithmEwiseMod(val,arg);
+                        return algEwiseMod(val,arg);
                     else /*Operator Error*/;
                 }else{
                     /*Operator Error*/;

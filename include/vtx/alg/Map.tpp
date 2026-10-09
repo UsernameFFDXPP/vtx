@@ -8,11 +8,11 @@ namespace vtx{
                 for(std::size_t col=0;col<rsl.colLength();++col){
                     if(opr==OprArithm::Neg){
                         if constexpr(opr_traits::getOprDemand<VType,OprArithm::Neg>())
-                            rsl(row,col)=arithmNeg(mat(row,col));
+                            rsl(row,col)=algNeg(mat(row,col));
                         else /*Operator Error*/;
                     }else if(opr==OprArithm::EwiseInv){
                         if constexpr(opr_traits::getOprDemand<VType,OprArithm::EwiseInv>())
-                            rsl(row,col)=arithmEwiseInv(mat(row,col));
+                            rsl(row,col)=algEwiseInv(mat(row,col));
                         else /*Operator Error*/;
                     }else /*Operator Error*/;
                 }
@@ -25,35 +25,35 @@ namespace vtx{
                 for(std::size_t col=0;col<rsl.colLength();++col){
                     if(opr==OprArithm::Add){
                         if constexpr(opr_traits::getOprDemand<VType,OprArithm::Add>())
-                            rsl(row,col)=arithmAdd(lhs(row,col),rhs(row,col));
+                            rsl(row,col)=algAdd(lhs(row,col),rhs(row,col));
                         else /*Operator Error*/;
                     }else if(opr==OprArithm::Sub){
                         if constexpr(opr_traits::getOprDemand<VType,OprArithm::Sub>())
-                            rsl(row,col)=arithmSub(lhs(row,col),rhs(row,col));
+                            rsl(row,col)=algSub(lhs(row,col),rhs(row,col));
                         else /*Operator Error*/;
                     }else if(opr==OprCompare::Equal){
                         if constexpr(opr_traits::getOprDemand<VType,OprCompare::Equal>())
-                            rsl(row,col)=arithmEqual(lhs(row,col),rhs(row,col));
+                            rsl(row,col)=algEqual(lhs(row,col),rhs(row,col));
                         else /*Operator Error*/;
                     }else if(opr==OprCompare::Greater){
                         if constexpr(opr_traits::getOprDemand<VType,OprCompare::Greater>())
-                            rsl(row,col)=arithmGreater(lhs(row,col),rhs(row,col));
+                            rsl(row,col)=algGreater(lhs(row,col),rhs(row,col));
                         else /*Operator Error*/;
                     }else if(opr==OprCompare::GreaterEqual){
                         if constexpr(opr_traits::getOprDemand<VType,OprCompare::GreaterEqual>())
-                            rsl(row,col)=arithmGreaterEqual(lhs(row,col),rhs(row,col));
+                            rsl(row,col)=algGreaterEqual(lhs(row,col),rhs(row,col));
                         else /*Operator Error*/;
                     }else if(opr==OprCompare::Less){
                         if constexpr(opr_traits::getOprDemand<VType,OprCompare::Less>())
-                            rsl(row,col)=arithmLess(lhs(row,col),rhs(row,col));
+                            rsl(row,col)=algLess(lhs(row,col),rhs(row,col));
                         else /*Operator Error*/;
                     }else if(opr==OprCompare::LessEqual){
                         if constexpr(opr_traits::getOprDemand<VType,OprCompare::LessEqual>())
-                            rsl(row,col)=arithmLessEqual(lhs(row,col),rhs(row,col));
+                            rsl(row,col)=algLessEqual(lhs(row,col),rhs(row,col));
                         else /*Operator Error*/;
                     }else if(opr==OprCompare::NotEqual){
                         if constexpr(opr_traits::getOprDemand<VType,OprCompare::NotEqual>())
-                            rsl(row,col)=arithmNotEqual(lhs(row,col),rhs(row,col));
+                            rsl(row,col)=algNotEqual(lhs(row,col),rhs(row,col));
                         else /*Operator Error*/;
                     }else /*Operator Error*/;
                 }
@@ -68,23 +68,23 @@ namespace vtx{
                     std::size_t rrow=row%rhs.rowLength(),rcol=col%rhs.colLength();
                     if(opr==OprArithm::Add){
                         if constexpr(opr_traits::getOprDemand<VType,OprArithm::Add>())
-                            rsl(row,col)=arithmAdd(lhs(lrow,lcol),rhs(rrow,rcol));
+                            rsl(row,col)=algAdd(lhs(lrow,lcol),rhs(rrow,rcol));
                         else /*Operator Error*/;
                     }else if(opr==OprArithm::Sub){
                         if constexpr(opr_traits::getOprDemand<VType,OprArithm::Sub>())
-                            rsl(row,col)=arithmSub(lhs(lrow,lcol),rhs(rrow,rcol));
+                            rsl(row,col)=algSub(lhs(lrow,lcol),rhs(rrow,rcol));
                         else /*Operator Error*/;
                     }else if(opr==OprArithm::EwiseMul){
                         if constexpr(opr_traits::getOprDemand<VType,OprArithm::EwiseMul>())
-                            rsl(row,col)=arithmEwiseMul(lhs(lrow,lcol),rhs(rrow,rcol));
+                            rsl(row,col)=algEwiseMul(lhs(lrow,lcol),rhs(rrow,rcol));
                         else /*Operator Error*/;
                     }else if(opr==OprArithm::EwiseDiv){
                         if constexpr(opr_traits::getOprDemand<VType,OprArithm::EwiseDiv>())
-                            rsl(row,col)=arithmEwiseDiv(lhs(lrow,lcol),rhs(rrow,rcol));
+                            rsl(row,col)=algEwiseDiv(lhs(lrow,lcol),rhs(rrow,rcol));
                         else /*Operator Error*/;
                     }else if(opr==OprArithm::EwiseMod){
                         if constexpr(opr_traits::getOprDemand<VType,OprArithm::EwiseMod>())
-                            rsl(row,col)=arithmEwiseMod(lhs(lrow,lcol),rhs(rrow,rcol));
+                            rsl(row,col)=algEwiseMod(lhs(lrow,lcol),rhs(rrow,rcol));
                         else /*Operator Error*/;
                     }else /*Operator Error*/;
                 }
@@ -97,15 +97,15 @@ namespace vtx{
                     std::size_t lrow=row%lhs.rowLength(),lcol=col%lhs.colLength();
                     if(opr==OprArithm::EwiseMul){
                         if constexpr(opr_traits::getOprDemand<VType,OprArithm::EwiseMul>())
-                            rsl(row,col)=arithmEwiseMul(lhs(lrow,lcol),arg);
+                            rsl(row,col)=algEwiseMul(lhs(lrow,lcol),arg);
                         else /*Operator Error*/;
                     }else if(opr==OprArithm::EwiseDiv){
                         if constexpr(opr_traits::getOprDemand<VType,OprArithm::EwiseDiv>())
-                            rsl(row,col)=arithmEwiseDiv(lhs(lrow,lcol),arg);
+                            rsl(row,col)=algEwiseDiv(lhs(lrow,lcol),arg);
                         else /*Operator Error*/;
                     }else if(opr==OprArithm::EwiseMod){
                         if constexpr(opr_traits::getOprDemand<VType,OprArithm::EwiseMod>())
-                            rsl(row,col)=arithmEwiseMod(lhs(lrow,lcol),arg);
+                            rsl(row,col)=algEwiseMod(lhs(lrow,lcol),arg);
                         else /*Operator Error*/;
                     }else /*Operator Error*/;
                 }
@@ -118,15 +118,15 @@ namespace vtx{
                     std::size_t rrow=row%rhs.rowLength(),rcol=col%rhs.colLength();
                     if(opr==OprArithm::EwiseMul){
                         if constexpr(opr_traits::getOprDemand<VType,OprArithm::EwiseMul>())
-                            rsl(row,col)=arithmEwiseMul(arg,rhs(rrow,rcol));
+                            rsl(row,col)=algEwiseMul(arg,rhs(rrow,rcol));
                         else /*Operator Error*/;
                     }else if(opr==OprArithm::EwiseDiv){
                         if constexpr(opr_traits::getOprDemand<VType,OprArithm::EwiseDiv>())
-                            rsl(row,col)=arithmEwiseDiv(arg,rhs(rrow,rcol));
+                            rsl(row,col)=algEwiseDiv(arg,rhs(rrow,rcol));
                         else /*Operator Error*/;
                     }else if(opr==OprArithm::EwiseMod){
                         if constexpr(opr_traits::getOprDemand<VType,OprArithm::EwiseMod>())
-                            rsl(row,col)=arithmEwiseMod(arg,rhs(rrow,rcol));
+                            rsl(row,col)=algEwiseMod(arg,rhs(rrow,rcol));
                         else /*Operator Error*/;
                     }else /*Operator Error*/;
                 }
@@ -140,39 +140,39 @@ namespace vtx{
                     View<Matrix<VType>> tempView(&mat,Axis::Row,row);
                     if(opr==OprReduction::Sum){
                         if constexpr(opr_traits::getOprDemand<VType,OprReduction::Sum>())
-                            rsl(row,0)=arithmSum(tempView);
+                            rsl(row,0)=algSum(tempView);
                         else /*Operator Error*/;
                     }else if(opr==OprReduction::Max){
                         if constexpr(opr_traits::getOprDemand<VType,OprReduction::Max>())
-                            rsl(row,0)=arithmMax(tempView);
+                            rsl(row,0)=algMax(tempView);
                         else /*Operator Error*/;
                     }else if(opr==OprReduction::Min){
                         if constexpr(opr_traits::getOprDemand<VType,OprReduction::Min>())
-                            rsl(row,0)=arithmMin(tempView);
+                            rsl(row,0)=algMin(tempView);
                         else /*Operator Error*/;
                     }else if(opr==OprReduction::ArgMax){
                         if constexpr(opr_traits::getOprDemand<VType,OprReduction::ArgMax>())
-                            rsl(row,0)=arithmArgMax(tempView);
+                            rsl(row,0)=algArgMax(tempView);
                         else /*Operator Error*/;
                     }else if(opr==OprReduction::ArgMin){
                         if constexpr(opr_traits::getOprDemand<VType,OprReduction::ArgMin>())
-                            rsl(row,0)=arithmArgMin(tempView);
+                            rsl(row,0)=algArgMin(tempView);
                         else /*Operator Error*/;
                     }else if(opr==OprStatistics::Mean){
                         if constexpr(opr_traits::getOprDemand<VType,OprStatistics::Mean>())
-                            rsl(row,0)=arithmMean(tempView);
+                            rsl(row,0)=algMean(tempView);
                         else /*Operator Error*/;
                     }else if(opr==OprStatistics::Variance){
                         if constexpr(opr_traits::getOprDemand<VType,OprStatistics::Variance>())
-                            rsl(row,0)=arithmVariance(tempView);
+                            rsl(row,0)=algVariance(tempView);
                         else /*Operator Error*/;
                     }else if(opr==OprStatistics::SampleVariance){
                         if constexpr(opr_traits::getOprDemand<VType,OprStatistics::SampleVariance>())
-                            rsl(row,0)=arithmSampleVariance(tempView);
+                            rsl(row,0)=algSampleVariance(tempView);
                         else /*Operator Error*/;
                     }else if(opr==OprStatistics::Median){
                         if constexpr(opr_traits::getOprDemand<VType,OprStatistics::Median>())
-                            rsl(row,0)=arithmMedian(tempView);
+                            rsl(row,0)=algMedian(tempView);
                         else /*Operator Error*/;
                     }else /*Operator Error*/;
                 }
@@ -181,39 +181,39 @@ namespace vtx{
                     View<Matrix<VType>> tempView(&mat,Axis::Col,col);
                     if(opr==OprReduction::Sum){
                         if constexpr(opr_traits::getOprDemand<VType,OprReduction::Sum>())
-                            rsl(0,col)=arithmSum(tempView);
+                            rsl(0,col)=algSum(tempView);
                         else /*Operator Error*/;
                     }else if(opr==OprReduction::Max){
                         if constexpr(opr_traits::getOprDemand<VType,OprReduction::Max>())
-                            rsl(0,col)=arithmMax(tempView);
+                            rsl(0,col)=algMax(tempView);
                         else /*Operator Error*/;
                     }else if(opr==OprReduction::Min){
                         if constexpr(opr_traits::getOprDemand<VType,OprReduction::Min>())
-                            rsl(0,col)=arithmMin(tempView);
+                            rsl(0,col)=algMin(tempView);
                         else /*Operator Error*/;
                     }else if(opr==OprReduction::ArgMax){
                         if constexpr(opr_traits::getOprDemand<VType,OprReduction::ArgMax>())
-                            rsl(0,col)=arithmArgMax(tempView);
+                            rsl(0,col)=algArgMax(tempView);
                         else /*Operator Error*/;
                     }else if(opr==OprReduction::ArgMin){
                         if constexpr(opr_traits::getOprDemand<VType,OprReduction::ArgMin>())
-                            rsl(0,col)=arithmArgMin(tempView);
+                            rsl(0,col)=algArgMin(tempView);
                         else /*Operator Error*/;
                     }else if(opr==OprStatistics::Mean){
                         if constexpr(opr_traits::getOprDemand<VType,OprStatistics::Mean>())
-                            rsl(0,col)=arithmMean(tempView);
+                            rsl(0,col)=algMean(tempView);
                         else /*Operator Error*/;
                     }else if(opr==OprStatistics::Variance){
                         if constexpr(opr_traits::getOprDemand<VType,OprStatistics::Variance>())
-                            rsl(0,col)=arithmVariance(tempView);
+                            rsl(0,col)=algVariance(tempView);
                         else /*Operator Error*/;
                     }else if(opr==OprStatistics::SampleVariance){
                         if constexpr(opr_traits::getOprDemand<VType,OprStatistics::SampleVariance>())
-                            rsl(0,col)=arithmSampleVariance(tempView);
+                            rsl(0,col)=algSampleVariance(tempView);
                         else /*Operator Error*/;
                     }else if(opr==OprStatistics::Median){
                         if constexpr(opr_traits::getOprDemand<VType,OprStatistics::Median>())
-                            rsl(0,col)=arithmMedian(tempView);
+                            rsl(0,col)=algMedian(tempView);
                         else /*Operator Error*/;
                     }else /*Operator Error*/;
                 }
@@ -221,39 +221,39 @@ namespace vtx{
                 View<Matrix<VType>> tempView(&mat,Axis::None);
                 if(opr==OprReduction::Sum){
                     if constexpr(opr_traits::getOprDemand<VType,OprReduction::Sum>())
-                        rsl(0,0)=arithmSum(tempView);
+                        rsl(0,0)=algSum(tempView);
                     else /*Operator Error*/;
                 }else if(opr==OprReduction::Max){
                     if constexpr(opr_traits::getOprDemand<VType,OprReduction::Max>())
-                        rsl(0,0)=arithmMax(tempView);
+                        rsl(0,0)=algMax(tempView);
                     else /*Operator Error*/;
                 }else if(opr==OprReduction::Min){
                     if constexpr(opr_traits::getOprDemand<VType,OprReduction::Min>())
-                        rsl(0,0)=arithmMin(tempView);
+                        rsl(0,0)=algMin(tempView);
                     else /*Operator Error*/;
                 }else if(opr==OprReduction::ArgMax){
                     if constexpr(opr_traits::getOprDemand<VType,OprReduction::ArgMax>())
-                        rsl(0,0)=arithmArgMax(tempView);
+                        rsl(0,0)=algArgMax(tempView);
                     else /*Operator Error*/;
                 }else if(opr==OprReduction::ArgMin){
                     if constexpr(opr_traits::getOprDemand<VType,OprReduction::ArgMin>())
-                        rsl(0,0)=arithmArgMin(tempView);
+                        rsl(0,0)=algArgMin(tempView);
                     else /*Operator Error*/;
                 }else if(opr==OprStatistics::Mean){
                     if constexpr(opr_traits::getOprDemand<VType,OprStatistics::Mean>())
-                        rsl(0,0)=arithmMean(tempView);
+                        rsl(0,0)=algMean(tempView);
                     else /*Operator Error*/;
                 }else if(opr==OprStatistics::Variance){
                     if constexpr(opr_traits::getOprDemand<VType,OprStatistics::Variance>())
-                        rsl(0,0)=arithmVariance(tempView);
+                        rsl(0,0)=algVariance(tempView);
                     else /*Operator Error*/;
                 }else if(opr==OprStatistics::SampleVariance){
                     if constexpr(opr_traits::getOprDemand<VType,OprStatistics::SampleVariance>())
-                        rsl(0,0)=arithmSampleVariance(tempView);
+                        rsl(0,0)=algSampleVariance(tempView);
                     else /*Operator Error*/;
                 }else if(opr==OprStatistics::Median){
                     if constexpr(opr_traits::getOprDemand<VType,OprStatistics::Median>())
-                        rsl(0,0)=arithmMedian(tempView);
+                        rsl(0,0)=algMedian(tempView);
                     else /*Operator Error*/;
                 }else /*Operator Error*/;
             }else /*Axis Error*/;
@@ -266,7 +266,7 @@ namespace vtx{
                     View<Matrix<VType>> tempView(&mat,Axis::Row,row);
                     if(opr==OprStatistics::Quantile){
                         if constexpr(opr_traits::getOprDemand<VType,OprStatistics::Quantile>())
-                            rsl(row,0)=arithmQuantile(tempView,q);
+                            rsl(row,0)=algQuantile(tempView,q);
                         else /*Operator Error*/;
                     }else /*Operator Error*/;
                 }
@@ -275,7 +275,7 @@ namespace vtx{
                     View<Matrix<VType>> tempView(&mat,Axis::Col,col);
                     if(opr==OprStatistics::Quantile){
                         if constexpr(opr_traits::getOprDemand<VType,OprStatistics::Quantile>())
-                            rsl(0,col)=arithmQuantile(tempView,q);
+                            rsl(0,col)=algQuantile(tempView,q);
                         else /*Operator Error*/;
                     }else /*Operator Error*/;
                 }
@@ -283,7 +283,7 @@ namespace vtx{
                 View<Matrix<VType>> tempView(&mat,Axis::None);
                 if(opr==OprStatistics::Quantile){
                     if constexpr(opr_traits::getOprDemand<VType,OprStatistics::Quantile>())
-                        rsl(0,0)=arithmQuantile(tempView,q);
+                        rsl(0,0)=algQuantile(tempView,q);
                     else /*Operator Error*/;
                 }else /*Operator Error*/;
             }else /*Axis Error*/;

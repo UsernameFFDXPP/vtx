@@ -11,7 +11,7 @@
 namespace vtx{
     /*Sum*/
     template<typename Line,typename VType=typename Line::value_type>
-    auto arithmSum(const Line &val)->std::enable_if_t<
+    auto algSum(const Line &val)->std::enable_if_t<
         opr_traits::getOprDemand<VType,OprReduction::Sum>(),VType
     >{
         VType rsl{};
@@ -20,7 +20,7 @@ namespace vtx{
     }
     /*Max,ArgMax*/
     template<typename Line,typename VType=typename Line::value_type>
-    auto arithmMax(const Line &val)->std::enable_if_t<
+    auto algMax(const Line &val)->std::enable_if_t<
         opr_traits::getOprDemand<VType,OprReduction::Max>(),VType
     >{
         VType rsl=val(0);
@@ -28,7 +28,7 @@ namespace vtx{
         return rsl;
     }
     template<typename Line,typename VType=typename Line::value_type>
-    auto arithmArgMax(const Line &val)->std::enable_if_t<
+    auto algArgMax(const Line &val)->std::enable_if_t<
         opr_traits::getOprDemand<VType,OprReduction::ArgMax>(),std::size_t
     >{
         auto rsl=val(0);std::size_t tIdx=0;
@@ -37,7 +37,7 @@ namespace vtx{
     }
     /*Min,ArgMin*/
     template<typename Line,typename VType=typename Line::value_type>
-    auto arithmMin(const Line &val)->std::enable_if_t<
+    auto algMin(const Line &val)->std::enable_if_t<
         opr_traits::getOprDemand<VType,OprReduction::Min>(),VType
     >{
         VType rsl=val(0);
@@ -45,7 +45,7 @@ namespace vtx{
         return rsl;
     }
     template<typename Line,typename VType=typename Line::value_type>
-    auto arithmArgMin(const Line &val)->std::enable_if_t<
+    auto algArgMin(const Line &val)->std::enable_if_t<
         opr_traits::getOprDemand<VType,OprReduction::ArgMin>(),std::size_t
     >{
         auto rsl=val(0);std::size_t tIdx=0;
