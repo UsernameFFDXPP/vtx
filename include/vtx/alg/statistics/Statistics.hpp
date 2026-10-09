@@ -11,6 +11,7 @@
 
 namespace vtx{
     /*Covariance*/
+        //Center+MatMul
     /*Correlation*/
     /*Mean*/
     template<typename Line,typename VType=typename Line::value_type>
@@ -65,6 +66,8 @@ namespace vtx{
     /*Center*/
         //Mean+Sub
     /*Standardize*/
+        //Variance+EwiseDiv
+    /*SampleStandardize*/
         //Variance+EwiseDiv
     /*Quantile*/
     template<typename Line,typename VType=typename Line::value_type>

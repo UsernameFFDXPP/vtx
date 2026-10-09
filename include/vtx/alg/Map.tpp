@@ -74,6 +74,18 @@ namespace vtx{
                         if constexpr(opr_traits::getOprDemand<VType,OprArithm::Sub>())
                             rsl(row,col)=arithmSub(lhs(lrow,lcol),rhs(rrow,rcol));
                         else /*Operator Error*/;
+                    }else if(opr==OprArithm::EwiseMul){
+                        if constexpr(opr_traits::getOprDemand<VType,OprArithm::EwiseMul>())
+                            rsl(row,col)=arithmEwiseMul(lhs(lrow,lcol),rhs(rrow,rcol));
+                        else /*Operator Error*/;
+                    }else if(opr==OprArithm::EwiseDiv){
+                        if constexpr(opr_traits::getOprDemand<VType,OprArithm::EwiseDiv>())
+                            rsl(row,col)=arithmEwiseDiv(lhs(lrow,lcol),rhs(rrow,rcol));
+                        else /*Operator Error*/;
+                    }else if(opr==OprArithm::EwiseMod){
+                        if constexpr(opr_traits::getOprDemand<VType,OprArithm::EwiseMod>())
+                            rsl(row,col)=arithmEwiseMod(lhs(lrow,lcol),rhs(rrow,rcol));
+                        else /*Operator Error*/;
                     }else /*Operator Error*/;
                 }
             }
