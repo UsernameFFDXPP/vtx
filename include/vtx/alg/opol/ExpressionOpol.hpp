@@ -9,8 +9,7 @@ namespace vtx{
     }
     template<typename VType>
     Expression<VType> &operator+=(Expression<VType> &lhs,const Expression<VType> &rhs){
-        lhs=add(lhs,rhs);
-        return lhs;
+        return add_(lhs,rhs);
     }
 
     template<typename VType>
@@ -24,8 +23,7 @@ namespace vtx{
     }
     template<typename VType>
     Expression<VType> &operator-=(Expression<VType> &lhs,const Expression<VType> &rhs){
-        lhs=sub(lhs,rhs);
-        return lhs;
+        return sub_(lhs,rhs);
     }
 
     template<typename VType>
@@ -34,8 +32,7 @@ namespace vtx{
     }
     template<typename VType>
     Expression<VType> &operator*=(Expression<VType> &lhs,const VType &arg){
-        lhs=ewiseMul(lhs,arg);
-        return lhs;
+        return ewiseMul_(lhs,arg);
     }
 
     template<typename VType>
@@ -58,8 +55,7 @@ namespace vtx{
     }
     template<typename VType>
     Expression<VType> &operator/=(Expression<VType> &lhs,const VType &arg){
-        lhs=ewiseDiv(lhs,arg);
-        return lhs;
+        return ewiseDiv_(lhs,arg);
     }
 
     template<typename VType>
@@ -68,7 +64,6 @@ namespace vtx{
     }
     template<typename VType>
     Expression<VType> &operator%=(Expression<VType> &lhs,const Expression<VType> &arg){
-        lhs=ewiseMod(lhs,arg);
-        return lhs;
+        return ewiseMod_(lhs,arg);
     }
 }

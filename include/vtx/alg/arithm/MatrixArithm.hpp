@@ -48,11 +48,6 @@ namespace vtx{
         map::mapBroadcastEwise(rsl,OprArithm::EwiseMul,mat,arg);
         return rsl;
     }
-        template<typename VType>
-    Matrix<VType> &ewiseMul_(VType arg,Matrix<VType> &mat){
-        map::mapBroadcastEwise(mat,OprArithm::EwiseMul,mat,arg);
-        return mat;
-    }
     /*EwiseDiv*/
     template<typename VType>
     Matrix<VType> ewiseDiv(const Matrix<VType> &mat,const VType &arg){
@@ -71,11 +66,6 @@ namespace vtx{
         map::mapBroadcastEwise(rsl,OprArithm::EwiseDiv,arg,mat);
         return rsl;
     }
-    template<typename VType>
-    Matrix<VType> &ewiseDiv_(const VType &arg,Matrix<VType> &mat){
-        map::mapBroadcastEwise(mat,OprArithm::EwiseDiv,arg,mat);
-        return mat;
-    }
     /*EwiseMod*/
     template<typename VType>
     Matrix<VType> ewiseMod(const Matrix<VType> &mat,const VType &arg){
@@ -93,11 +83,6 @@ namespace vtx{
         Matrix<VType> rsl(mat.rowLength(),mat.colLength());
         map::mapBroadcastEwise(rsl,OprArithm::EwiseMod,arg,mat);
         return rsl;
-    }
-    template<typename VType>
-    Matrix<VType> &ewiseMod_(const VType &arg,Matrix<VType> &mat){
-        map::mapBroadcastEwise(mat,OprArithm::EwiseMod,arg,mat);
-        return mat;
     }
     /*Add*/
     template<typename VType>
@@ -126,9 +111,6 @@ namespace vtx{
     /*MatInv*/
     template<typename VType>
     Matrix<VType> matInv(const Matrix<VType> &mat);
-    /*Transpose*/
-    template<typename VType>
-    Matrix<VType> transpose(const Matrix<VType> &mat);
     /*MatMul*/
     template<typename VType>
     Matrix<VType> matMul(const Matrix<VType> &lhs,const Matrix<VType> &rhs){
