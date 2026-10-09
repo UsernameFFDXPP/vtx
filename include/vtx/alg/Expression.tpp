@@ -3,19 +3,35 @@
 namespace vtx{
     template<typename VType>
     Expression<VType>::Expression(const Matrix<VType> *mat):
-    root_(std::make_shared<MatNode<value_type>>(OprDefault::Mat,mat)){}
+    root_(std::make_shared<MatNode<VType>>(OprDefault::Mat,mat)){}
 
     template<typename VType>
     Expression<VType>::Expression(Operator opr,const Expression<VType> &expr):
-    root_(std::make_shared<NegLikeNode<value_type>>(opr,expr.root_)){}
-
+    root_(std::make_shared<NegLikeNode<VType>>(opr,expr.root_)){}
     template<typename VType>
     Expression<VType>::Expression(Operator opr,const Expression<VType> &lexpr,const Expression<VType> &rexpr):
-    root_(std::make_shared<AddLikeNode<value_type>>(opr,lexpr.root_,rexpr.root_)){}
-
+    root_(std::make_shared<AddLikeNode<VType>>(opr,lexpr.root_,rexpr.root_)){}
+    template<typename VType>
+    Expression<VType>::Expression(Operator opr,const Expression<VType> &expr,Axis axis):
+    root_(std::make_shared<FlipLikeNode<VType>>(opr,expr.root_,axis)){}
+    template<typename VType>
+    Expression<VType>::Expression(Operator opr,const Expression<VType> &lexpr,const Expression<VType> &rexpr,Axis axis):
+    root_(std::make_shared<ConcatLikeNode<VType>>(opr,lexpr.root_,rexpr.root_,axis)){}
+    template<typename VType>
+    Expression<VType>::Expression(Operator opr,const Expression<VType> &expr,std::size_t idx1,std::size_t idx2):
+    root_(std::make_shared<ResizeLikeNode<VType>>(opr,expr.root_,idx1,idx2)){}
+    template<typename VType>
+    Expression<VType>::Expression(Operator opr,const Expression<VType> &expr,Axis axis,std::size_t idx):
+    root_(std::make_shared<DropLikeNode<VType>>(opr,expr.root_,axis,idx)){}
+    template<typename VType>
+    Expression<VType>::Expression(Operator opr,const Expression<VType> &expr,Axis axis,std::size_t idx1,std::size_t idx2):
+    root_(std::make_shared<SwapLikeNode<VType>>(opr,expr.root_,axis,idx1,idx2)){}
     template<typename VType>
     Expression<VType>::Expression(Operator opr,const Expression<VType> &expr,const VType &arg):
-    root_(std::make_shared<EwiseLikeNode<value_type>>(opr,expr.root_,arg)){}
+    root_(std::make_shared<EwiseLikeNode<VType>>(opr,expr.root_,arg)){}
+    template<typename VType>
+    Expression<VType>::Expression(Operator opr,const Expression<VType> &expr,Axis axis,const VType &arg):
+    root_(std::make_shared<QuantileLikeNode<VType>>(opr,expr.root_,arg)){}
 
     template<typename VType>
     std::size_t Expression<VType>::rowLength() const{
@@ -30,11 +46,11 @@ namespace vtx{
     template<typename VType>
     Matrix<VType> Expression<VType>::eval() const{
         EvalVisitor<VType> visitor;
-        size_type rows=root_->rowLength();
-        size_type cols=root_->colLength();
+        std::size_t rows=root_->rowLength();
+        std::size_t cols=root_->colLength();
         Matrix<VType> rsl(rows,cols);
-        for(size_type row=0;row<rows;++row){
-            for(size_type col=0;col<cols;++col){
+        for(std::size_t row=0;row<rows;++row){
+            for(std::size_t col=0;col<cols;++col){
                 rsl(row,col)=root_->accept(visitor,row,col);
             }
         }
@@ -42,32 +58,13 @@ namespace vtx{
     }
 
     template<typename VType>
-    VType Expression<VType>::evalAt(size_type row,size_type col) const{
+    VType Expression<VType>::evalAt(std::size_t row,std::size_t col) const{
         EvalVisitor<VType> visitor;
-        if(useTempRsl_ && tempRslMask_(row,col)) return tempRsl_(row,col);
-        VType rsl=root_->accept(visitor,row,col);
-        if(useTempRsl_){
-            /*
-            tempRsl_(row,col)=rsl;
-            tempRslMask_(row,col)=true;
-            */
-        }
-        return rsl;
+        return root_->accept(visitor,row,col);
     }
 
     template<typename VType>
-    VType Expression<VType>::operator()(size_type row,size_type col) const{
+    VType Expression<VType>::operator()(std::size_t row,std::size_t col) const{
         return Expression<VType>::evalAt(row,col);
-    }
-
-    template<typename VType>
-    bool Expression<VType>::useTempRsl() const{
-        return useTempRsl_;
-    }
-
-    template<typename VType>
-    void Expression<VType>::setTempRsl(bool set){
-        useTempRsl_=set;
-        return;
     }
 }//namespace vtx
