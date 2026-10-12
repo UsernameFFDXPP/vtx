@@ -3,48 +3,51 @@
 #include"vtx/alg/ASTNode.hpp"
 
 namespace vtx{
-    template<typename VType>
-    ASTNode<VType>::ASTNode():
+    template<typename VTypeI,typename VTypeO>
+    ASTNode<VTypeI,VTypeO>::ASTNode():
     rowLength_(0),colLength_(0),opr_(OprDefault::None){}
 
-    template<typename VType>
-    std::size_t ASTNode<VType>::rowLength() const{
+    template<typename VTypeI,typename VTypeO>
+    std::size_t ASTNode<VTypeI,VTypeO>::rowLength() const{
         return rowLength_;
     }
-    template<typename VType>
-    std::size_t ASTNode<VType>::colLength() const{
+    template<typename VTypeI,typename VTypeO>
+    std::size_t ASTNode<VTypeI,VTypeO>::colLength() const{
         return colLength_;
     }
-    template<typename VType>
-    Operator ASTNode<VType>::opr() const{
+    template<typename VTypeI,typename VTypeO>
+    Operator ASTNode<VTypeI,VTypeO>::opr() const{
         return opr_;
     }
 
-    template<typename VType>
-    VType ASTNode<VType>::operator()(std::size_t row,std::size_t col) const{
-        EvalVisitor<VType> visitor;
+    template<typename VTypeI,typename VTypeO>
+    VTypeI ASTNode<VTypeI,VTypeO>::operator()(std::size_t row,std::size_t col) const{
+        EvalVisitor<VTypeI,VTypeO> visitor;
         return accept(visitor,row,col);
     }
 
     /*Mat*/
-    template<typename VType>
-    MatNode<VType>::MatNode(Operator opr,const Matrix<VType> *mat):
+    template<typename VTypeI,typename VTypeO>
+    MatNode<VTypeI,VTypeO>::MatNode(Operator opr,const Matrix<VTypeI> *mat):
     mat_(mat){
         this->opr_=opr;
         this->rowLength_=mat->rowLength();
         this->colLength_=mat->colLength();
     }
-    template<typename VType>
-    VType MatNode<VType>::accept(const NodeVisitor<VType> &visitor,std::size_t row,std::size_t col) const{
+    template<typename VTypeI,typename VTypeO>
+    VTypeI MatNode<VTypeI,VTypeO>::accept(const NodeVisitor<VTypeI,VTypeO> &visitor,std::size_t row,std::size_t col) const{
         return visitor.visit(*this,row,col);
     }
 
     /*NegLike*/
-    template<typename VType>
-    NegLikeNode<VType>::NegLikeNode(Operator opr,typename NegLikeNode<VType>::node_sptr node):
+    template<typename VTypeI,typename VTypeO>
+    NegLikeNode<VTypeI,VTypeO>::NegLikeNode(Operator opr,typename NegLikeNode<VTypeI,VTypeO>::node_sptr node):
     node_(node){
         this->opr_=opr;
         if(opr==OprArithm::Neg){
+            this->rowLength_=node->rowLength();
+            this->colLength_=node->colLength();
+        }else if(opr==OprArithm::EwiseInv){
             this->rowLength_=node->rowLength();
             this->colLength_=node->colLength();
         }else if(opr==OprArithm::MatInv){
@@ -57,14 +60,14 @@ namespace vtx{
             /*Operator Error*/
         }
     }
-    template<typename VType>
-    VType NegLikeNode<VType>::accept(const NodeVisitor<VType> &visitor,std::size_t row,std::size_t col) const{
+    template<typename VTypeI,typename VTypeO>
+    VTypeI NegLikeNode<VTypeI,VTypeO>::accept(const NodeVisitor<VTypeI,VTypeO> &visitor,std::size_t row,std::size_t col) const{
         return visitor.visit(*this,row,col);
     }
 
     /*AddLike*/
-    template<typename VType>
-    AddLikeNode<VType>::AddLikeNode(Operator opr,typename AddLikeNode<VType>::node_sptr lhs,typename AddLikeNode<VType>::node_sptr rhs):
+    template<typename VTypeI,typename VTypeO>
+    AddLikeNode<VTypeI,VTypeO>::AddLikeNode(Operator opr,typename AddLikeNode<VTypeI,VTypeO>::node_sptr lhs,typename AddLikeNode<VTypeI,VTypeO>::node_sptr rhs):
     lhs_(lhs),rhs_(rhs){
         this->opr_=opr;
         if(opr==OprArithm::Add || opr==OprArithm::Sub){
@@ -73,18 +76,21 @@ namespace vtx{
         }else if(opr==OprArithm::MatMul){
             this->rowLength_=lhs->rowLength();
             this->colLength_=rhs->colLength();
+        }else if(opr==OprArithm::MatDiv){
+            //this->rowLength_=lhs->rowLength();
+            //this->colLength_=lhs->colLength();
         }else{
             /*Operator Error*/
         }
     }
-    template<typename VType>
-    VType AddLikeNode<VType>::accept(const NodeVisitor<VType> &visitor,std::size_t row,std::size_t col) const{
+    template<typename VTypeI,typename VTypeO>
+    VTypeI AddLikeNode<VTypeI,VTypeO>::accept(const NodeVisitor<VTypeI,VTypeO> &visitor,std::size_t row,std::size_t col) const{
         return visitor.visit(*this,row,col);
     }
 
     /*FlipLike*/
-    template<typename VType>
-    FlipLikeNode<VType>::FlipLikeNode(Operator opr,typename FlipLikeNode<VType>::node_sptr node,Axis axis):
+    template<typename VTypeI,typename VTypeO>
+    FlipLikeNode<VTypeI,VTypeO>::FlipLikeNode(Operator opr,typename FlipLikeNode<VTypeI,VTypeO>::node_sptr node,Axis axis):
     node_(node),axis_(axis){
         this->opr_=opr;
         if(opr==OprLayout::Flip){
@@ -121,14 +127,14 @@ namespace vtx{
             /*Operator Error*/
         }
     }
-    template<typename VType>
-    VType FlipLikeNode<VType>::accept(const NodeVisitor<VType> &visitor,std::size_t row,std::size_t col) const{
+    template<typename VTypeI,typename VTypeO>
+    VTypeI FlipLikeNode<VTypeI,VTypeO>::accept(const NodeVisitor<VTypeI,VTypeO> &visitor,std::size_t row,std::size_t col) const{
         return visitor.visit(*this,row,col);
     }
 
     /*ConcatLike*/
-    template<typename VType>
-    ConcatLikeNode<VType>::ConcatLikeNode(Operator opr,typename ConcatLikeNode<VType>::node_sptr lhs,typename ConcatLikeNode<VType>::node_sptr rhs,Axis axis):
+    template<typename VTypeI,typename VTypeO>
+    ConcatLikeNode<VTypeI,VTypeO>::ConcatLikeNode(Operator opr,typename ConcatLikeNode<VTypeI,VTypeO>::node_sptr lhs,typename ConcatLikeNode<VTypeI,VTypeO>::node_sptr rhs,Axis axis):
     lhs_(lhs),rhs_(rhs),axis_(axis){
         this->opr_=opr;
         if(opr==OprLayout::Concat){
@@ -145,14 +151,14 @@ namespace vtx{
             /*Operator Error*/
         }
     }
-    template<typename VType>
-    VType ConcatLikeNode<VType>::accept(const NodeVisitor<VType> &visitor,std::size_t row,std::size_t col) const{
+    template<typename VTypeI,typename VTypeO>
+    VTypeI ConcatLikeNode<VTypeI,VTypeO>::accept(const NodeVisitor<VTypeI,VTypeO> &visitor,std::size_t row,std::size_t col) const{
         return visitor.visit(*this,row,col);
     }
 
     /*ResizeLike*/
-    template<typename VType>
-    ResizeLikeNode<VType>::ResizeLikeNode(Operator opr,typename ResizeLikeNode<VType>::node_sptr node,std::size_t idx1,std::size_t idx2):
+    template<typename VTypeI,typename VTypeO>
+    ResizeLikeNode<VTypeI,VTypeO>::ResizeLikeNode(Operator opr,typename ResizeLikeNode<VTypeI,VTypeO>::node_sptr node,std::size_t idx1,std::size_t idx2):
     node_(node),idx1_(idx1),idx2_(idx2){
         this->opr_=opr;
         if(opr==OprLayout::Reshape || opr==OprLayout::Resize){
@@ -162,14 +168,14 @@ namespace vtx{
             /*Operator Error*/
         }
     }
-    template<typename VType>
-    VType ResizeLikeNode<VType>::accept(const NodeVisitor<VType> &visitor,std::size_t row,std::size_t col) const{
+    template<typename VTypeI,typename VTypeO>
+    VTypeI ResizeLikeNode<VTypeI,VTypeO>::accept(const NodeVisitor<VTypeI,VTypeO> &visitor,std::size_t row,std::size_t col) const{
         return visitor.visit(*this,row,col);
     }
 
     /*DropLike*/
-    template<typename VType>
-    DropLikeNode<VType>::DropLikeNode(Operator opr,typename DropLikeNode<VType>::node_sptr node,Axis axis,std::size_t idx):
+    template<typename VTypeI,typename VTypeO>
+    DropLikeNode<VTypeI,VTypeO>::DropLikeNode(Operator opr,typename DropLikeNode<VTypeI,VTypeO>::node_sptr node,Axis axis,std::size_t idx):
     node_(node),axis_(axis),idx_(idx){
         this->opr_=opr;
         if(opr==OprLayout::Insert){
@@ -196,14 +202,14 @@ namespace vtx{
             /*Operator Error*/
         }
     }
-    template<typename VType>
-    VType DropLikeNode<VType>::accept(const NodeVisitor<VType> &visitor,std::size_t row,std::size_t col) const{
+    template<typename VTypeI,typename VTypeO>
+    VTypeI DropLikeNode<VTypeI,VTypeO>::accept(const NodeVisitor<VTypeI,VTypeO> &visitor,std::size_t row,std::size_t col) const{
         return visitor.visit(*this,row,col);
     }
 
     /*SwapLike*/
-    template<typename VType>
-    SwapLikeNode<VType>::SwapLikeNode(Operator opr,typename SwapLikeNode<VType>::node_sptr node,Axis axis,std::size_t idx1,std::size_t idx2):
+    template<typename VTypeI,typename VTypeO>
+    SwapLikeNode<VTypeI,VTypeO>::SwapLikeNode(Operator opr,typename SwapLikeNode<VTypeI,VTypeO>::node_sptr node,Axis axis,std::size_t idx1,std::size_t idx2):
     node_(node),axis_(axis),idx1_(idx1),idx2_(idx2){
         this->opr_=opr;
         if(opr==OprLayout::Swap){
@@ -223,28 +229,28 @@ namespace vtx{
             /*Operator Error*/
         }
     }
-    template<typename VType>
-    VType SwapLikeNode<VType>::accept(const NodeVisitor<VType> &visitor,std::size_t row,std::size_t col) const{
+    template<typename VTypeI,typename VTypeO>
+    VTypeI SwapLikeNode<VTypeI,VTypeO>::accept(const NodeVisitor<VTypeI,VTypeO> &visitor,std::size_t row,std::size_t col) const{
         return visitor.visit(*this,row,col);
     }
     
     /*EwiseLike*/
-    template<typename VType>
-    EwiseLikeNode<VType>::EwiseLikeNode(Operator opr,typename EwiseLikeNode<VType>::node_sptr node,VType arg):
+    template<typename VTypeI,typename VTypeO>
+    EwiseLikeNode<VTypeI,VTypeO>::EwiseLikeNode(Operator opr,typename EwiseLikeNode<VTypeI,VTypeO>::node_sptr node,VTypeI arg):
     node_(node),arg_(arg){
         this->opr_=opr;
         this->rowLength_=node->rowLength();
         this->colLength_=node->colLength();
     }
     
-    template<typename VType>
-    VType EwiseLikeNode<VType>::accept(const NodeVisitor<VType> &visitor,std::size_t row,std::size_t col) const{
+    template<typename VTypeI,typename VTypeO>
+    VTypeI EwiseLikeNode<VTypeI,VTypeO>::accept(const NodeVisitor<VTypeI,VTypeO> &visitor,std::size_t row,std::size_t col) const{
         return visitor.visit(*this,row,col);
     }
 
     /*QuantileLike*/
-    template<typename VType>
-    QuantileLikeNode<VType>::QuantileLikeNode(Operator opr,typename QuantileLikeNode<VType>::node_sptr node,Axis axis,VType arg):
+    template<typename VTypeI,typename VTypeO>
+    QuantileLikeNode<VTypeI,VTypeO>::QuantileLikeNode(Operator opr,typename QuantileLikeNode<VTypeI,VTypeO>::node_sptr node,Axis axis,VTypeI arg):
     node_(node),axis_(axis),arg_(arg){
         this->opr_=opr;
         if(opr==OprStatistics::Quantile){
@@ -262,8 +268,8 @@ namespace vtx{
             /*Operator Error*/
         }
     }
-    template<typename VType>
-    VType QuantileLikeNode<VType>::accept(const NodeVisitor<VType> &visitor,std::size_t row,std::size_t col) const{
+    template<typename VTypeI,typename VTypeO>
+    VTypeI QuantileLikeNode<VTypeI,VTypeO>::accept(const NodeVisitor<VTypeI,VTypeO> &visitor,std::size_t row,std::size_t col) const{
         return visitor.visit(*this,row,col);
     }
 }//namespace vtx

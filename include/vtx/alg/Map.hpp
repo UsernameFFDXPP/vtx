@@ -12,23 +12,23 @@
 
 namespace vtx{
     namespace map{
-        template<typename VType,typename VTypeR>
-        void mapUnaryEwise(Matrix<VTypeR> &rsl,Operator opr,const Matrix<VType> &mat);
+        template<typename VTypeI,typename VTypeO>
+        void mapUnaryEwise(Matrix<VTypeO> &rsl,Operator opr,const Matrix<VTypeI> &mat);
 
-        template<typename VType,typename VTypeR>
-        void mapBinaryEwise(Matrix<VTypeR> &rsl,Operator opr,const Matrix<VType> &lhs,const Matrix<VType> &rhs);
+        template<typename VTypeI,typename VTypeO>
+        void mapBinaryEwise(Matrix<VTypeO> &rsl,Operator opr,const Matrix<VTypeI> &lhs,const Matrix<VTypeI> &rhs);
         
-        template<typename VType,typename VTypeR>
-        void mapBroadcastEwise(Matrix<VTypeR> &rsl,Operator opr,const Matrix<VType> &lhs,const Matrix<VType> &rhs);
-        template<typename VType,typename VTypeR>
-        void mapBroadcastEwise(Matrix<VTypeR> &rsl,Operator opr,const Matrix<VType> &lhs,const VType &arg);
-        template<typename VType,typename VTypeR>
-        void mapBroadcastEwise(Matrix<VTypeR> &rsl,Operator opr,const VType &arg,const Matrix<VType> &rhs);
+        template<typename VTypeI,typename VTypeO>
+        void mapBroadcastEwise(Matrix<VTypeO> &rsl,Operator opr,const Matrix<VTypeI> &lhs,const Matrix<VTypeI> &rhs);
+        template<typename VTypeI,typename VTypeO>
+        void mapBroadcastEwise(Matrix<VTypeO> &rsl,Operator opr,const Matrix<VTypeI> &lhs,const VTypeI &arg);
+        template<typename VTypeI,typename VTypeO>
+        void mapBroadcastEwise(Matrix<VTypeO> &rsl,Operator opr,const VTypeI &arg,const Matrix<VTypeI> &rhs);
 
-        template<typename VType,typename VTypeR>
-        void mapReduction(Matrix<VTypeR> &rsl,Operator opr,const Matrix<VType> &mat,Axis axis);
-        template<typename VType,typename VTypeR>
-        void mapQuantile(Matrix<VTypeR> &rsl,Operator opr,const Matrix<VType> &mat,Axis axis,double q);
+        template<typename VTypeI,typename VTypeO>
+        void mapReduction(Matrix<VTypeO> &rsl,Operator opr,const Matrix<VTypeI> &mat,Axis axis);
+        template<typename VTypeI,typename VTypeO>
+        void mapQuantile(Matrix<VTypeO> &rsl,Operator opr,const Matrix<VTypeI> &mat,Axis axis,double q);
     }//namespace arithm_map
 }//namespace vtx
 

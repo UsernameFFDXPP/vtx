@@ -10,11 +10,11 @@
 #include"vtx/alg/OperatorTraits.hpp"
 
 namespace vtx{
-    template<typename VType>
+    template<typename VTypeI,typename VTypeO>
     class ASTNode{
-        friend class EvalVisitor<VType>;
+        friend class EvalVisitor<VTypeI,VTypeO>;
         public:
-            using value_type=VType;
+            using value_type=VTypeI;
             using size_type=std::size_t;
 
             virtual ~ASTNode()=default;
@@ -23,8 +23,8 @@ namespace vtx{
             std::size_t colLength() const;
             Operator opr() const;
 
-            virtual VType accept(const NodeVisitor<VType> &visitor,std::size_t row,std::size_t col) const=0;
-            VType operator()(std::size_t row,std::size_t col) const;
+            virtual VTypeO accept(const NodeVisitor<VTypeI,VTypeO> &visitor,std::size_t row,std::size_t col) const=0;
+            VTypeO operator()(std::size_t row,std::size_t col) const;
 
         protected:
             ASTNode();
@@ -34,97 +34,101 @@ namespace vtx{
         private:
     };
 
-    template<typename VType>
-    class MatNode:public ASTNode<VType>{
-        friend class EvalVisitor<VType>;
+    template<typename VTypeI,typename VTypeO>
+    class MatNode:public ASTNode<VTypeI,VTypeO>{
+        friend class EvalVisitor<VTypeI,VTypeO>;
         public:
             using size_type=std::size_t;
-            MatNode(Operator opr,const Matrix<VType> *mat);
+            MatNode(Operator opr,const Matrix<VTypeI> *mat);
 
-            VType accept(const NodeVisitor<VType> &visitor,std::size_t row,std::size_t col) const override;
+            VTypeO accept(const NodeVisitor<VTypeI,VTypeO> &visitor,std::size_t row,std::size_t col) const override;
 
         private:
-            const Matrix<VType> *mat_;
+            const Matrix<VTypeI> *mat_;
     };
 
-    template<typename VType>
-    class NegLikeNode:public ASTNode<VType>{
-        friend class EvalVisitor<VType>;
+    template<typename VTypeI,typename VTypeO>
+    class NegLikeNode:public ASTNode<VTypeI,VTypeO>{
+        friend class EvalVisitor<VTypeI,VTypeO>;
         public:
             using size_type=std::size_t;
-            using node_sptr=std::shared_ptr<ASTNode<VType>>;
+            using node_sptr=std::shared_ptr<ASTNode<VTypeI,VTypeO>>;
             NegLikeNode(Operator opr,node_sptr node);
 
-            VType accept(const NodeVisitor<VType> &visitor,std::size_t row,std::size_t col) const override;
+            VTypeO accept(const NodeVisitor<VTypeI,VTypeO> &visitor,std::size_t row,std::size_t col) const override;
 
         private:
             node_sptr node_;
     };
 
-    template<typename VType>
-    class AddLikeNode:public ASTNode<VType>{
-        friend class EvalVisitor<VType>;
+    template<typename VTypeI,typename VTypeO>
+    class AddLikeNode:public ASTNode<VTypeI,VTypeO>{
+        friend class EvalVisitor<VTypeI,VTypeO>;
         public:
             using size_type=std::size_t;
-            using node_sptr=std::shared_ptr<ASTNode<VType>>;
+            using node_sptr=std::shared_ptr<ASTNode<VTypeI,VTypeO>>;
             AddLikeNode(Operator opr,node_sptr lhs,node_sptr rhs);
 
-            VType accept(const NodeVisitor<VType> &visitor,std::size_t row,std::size_t col) const override;
+            VTypeO accept(const NodeVisitor<VTypeI,VTypeO> &visitor,std::size_t row,std::size_t col) const override;
 
         private:
             node_sptr lhs_,rhs_;
     };
 
-    template<typename VType>
-    class FlipLikeNode:public ASTNode<VType>{
+    template<typename VTypeI,typename VTypeO>
+    class FlipLikeNode:public ASTNode<VTypeI,VTypeO>{
+        friend class EvalVisitor<VTypeI,VTypeO>;
         public:
             using size_type=std::size_t;
-            using node_sptr=std::shared_ptr<ASTNode<VType>>;
+            using node_sptr=std::shared_ptr<ASTNode<VTypeI,VTypeO>>;
             FlipLikeNode(Operator opr,node_sptr node,Axis axis);
 
-            VType accept(const NodeVisitor<VType> &visitor,std::size_t row,std::size_t col) const override;
+            VTypeO accept(const NodeVisitor<VTypeI,VTypeO> &visitor,std::size_t row,std::size_t col) const override;
 
         private:
             node_sptr node_;
             Axis axis_;
     };
 
-    template<typename VType>
-    class ConcatLikeNode:public ASTNode<VType>{
+    template<typename VTypeI,typename VTypeO>
+    class ConcatLikeNode:public ASTNode<VTypeI,VTypeO>{
+        friend class EvalVisitor<VTypeI,VTypeO>;
         public:
             using size_type=std::size_t;
-            using node_sptr=std::shared_ptr<ASTNode<VType>>;
+            using node_sptr=std::shared_ptr<ASTNode<VTypeI,VTypeO>>;
             ConcatLikeNode(Operator opr,node_sptr lhs,node_sptr rhs,Axis axis);
 
-            VType accept(const NodeVisitor<VType> &visitor,std::size_t row,std::size_t col) const override;
+            VTypeO accept(const NodeVisitor<VTypeI,VTypeO> &visitor,std::size_t row,std::size_t col) const override;
             
         private:
             node_sptr lhs_,rhs_;
             Axis axis_;
     };
 
-    template<typename VType>
-    class ResizeLikeNode:public ASTNode<VType>{
+    template<typename VTypeI,typename VTypeO>
+    class ResizeLikeNode:public ASTNode<VTypeI,VTypeO>{
+        friend class EvalVisitor<VTypeI,VTypeO>;
         public:
             using size_type=std::size_t;
-            using node_sptr=std::shared_ptr<ASTNode<VType>>;
+            using node_sptr=std::shared_ptr<ASTNode<VTypeI,VTypeO>>;
             ResizeLikeNode(Operator opr,node_sptr node,std::size_t idx1,std::size_t idx2);
 
-            VType accept(const NodeVisitor<VType> &visitor,std::size_t row,std::size_t col) const override;
+            VTypeO accept(const NodeVisitor<VTypeI,VTypeO> &visitor,std::size_t row,std::size_t col) const override;
             
         private:
             node_sptr node_;
             size_type idx1_,idx2_;
     };
 
-    template<typename VType>
-    class DropLikeNode:public ASTNode<VType>{
+    template<typename VTypeI,typename VTypeO>
+    class DropLikeNode:public ASTNode<VTypeI,VTypeO>{
+        friend class EvalVisitor<VTypeI,VTypeO>;
         public:
             using size_type=std::size_t;
-            using node_sptr=std::shared_ptr<ASTNode<VType>>;
+            using node_sptr=std::shared_ptr<ASTNode<VTypeI,VTypeO>>;
             DropLikeNode(Operator opr,node_sptr node,Axis axis,std::size_t idx);
 
-            VType accept(const NodeVisitor<VType> &visitor,std::size_t row,std::size_t col) const override;
+            VTypeO accept(const NodeVisitor<VTypeI,VTypeO> &visitor,std::size_t row,std::size_t col) const override;
             
         private:
             node_sptr node_;
@@ -132,49 +136,51 @@ namespace vtx{
             size_type idx_;
     };
 
-    template<typename VType>
-    class SwapLikeNode:public ASTNode<VType>{
+    template<typename VTypeI,typename VTypeO>
+    class SwapLikeNode:public ASTNode<VTypeI,VTypeO>{
+        friend class EvalVisitor<VTypeI,VTypeO>;
         public:
             using size_type=std::size_t;
-            using node_sptr=std::shared_ptr<ASTNode<VType>>;
+            using node_sptr=std::shared_ptr<ASTNode<VTypeI,VTypeO>>;
             SwapLikeNode(Operator opr,node_sptr node,Axis axis,std::size_t arg1,std::size_t arg2);
 
-            VType accept(const NodeVisitor<VType> &visitor,std::size_t row,std::size_t col) const override;
+            VTypeO accept(const NodeVisitor<VTypeI,VTypeO> &visitor,std::size_t row,std::size_t col) const override;
             
         private:
             node_sptr node_;
             Axis axis_;
-            VType idx1_,idx2_;
+            VTypeI idx1_,idx2_;
     };
 
-    template<typename VType>
-    class EwiseLikeNode:public ASTNode<VType>{
-        friend class EvalVisitor<VType>;
+    template<typename VTypeI,typename VTypeO>
+    class EwiseLikeNode:public ASTNode<VTypeI,VTypeO>{
+        friend class EvalVisitor<VTypeI,VTypeO>;
         public:
             using size_type=std::size_t;
-            using node_sptr=std::shared_ptr<ASTNode<VType>>;
-            EwiseLikeNode(Operator opr,node_sptr node,VType arg);
+            using node_sptr=std::shared_ptr<ASTNode<VTypeI,VTypeO>>;
+            EwiseLikeNode(Operator opr,node_sptr node,VTypeI arg);
 
-            VType accept(const NodeVisitor<VType> &visitor,std::size_t row,std::size_t col) const override;
+            VTypeO accept(const NodeVisitor<VTypeI,VTypeO> &visitor,std::size_t row,std::size_t col) const override;
 
         private:
             node_sptr node_;
-            VType arg_;
+            VTypeI arg_;
     };
 
-    template<typename VType>
-    class QuantileLikeNode:public ASTNode<VType>{
+    template<typename VTypeI,typename VTypeO>
+    class QuantileLikeNode:public ASTNode<VTypeI,VTypeO>{
+        friend class EvalVisitor<VTypeI,VTypeO>;
         public:
             using size_type=std::size_t;
-            using node_sptr=std::shared_ptr<ASTNode<VType>>;
-            QuantileLikeNode(Operator opr,node_sptr node,Axis axis,VType arg);
+            using node_sptr=std::shared_ptr<ASTNode<VTypeI,VTypeO>>;
+            QuantileLikeNode(Operator opr,node_sptr node,Axis axis,VTypeI arg);
 
-            VType accept(const NodeVisitor<VType> &visitor,std::size_t row,std::size_t col) const override;
+            VTypeO accept(const NodeVisitor<VTypeI,VTypeO> &visitor,std::size_t row,std::size_t col) const override;
             
         private:
             node_sptr node_;
             Axis axis_;
-            VType arg_;
+            VTypeI arg_;
     };
 }//namespace vtx
 

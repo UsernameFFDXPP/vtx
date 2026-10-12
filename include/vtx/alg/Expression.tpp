@@ -45,7 +45,7 @@ namespace vtx{
 
     template<typename VType>
     Matrix<VType> Expression<VType>::eval() const{
-        EvalVisitor<VType> visitor;
+        EvalVisitor<VType,VType> visitor;
         std::size_t rows=root_->rowLength();
         std::size_t cols=root_->colLength();
         Matrix<VType> rsl(rows,cols);
@@ -59,7 +59,7 @@ namespace vtx{
 
     template<typename VType>
     VType Expression<VType>::evalAt(std::size_t row,std::size_t col) const{
-        EvalVisitor<VType> visitor;
+        EvalVisitor<VType,VType> visitor;
         return root_->accept(visitor,row,col);
     }
 
