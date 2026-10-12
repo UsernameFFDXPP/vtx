@@ -10,6 +10,8 @@
 #include"vtx/alg/arithm/Arithm.hpp"
 
 namespace vtx{
+    template<typename VType> class NodeBase;
+
     template<typename VTypeI,typename VTypeO> class ASTNode;
     template<typename VTypeI,typename VTypeO> class MatNode;
     template<typename VTypeI,typename VTypeO> class NegLikeNode;
@@ -59,16 +61,16 @@ namespace vtx{
 
             virtual ~NodeVisitor()=default;
             
-            virtual VTypeO visit(const MatNode<VTypeI> &node,std::size_t row,std::size_t col) const=0;
-            virtual VTypeO visit(const NegLikeNode<VTypeI> &node,std::size_t row,std::size_t col) const=0;
-            virtual VTypeO visit(const AddLikeNode<VTypeI> &node,std::size_t row,std::size_t col) const=0;
-            virtual VTypeO visit(const FlipLikeNode<VTypeI> &node,std::size_t row,std::size_t col) const=0;
-            virtual VTypeO visit(const ConcatLikeNode<VTypeI> &node,std::size_t row,std::size_t col) const=0;
-            virtual VTypeO visit(const ResizeLikeNode<VTypeI> &node,std::size_t row,std::size_t col) const=0;
-            virtual VTypeO visit(const DropLikeNode<VTypeI> &node,std::size_t row,std::size_t col) const=0;
-            virtual VTypeO visit(const SwapLikeNode<VTypeI> &node,std::size_t row,std::size_t col) const=0;
-            virtual VTypeO visit(const EwiseLikeNode<VTypeI> &node,std::size_t row,std::size_t col) const=0;
-            virtual VTypeO visit(const QuantileLikeNode<VTypeI> &node,std::size_t row,std::size_t col) const=0;
+            virtual VTypeO visit(const MatNode<VTypeI,VTypeO> &node,std::size_t row,std::size_t col) const=0;
+            virtual VTypeO visit(const NegLikeNode<VTypeI,VTypeO> &node,std::size_t row,std::size_t col) const=0;
+            virtual VTypeO visit(const AddLikeNode<VTypeI,VTypeO> &node,std::size_t row,std::size_t col) const=0;
+            virtual VTypeO visit(const FlipLikeNode<VTypeI,VTypeO> &node,std::size_t row,std::size_t col) const=0;
+            virtual VTypeO visit(const ConcatLikeNode<VTypeI,VTypeO> &node,std::size_t row,std::size_t col) const=0;
+            virtual VTypeO visit(const ResizeLikeNode<VTypeI,VTypeO> &node,std::size_t row,std::size_t col) const=0;
+            virtual VTypeO visit(const DropLikeNode<VTypeI,VTypeO> &node,std::size_t row,std::size_t col) const=0;
+            virtual VTypeO visit(const SwapLikeNode<VTypeI,VTypeO> &node,std::size_t row,std::size_t col) const=0;
+            virtual VTypeO visit(const EwiseLikeNode<VTypeI,VTypeO> &node,std::size_t row,std::size_t col) const=0;
+            virtual VTypeO visit(const QuantileLikeNode<VTypeI,VTypeO> &node,std::size_t row,std::size_t col) const=0;
     };
 
     template<typename VTypeI,typename VTypeO>
@@ -76,19 +78,19 @@ namespace vtx{
         public:
             using size_type=std::size_t;
             
-            VTypeO visit(const MatNode<VTypeI> &node,std::size_t row,std::size_t col) const override{
+            VTypeO visit(const MatNode<VTypeI,VTypeO> &node,std::size_t row,std::size_t col) const override{
                 return (*node.mat_)(row,col);
             }
 
-            VTypeO visit(const NegLikeNode<VTypeI> &node,std::size_t row,std::size_t col) const override{
+            VTypeO visit(const NegLikeNode<VTypeI,VTypeO> &node,std::size_t row,std::size_t col) const override{
                 if(node.opr_==OprArithm::Neg){
                     if constexpr(opr_traits::getOprDemand<VTypeI,OprArithm::Neg>()){
-                        VTypeI val=node.node_->accept(*this,row,col);
+                        VTypeI val=node.node_->evalAt(row,col);
                         return algNeg(val);
                     }else /*Operator Error*/;
                 }else if(node.opr_==OprArithm::EwiseInv){
                     if constexpr(opr_traits::getOprDemand<VTypeI,OprArithm::EwiseInv>()){
-                        VTypeI val=node.node_->accept(*this,row,col);
+                        VTypeI val=node.node_->evalAt(row,col);
                         return algEwiseInv(val);
                     }else /*Operator Error*/;
                 }else if(node.opr_==OprArithm::MatInv){
@@ -97,7 +99,7 @@ namespace vtx{
                     }else /*Operator Error*/;
                 }else if(node.opr_==OprLayout::Transpose){
                     if constexpr(opr_traits::getOprDemand<VTypeI,OprLayout::Transpose>()){
-                        return node.node_->accept(*this,col,row);
+                        return node.node_->evalAt(col,row);
                     }else /*Operator Error*/;
                 }else{
                     /*Operator Error*/;
@@ -105,23 +107,23 @@ namespace vtx{
                 return VTypeO{};
             }
 
-            VTypeO visit(const AddLikeNode<VTypeI> &node,std::size_t row,std::size_t col) const override{
+            VTypeO visit(const AddLikeNode<VTypeI,VTypeO> &node,std::size_t row,std::size_t col) const override{
                 if(node.opr_==OprArithm::Add){
                     if constexpr(opr_traits::isAddAble<VTypeI,VTypeI>::value){
-                        VTypeI lhs=node.lhs_->accept(*this,row,col);
-                        VTypeI rhs=node.rhs_->accept(*this,row,col);
+                        VTypeI lhs=node.lhs_->evalAt(row,col);
+                        VTypeI rhs=node.rhs_->evalAt(row,col);
                         return algAdd(lhs,rhs);
                     }else /*Operator Error*/;
                 }else if(node.opr_==OprArithm::Sub){
                     if constexpr(opr_traits::isSubAble<VTypeI,VTypeI>::value){
-                        VTypeI lhs=node.lhs_->accept(*this,row,col);
-                        VTypeI rhs=node.rhs_->accept(*this,row,col);
+                        VTypeI lhs=node.lhs_->evalAt(row,col);
+                        VTypeI rhs=node.rhs_->evalAt(row,col);
                         return algSub(lhs,rhs);
                     }else /*Operator Error*/;
                 }else if(node.opr_==OprArithm::MatMul){
                     if constexpr(opr_traits::isMulAble<VTypeI,VTypeI>::value){
-                        View<ASTNode<VTypeI>> lhs(node.lhs_.get(),Axis::Row,row);
-                        View<ASTNode<VTypeI>> rhs(node.rhs_.get(),Axis::Col,col);
+                        View<NodeBase<VTypeI>> lhs(node.lhs_.get(),Axis::Row,row);
+                        View<NodeBase<VTypeI>> rhs(node.rhs_.get(),Axis::Col,col);
                         //ViewLike<ASTNode<VType>,VType> lhs(node.lhs_.get(),Axis::Row,row);
                         //ViewLike<ASTNode<VType>,VType> rhs(node.rhs_.get(),Axis::Col,col);
                         return algMatMul(lhs,rhs);
@@ -160,15 +162,15 @@ namespace vtx{
                 return VTypeO{};
             }
 
-            VTypeO visit(const FlipLikeNode<VTypeI> &node,std::size_t row,std::size_t col) const override{
+            VTypeO visit(const FlipLikeNode<VTypeI,VTypeO> &node,std::size_t row,std::size_t col) const override{
                 if(node.opr_==OprLayout::Flip){
                     if constexpr(opr_traits::getOprDemand<VTypeI,OprLayout::Flip>()){
                         if(node.axis_==Axis::Row){
-                            return node.node_->accept(*this,node.rowLength_-1-row,col);
+                            return node.node_->evalAt(node.rowLength_-1-row,col);
                         }else if(node.axis_==Axis::Col){
-                            return node.node_->accept(*this,row,node.colLength_-1-col);
+                            return node.node_->evalAt(row,node.colLength_-1-col);
                         }else if(node.axis_==Axis::None){
-                            return node.node_->accept(*this,node.rowLength_-1-row,node.colLength_-1-col);
+                            return node.node_->evalAt(node.rowLength_-1-row,node.colLength_-1-col);
                         }else /*Axis Error*/;
                     }else /*Operator Error*/;
                 }else if(node.opr_==OprReduction::Sum){
@@ -233,17 +235,17 @@ namespace vtx{
                 return VTypeO{};
             }
 
-            VTypeO visit(const ConcatLikeNode<VTypeI> &node,std::size_t row,std::size_t col) const override{
+            VTypeO visit(const ConcatLikeNode<VTypeI,VTypeO> &node,std::size_t row,std::size_t col) const override{
                 if(node.opr_==OprLayout::Concat){
                     if constexpr(opr_traits::getOprDemand<VTypeI,OprLayout::Concat>()){
                         if(node.axis_==Axis::Row){
-                            std::size_t rows=node.lhs_->rowLength_;
-                            if(row<rows) return node.lhs_->accept(*this,row,col);
-                            else return node.rhs_->accept(*this,row-rows,col);
+                            std::size_t rows=node.lhs_->rowLength();
+                            if(row<rows) return node.lhs_->evalAt(row,col);
+                            else return node.rhs_->evalAt(row-rows,col);
                         }else if(node.axis_==Axis::Col){
-                            std::size_t cols=node.lhs_->colLength_;
-                            if(col<cols) return node.lhs_->accept(*this,row,col);
-                            else return node.rhs_->accept(*this,row,col-cols);
+                            std::size_t cols=node.lhs_->colLength();
+                            if(col<cols) return node.lhs_->evalAt(row,col);
+                            else return node.rhs_->evalAt(row,col-cols);
                         }else /*Axis Error*/;
                     }else /*Operator Error*/;
                 }else{
@@ -252,18 +254,18 @@ namespace vtx{
                 return VTypeO{};
             }
 
-            VTypeO visit(const ResizeLikeNode<VTypeI> &node,std::size_t row,std::size_t col) const override{
+            VTypeO visit(const ResizeLikeNode<VTypeI,VTypeO> &node,std::size_t row,std::size_t col) const override{
                 if(node.opr_==OprLayout::Reshape){
                     if constexpr(opr_traits::getOprDemand<VTypeI,OprLayout::Reshape>()){
                         std::size_t idx=row*(node.idx2_)+col;
-                        std::size_t rowP=idx/(node.node_->colLength_);
-                        std::size_t colP=idx%(node.node_->colLength_);
-                        return node.node_->accept(*this,rowP,colP);
+                        std::size_t rowP=idx/(node.node_->colLength());
+                        std::size_t colP=idx%(node.node_->colLength());
+                        return node.node_->evalAt(rowP,colP);
                     }else /*Operator Error*/;
                 }else if(node.opr_==OprLayout::Resize){
                     if constexpr(opr_traits::getOprDemand<VTypeI,OprLayout::Resize>()){
                         if(row<node.idx1_ && col<node.idx2_){
-                            return node.node_->accept(*this,row,col);
+                            return node.node_->evalAt(row,col);
                         }else return VTypeO{};
                     }else /*Operator Error*/;
                 }else{
@@ -272,27 +274,27 @@ namespace vtx{
                 return VTypeO{};
             }
 
-            VTypeO visit(const DropLikeNode<VTypeI> &node,std::size_t row,std::size_t col) const override{
+            VTypeO visit(const DropLikeNode<VTypeI,VTypeO> &node,std::size_t row,std::size_t col) const override{
                 if(node.opr_==OprLayout::Drop){
                     if constexpr(opr_traits::getOprDemand<VTypeI,OprLayout::Drop>()){
                         if(node.axis_==Axis::Row){
-                            if(row<node.idx_) return node.node_->accept(*this,row,col);
-                            else return node.node_->accept(*this,row+1,col);
+                            if(row<node.idx_) return node.node_->evalAt(row,col);
+                            else return node.node_->evalAt(row+1,col);
                         }else if(node.axis_==Axis::Col){
-                            if(col<node.idx_) return node.node_->accept(*this,row,col);
-                            else return node.node_->accept(*this,row,col+1);
+                            if(col<node.idx_) return node.node_->evalAt(row,col);
+                            else return node.node_->evalAt(row,col+1);
                         }else /*Axis Error*/;
                     }else /*Operator Error*/;
                 }else if(node.opr_==OprLayout::Insert){
                     if constexpr(opr_traits::getOprDemand<VTypeI,OprLayout::Insert>()){
                         if(node.axis_==Axis::Row){
-                            if(row<node.idx_) return node.node_->accept(*this,row,col);
+                            if(row<node.idx_) return node.node_->evalAt(row,col);
                             else if(row==node.idx_) return VTypeO{};
-                            else return node.node_->accept(*this,row-1,col);
+                            else return node.node_->evalAt(row-1,col);
                         }else if(node.axis_==Axis::Col){
-                            if(col<node.idx_) return node.node_->accept(*this,row,col);
+                            if(col<node.idx_) return node.node_->evalAt(row,col);
                             else if(col==node.idx_) return VTypeO{};
-                            else return node.node_->accept(*this,row,col-1);
+                            else return node.node_->evalAt(row,col-1);
                         }else /*Axis Error*/;
                     }else /*Operator Error*/;
                 }else{
@@ -301,25 +303,25 @@ namespace vtx{
                 return VTypeO{};
             }
 
-            VTypeO visit(const SwapLikeNode<VTypeI> &node,std::size_t row,std::size_t col) const override{
+            VTypeO visit(const SwapLikeNode<VTypeI,VTypeO> &node,std::size_t row,std::size_t col) const override{
                 if(node.opr_==OprLayout::Swap){
                     if constexpr(opr_traits::getOprDemand<VTypeI,OprLayout::Swap>()){
                         if(node.axis_==Axis::Row){
-                            if(row==node.idx1_) return node.node_->accept(*this,node.idx2_,col);
-                            else if(row==node.idx2_) return node.node_->accept(*this,node.idx1_,col);
-                            else return node.node_->accept(*this,row,col);
+                            if(row==node.idx1_) return node.node_->evalAt(node.idx2_,col);
+                            else if(row==node.idx2_) return node.node_->evalAt(node.idx1_,col);
+                            else return node.node_->evalAt(row,col);
                         }else if(node.axis_==Axis::Col){
-                            if(col==node.idx1_) return node.node_->accept(*this,row,node.idx2_);
-                            else if(col==node.idx2_) return node.node_->accept(*this,row,node.idx1_);
-                            else return node.node_->accept(*this,row,col);
+                            if(col==node.idx1_) return node.node_->evalAt(row,node.idx2_);
+                            else if(col==node.idx2_) return node.node_->evalAt(row,node.idx1_);
+                            else return node.node_->evalAt(row,col);
                         }else /*Axis Error*/;
                     }else /*Operator Error*/;
                 }else if(node.opr_==OprLayout::Slice){
                     if constexpr(opr_traits::getOprDemand<VTypeI,OprLayout::Slice>()){
                         if(node.axis_==Axis::Row){
-                            return node.node_->accept(*this,row-node.idx1_,col);
+                            return node.node_->evalAt(row-node.idx1_,col);
                         }else if(node.axis_==Axis::Col){
-                            return node.node_->accept(*this,row,col-node.idx1_);
+                            return node.node_->evalAt(row,col-node.idx1_);
                         }else /*Axis Error*/;
                     }else /*Operator Error*/;
                 }else{
@@ -328,8 +330,8 @@ namespace vtx{
                 return VTypeO{};
             }
 
-            VTypeO visit(const EwiseLikeNode<VTypeI> &node,std::size_t row,std::size_t col) const override{
-                VTypeI val=node.node_->accept(*this,row,col);
+            VTypeO visit(const EwiseLikeNode<VTypeI,VTypeO> &node,std::size_t row,std::size_t col) const override{
+                VTypeI val=node.node_->evalAt(row,col);
                 VTypeI arg=node.arg_;
                 if(node.opr_==OprArithm::EwiseMul){
                     if constexpr(opr_traits::isMulAble<VTypeI,VTypeI>::value)
@@ -349,7 +351,7 @@ namespace vtx{
                 return VTypeO{};
             }
 
-            VTypeO visit(const QuantileLikeNode<VTypeI> &node,std::size_t row,std::size_t col) const override{
+            VTypeO visit(const QuantileLikeNode<VTypeI,VTypeO> &node,std::size_t row,std::size_t col) const override{
                 if(node.opr_==OprStatistics::Quantile){
                     if constexpr(opr_traits::getOprDemand<VTypeI,OprStatistics::Quantile>()){
 
