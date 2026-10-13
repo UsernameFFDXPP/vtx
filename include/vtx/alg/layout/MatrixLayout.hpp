@@ -58,6 +58,17 @@ namespace vtx{
         }
         return rsl;
     }
+    /*Broadcast*/
+    template<typename VType>
+    Matrix<VType> broadcast(const Matrix<VType> &mat,std::size_t rowsNew,std::size_t colsNew){
+        Matrix<VType> rsl(rowsNew,colsNew);
+        for(std::size_t row=0;row<rowsNew;++row){
+            for(std::size_t col=0;col<colsNew;++col){
+                rsl(row,col)=mat(row%(mat.rowLength()),col%(mat.colLength()));
+            }
+        }
+        return rsl;
+    }
     /*Insert*/
     template<typename VType>
     Matrix<VType> insert(const Matrix<VType> &mat,Axis axis,std::size_t idx){

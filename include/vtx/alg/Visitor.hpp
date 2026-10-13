@@ -10,6 +10,7 @@
 #include"vtx/alg/arithm/Arithm.hpp"
 #include"vtx/alg/compare/Compare.hpp"
 #include"vtx/alg/reduction/Reduction.hpp"
+#include"vtx/alg/statistics/Statistics.hpp"
 
 namespace vtx{
     template<typename VType> class NodeBase;
@@ -320,6 +321,12 @@ namespace vtx{
                     if constexpr(opr_traits::getOprDemand<VTypeI,OprLayout::Resize>()){
                         if(row<node.idx1_ && col<node.idx2_){
                             return node.node_->evalAt(row,col);
+                        }else return VTypeO{};
+                    }else /*Operator Error*/;
+                }else if(node.opr_==OprLayout::Broadcast){
+                    if constexpr(opr_traits::getOprDemand<VTypeI,OprLayout::Broadcast>()){
+                        if(row<node.idx1_ && col<node.idx2_){
+                            return node.node_->evalAt(row%(node.node_->rowLength()),col%(node.node_->colLength()));
                         }else return VTypeO{};
                     }else /*Operator Error*/;
                 }else{

@@ -26,6 +26,11 @@ namespace vtx{
     }
 
     template<typename VType>
+    Expression<VType> broadcast(const Expression<VType> &expr,std::size_t idx1,std::size_t idx2){
+        return Expression<VType>(static_cast<Operator>(OprLayout::Broadcast),expr,idx1,idx2);
+    }
+
+    template<typename VType>
     Expression<VType> insert(const Expression<VType> &expr,Axis axis,std::size_t idx){
         return Expression<VType>(static_cast<Operator>(OprLayout::Insert),expr,axis,idx);
     }

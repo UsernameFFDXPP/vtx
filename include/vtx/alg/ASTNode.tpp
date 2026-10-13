@@ -108,10 +108,8 @@ namespace vtx{
             this->colLength_=node->colLength();
         }else if(
             opr==OprReduction::Sum ||
-            opr==OprReduction::Max ||
-            opr==OprReduction::Min ||
-            opr==OprReduction::ArgMax ||
-            opr==OprReduction::ArgMin ||
+            opr==OprReduction::Max || opr==OprReduction::Min ||
+            opr==OprReduction::ArgMax || opr==OprReduction::ArgMin ||
             opr==OprStatistics::Mean ||
             opr==OprStatistics::Variance ||
             opr==OprStatistics::SampleVariance ||
@@ -126,13 +124,23 @@ namespace vtx{
             }else if(axis==Axis::None){
                 this->rowLength_=1;
                 this->colLength_=1;
-            }else;
+            }else /*Axis Error*/;
         }else if(
             opr==OprStatistics::Center ||
-            opr==OprStatistics::Standardize
+            opr==OprStatistics::Standardize || opr==OprStatistics::SampleStandardize
         ){  
             this->rowLength_=node->rowLength();
             this->colLength_=node->colLength();
+        }else if(
+            opr==OprStatistics::Covariance || opr==OprStatistics::Correlation
+        ){  
+            if(axis==Axis::Row){
+                this->rowLength_=node->rowLength();
+                this->colLength_=node->rowLength();;
+            }else if(axis==Axis::Col){
+                this->rowLength_=node->colLength();
+                this->colLength_=node->colLength();
+            }else /*Axis Error*/;
         }else{
             /*Operator Error*/
         }
@@ -171,7 +179,7 @@ namespace vtx{
     ResizeLikeNode<VTypeI,VTypeO>::ResizeLikeNode(Operator opr,typename ResizeLikeNode<VTypeI,VTypeO>::node_sptr node,std::size_t idx1,std::size_t idx2):
     node_(node),idx1_(idx1),idx2_(idx2){
         this->opr_=opr;
-        if(opr==OprLayout::Reshape || opr==OprLayout::Resize){
+        if(opr==OprLayout::Reshape || opr==OprLayout::Resize || opr==OprLayout::Broadcast){
             this->rowLength_=idx1;
             this->colLength_=idx2;
         }else{

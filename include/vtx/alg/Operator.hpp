@@ -57,6 +57,7 @@ namespace vtx{
         /*1 Operand 2 Index*/
         Reshape,
         Resize,
+        Broadcast,
         /*1 Operand 1 Axis 1 Index*/
         Insert,
         Drop,
