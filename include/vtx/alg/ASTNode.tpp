@@ -260,7 +260,7 @@ namespace vtx{
 
     /*QuantileLike*/
     template<typename VTypeI,typename VTypeO>
-    QuantileLikeNode<VTypeI,VTypeO>::QuantileLikeNode(Operator opr,typename QuantileLikeNode<VTypeI,VTypeO>::node_sptr node,Axis axis,VTypeI arg):
+    QuantileLikeNode<VTypeI,VTypeO>::QuantileLikeNode(Operator opr,typename QuantileLikeNode<VTypeI,VTypeO>::node_sptr node,Axis axis,double arg):
     node_(node),axis_(axis),arg_(arg){
         this->opr_=opr;
         if(opr==OprStatistics::Quantile){

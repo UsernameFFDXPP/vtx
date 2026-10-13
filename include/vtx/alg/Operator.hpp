@@ -85,7 +85,7 @@ namespace vtx{
         Center,
         Standardize,
         SampleStandardize,
-        /*1 Operand 1 Axis 1 Arg*/
+        /*1 Operand 1 Axis 1 double*/
         Quantile,
     };
     enum class OprDecomposition{
@@ -100,16 +100,16 @@ namespace vtx{
         Schur,
     };
 
-    // Node      Axis   size_t  VType
-    // 1 Operand                         =NegLike
-    // 2 Operand                         =AddLike
-    // 1 Operand 1 Axis                  =FlipLike
-    // 2 Operand 1 Axis                  =ConcatLike
-    // 1 Operand        2 Index          =ResizeLike
-    // 1 Operand 1 Axis 1 Index          =DropLike
-    // 1 Operand 1 Axis 2 Index          =SwapLike
-    // 1 Operand                1 Arg    =EwiseLike
-    // 1 Operand 1 Axis         1 Arg    =QuantileLike
+    // Node      Axis   size_t  VType   double
+    // 1 Operand                                =NegLike
+    // 2 Operand                                =AddLike
+    // 1 Operand 1 Axis                         =FlipLike
+    // 2 Operand 1 Axis                         =ConcatLike
+    // 1 Operand        2 Index                 =ResizeLike
+    // 1 Operand 1 Axis 1 Index                 =DropLike
+    // 1 Operand 1 Axis 2 Index                 =SwapLike
+    // 1 Operand                1 Arg           =EwiseLike
+    // 1 Operand 1 Axis                 1 d     =QuantileLike
 
     inline bool operator==(const Operator &opr,OprDefault target){
         if(const auto *v=std::get_if<OprDefault>(&opr)) return *v==target;

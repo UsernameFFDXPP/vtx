@@ -39,7 +39,7 @@ namespace vtx{
     root_(std::make_shared<EwiseLikeNode<VTypeI,VTypeO>>(opr,expr.root_,arg)){}
     template<typename VTypeO>
     template<typename VTypeI>
-    Expression<VTypeO>::Expression(Operator opr,const Expression<VTypeI> &expr,Axis axis,const VTypeI &arg):
+    Expression<VTypeO>::Expression(Operator opr,const Expression<VTypeI> &expr,Axis axis,double arg):
     root_(std::make_shared<QuantileLikeNode<VTypeI,VTypeO>>(opr,expr.root_,arg)){}
 
     template<typename VType>

@@ -32,7 +32,7 @@ namespace vtx{
             template<typename VTypeI>
             Expression(Operator opr,const Expression<VTypeI> &expr,const VTypeI &arg);
             template<typename VTypeI>
-            Expression(Operator opr,const Expression<VTypeI> &expr,Axis axis,const VTypeI &arg);
+            Expression(Operator opr,const Expression<VTypeI> &expr,Axis axis,double arg);
 
             std::size_t rowLength() const;
             std::size_t colLength() const;

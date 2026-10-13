@@ -190,14 +190,14 @@ namespace vtx{
         public:
             using size_type=std::size_t;
             using node_sptr=std::shared_ptr<NodeBase<VTypeI>>;
-            QuantileLikeNode(Operator opr,node_sptr node,Axis axis,VTypeI arg);
+            QuantileLikeNode(Operator opr,node_sptr node,Axis axis,double arg);
 
             VTypeO accept(const NodeVisitor<VTypeI,VTypeO> &visitor,std::size_t row,std::size_t col) const override;
             
         private:
             node_sptr node_;
             Axis axis_;
-            VTypeI arg_;
+            double arg_;
     };
 }//namespace vtx
 
