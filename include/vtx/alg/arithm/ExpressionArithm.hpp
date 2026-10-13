@@ -1,5 +1,7 @@
 #pragma once
 
+#include<functional>
+
 #include"vtx/alg/Expression.hpp"
 #include"vtx/alg/Operator.hpp"
 
@@ -95,5 +97,17 @@ namespace vtx{
     Expression<VType> &matMul_(Expression<VType> &lhs,const Expression<VType> &rhs){
         lhs=Expression<VType>(static_cast<Operator>(OprArithm::MatMul),lhs,rhs);
         return lhs;
+    }
+    /*MatInv*/
+    /*MatDiv*/
+    /*EwiseUnaryFunc*/
+    template<typename VTypeI,typename VTypeO>
+    Expression<VTypeO> ewiseUnaryFunc(std::function<VTypeO(VTypeI)> func,const Expression<VTypeI> &expr){
+        return Expression<VTypeO>(static_cast<Operator>(OprArithm::EwiseUnaryFunc),func,expr);
+    }
+    /*EwiseBinaryFunc*/
+    template<typename VTypeI,typename VTypeO>
+    Expression<VTypeO> ewiseBinaryFunc(std::function<VTypeO(VTypeI,VTypeI)> func,const Expression<VTypeI> &lexpr,const Expression<VTypeI> &rexpr){
+        return Expression<VTypeO>(static_cast<Operator>(OprArithm::EwiseBinaryFunc),func,lexpr,rexpr);
     }
 }

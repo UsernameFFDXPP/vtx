@@ -1,6 +1,8 @@
 #pragma once
 
 #include<memory>
+#include<functional>
+
 #include"vtx/core/Matrix.hpp"
 #include"vtx/alg/ASTNode.hpp"
 #include"vtx/alg/Visitor.hpp"
@@ -33,6 +35,10 @@ namespace vtx{
             Expression(Operator opr,const Expression<VTypeI> &expr,const VTypeI &arg);
             template<typename VTypeI>
             Expression(Operator opr,const Expression<VTypeI> &expr,Axis axis,double arg);
+            template<typename VTypeI>
+            Expression(Operator opr,std::function<VTypeO(VTypeI)> func,const Expression<VTypeI> &expr);
+            template<typename VTypeI>
+            Expression(Operator opr,std::function<VTypeO(VTypeI,VTypeI)> func,const Expression<VTypeI> &lexpr,const Expression<VTypeI> &rexpr);
 
             std::size_t rowLength() const;
             std::size_t colLength() const;

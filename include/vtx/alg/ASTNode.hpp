@@ -2,6 +2,7 @@
 
 #include<memory>
 #include<cstddef>
+#include<functional>
 
 #include"vtx/core/Matrix.hpp"
 #include"vtx/core/Axis.hpp"
@@ -198,6 +199,37 @@ namespace vtx{
             node_sptr node_;
             Axis axis_;
             double arg_;
+    };
+
+    template<typename VTypeI,typename VTypeO>
+    class EwiseUnaryFuncNode:public ASTNode<VTypeI,VTypeO>{
+        friend class EvalVisitor<VTypeI,VTypeO>;
+        public:
+            using size_type=std::size_t;
+            using func_type=std::function<VTypeO(VTypeI)>;
+            using node_sptr=std::shared_ptr<NodeBase<VTypeI>>;
+            EwiseUnaryFuncNode(Operator opr,func_type func,node_sptr node);
+
+            VTypeO accept(const NodeVisitor<VTypeI,VTypeO> &visitor,std::size_t row,std::size_t col) const override;
+            
+        private:
+            node_sptr node_;
+            func_type func_;
+    };
+    template<typename VTypeI,typename VTypeO>
+    class EwiseBinaryFuncNode:public ASTNode<VTypeI,VTypeO>{
+        friend class EvalVisitor<VTypeI,VTypeO>;
+        public:
+            using size_type=std::size_t;
+            using func_type=std::function<VTypeO(VTypeI,VTypeI)>;
+            using node_sptr=std::shared_ptr<NodeBase<VTypeI>>;
+            EwiseBinaryFuncNode(Operator opr,func_type func,node_sptr lhs,node_sptr rhs);
+
+            VTypeO accept(const NodeVisitor<VTypeI,VTypeO> &visitor,std::size_t row,std::size_t col) const override;
+            
+        private:
+            node_sptr lhs_,rhs_;
+            func_type func_;
     };
 }//namespace vtx
 

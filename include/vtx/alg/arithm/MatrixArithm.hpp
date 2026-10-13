@@ -1,5 +1,7 @@
 #pragma once
 
+#include<functional>
+
 #include"vtx/core/Matrix.hpp"
 #include"vtx/core/View.hpp"
 #include"vtx/alg/Map.hpp"
@@ -136,5 +138,48 @@ namespace vtx{
             lhs=std::move(rsl);
         }else /*Operator Error*/;
         return lhs;
+    }
+    /*MatDiv*/
+    /*EwiseUnaryFunc*/
+    template<typename VTypeI,typename VTypeO>
+    Matrix<VTypeO> ewiseUnaryFunc(VTypeO (*func)(VTypeI),const Matrix<VTypeI> &mat){
+        Matrix<VTypeO> rsl(mat.rowLength(),mat.colLength());
+        for(std::size_t row=0;row<mat.rowLength();++row){
+            for(std::size_t col=0;col<mat.rowLength();++col){
+                rsl(row,col)=func(mat(row,col));
+            }
+        }
+        return rsl;
+    }
+    template<typename VTypeI,typename VTypeO>
+    Matrix<VTypeO> ewiseUnaryFunc(std::function<VTypeO(VTypeI)> func,const Matrix<VTypeI> &mat){
+        Matrix<VTypeO> rsl(mat.rowLength(),mat.colLength());
+        for(std::size_t row=0;row<mat.rowLength();++row){
+            for(std::size_t col=0;col<mat.rowLength();++col){
+                rsl(row,col)=func(mat(row,col));
+            }
+        }
+        return rsl;
+    }
+    /*EwiseBinaryFunc*/
+    template<typename VTypeI,typename VTypeO>
+    Matrix<VTypeO> ewiseBinaryFunc(VTypeO (*func)(VTypeI,VTypeI),const Matrix<VTypeI> &lhs,const Matrix<VTypeI> &rhs){
+        Matrix<VTypeO> rsl(lhs.rowLength(),lhs.colLength());
+        for(std::size_t row=0;row<lhs.rowLength();++row){
+            for(std::size_t col=0;col<rhs.rowLength();++col){
+                rsl(row,col)=func(lhs(row,col),rhs(row,col));
+            }
+        }
+        return rsl;
+    }
+    template<typename VTypeI,typename VTypeO>
+    Matrix<VTypeO> ewiseBinaryFunc(std::function<VTypeO(VTypeI,VTypeI)> func,const Matrix<VTypeI> &lhs,const Matrix<VTypeI> &rhs){
+        Matrix<VTypeO> rsl(lhs.rowLength(),lhs.colLength());
+        for(std::size_t row=0;row<lhs.rowLength();++row){
+            for(std::size_t col=0;col<rhs.rowLength();++col){
+                rsl(row,col)=func(lhs(row,col),rhs(row,col));
+            }
+        }
+        return rsl;
     }
 }//namespace vtx

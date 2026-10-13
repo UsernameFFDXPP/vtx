@@ -3,7 +3,7 @@
 #include<algorithm>
 #include<cmath>
 #include<cstddef>
-#include<vector>
+#include<functional>
 
 #include"vtx/alg/Operator.hpp"
 #include"vtx/alg/OperatorTraits.hpp"
@@ -69,4 +69,10 @@ namespace vtx{
         }
         return rsl;
     }
+    /*MatInv*/
+    /*MatDiv*/
+    /*EwiseUnaryFunc*/
+        //None
+    /*EwiseBinaryFunc*/
+        //None
 }//namespace vtx

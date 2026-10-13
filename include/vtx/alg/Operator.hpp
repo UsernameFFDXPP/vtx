@@ -39,6 +39,9 @@ namespace vtx{
         Sub,
         MatMul,
         MatDiv,
+        /*Func*/
+        EwiseUnaryFunc,
+        EwiseBinaryFunc,
     };
     enum class OprCompare{
         /*2 Operand*/

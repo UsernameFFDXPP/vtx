@@ -41,6 +41,14 @@ namespace vtx{
     template<typename VTypeI>
     Expression<VTypeO>::Expression(Operator opr,const Expression<VTypeI> &expr,Axis axis,double arg):
     root_(std::make_shared<QuantileLikeNode<VTypeI,VTypeO>>(opr,expr.root_,arg)){}
+    template<typename VTypeO>
+    template<typename VTypeI>
+    Expression<VTypeO>::Expression(Operator opr,std::function<VTypeO(VTypeI)> func,const Expression<VTypeI> &expr):
+    root_(std::make_shared<EwiseUnaryFuncNode<VTypeI,VTypeO>>(opr,func,expr.root_)){}
+    template<typename VTypeO>
+    template<typename VTypeI>
+    Expression<VTypeO>::Expression(Operator opr,std::function<VTypeO(VTypeI,VTypeI)> func,const Expression<VTypeI> &lexpr,const Expression<VTypeI> &rexpr):
+    root_(std::make_shared<EwiseBinaryFuncNode<VTypeI,VTypeO>>(opr,func,lexpr.root_,rexpr.root_)){}
 
     template<typename VType>
     std::size_t Expression<VType>::rowLength() const{

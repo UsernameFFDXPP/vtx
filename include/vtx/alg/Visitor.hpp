@@ -26,6 +26,8 @@ namespace vtx{
     template<typename VTypeI,typename VTypeO> class SwapLikeNode;
     template<typename VTypeI,typename VTypeO> class EwiseLikeNode;
     template<typename VTypeI,typename VTypeO> class QuantileLikeNode;
+    template<typename VTypeI,typename VTypeO> class EwiseUnaryFuncNode;
+    template<typename VTypeI,typename VTypeO> class EwiseBinaryFuncNode;
     
     template<typename VTypeI,typename VTypeO> class NodeVisitor;
     template<typename VTypeI,typename VTypeO> class EvalVisitor;
@@ -74,6 +76,8 @@ namespace vtx{
             virtual VTypeO visit(const SwapLikeNode<VTypeI,VTypeO> &node,std::size_t row,std::size_t col) const=0;
             virtual VTypeO visit(const EwiseLikeNode<VTypeI,VTypeO> &node,std::size_t row,std::size_t col) const=0;
             virtual VTypeO visit(const QuantileLikeNode<VTypeI,VTypeO> &node,std::size_t row,std::size_t col) const=0;
+            virtual VTypeO visit(const EwiseUnaryFuncNode<VTypeI,VTypeO> &node,std::size_t row,std::size_t col) const=0;
+            virtual VTypeO visit(const EwiseBinaryFuncNode<VTypeI,VTypeO> &node,std::size_t row,std::size_t col) const=0;
     };
 
     template<typename VTypeI,typename VTypeO>
@@ -104,9 +108,7 @@ namespace vtx{
                     if constexpr(opr_traits::getOprDemand<VTypeI,OprLayout::Transpose>()){
                         return node.node_->evalAt(col,row);
                     }else /*Operator Error*/;
-                }else{
-                    /*Operator Error*/;
-                }
+                }else /*Operator Error*/;
                 return VTypeO{};
             }
 
@@ -171,9 +173,7 @@ namespace vtx{
                         VTypeI rhs=node.rhs_->evalAt(row,col);
                         return algNotEqual(lhs,rhs);
                     }else /*Operator Error*/;
-                }else{
-                    /*Operator Error*/;
-                }
+                }else /*Operator Error*/;
                 return VTypeO{};
             }
 
@@ -274,7 +274,7 @@ namespace vtx{
                     }else /*Operator Error*/;
                 }else if(node.opr_==OprStatistics::Center){
                     if constexpr(opr_traits::getOprDemand<VTypeI,OprStatistics::Center>()){
-
+                        
                     }else /*Operator Error*/;
                 }else if(node.opr_==OprStatistics::Standardize){
                     if constexpr(opr_traits::getOprDemand<VTypeI,OprStatistics::Standardize>()){
@@ -284,9 +284,7 @@ namespace vtx{
                     if constexpr(opr_traits::getOprDemand<VTypeI,OprStatistics::SampleStandardize>()){
 
                     }else /*Operator Error*/;
-                }else{
-                    /*Operator Error*/;
-                }
+                }else /*Operator Error*/;
                 return VTypeO{};
             }
 
@@ -303,9 +301,7 @@ namespace vtx{
                             else return node.rhs_->evalAt(row,col-cols);
                         }else /*Axis Error*/;
                     }else /*Operator Error*/;
-                }else{
-                    /*Operator Error*/;
-                }
+                }else /*Operator Error*/;
                 return VTypeO{};
             }
 
@@ -329,9 +325,7 @@ namespace vtx{
                             return node.node_->evalAt(row%(node.node_->rowLength()),col%(node.node_->colLength()));
                         }else return VTypeO{};
                     }else /*Operator Error*/;
-                }else{
-                    /*Operator Error*/;
-                }
+                }else /*Operator Error*/;
                 return VTypeO{};
             }
 
@@ -358,9 +352,7 @@ namespace vtx{
                             else return node.node_->evalAt(row,col-1);
                         }else /*Axis Error*/;
                     }else /*Operator Error*/;
-                }else{
-                    /*Operator Error*/;
-                }
+                }else /*Operator Error*/;
                 return VTypeO{};
             }
 
@@ -385,9 +377,7 @@ namespace vtx{
                             return node.node_->evalAt(row,col-node.idx1_);
                         }else /*Axis Error*/;
                     }else /*Operator Error*/;
-                }else{
-                    /*Operator Error*/;
-                }
+                }else /*Operator Error*/;
                 return VTypeO{};
             }
 
@@ -406,9 +396,7 @@ namespace vtx{
                     if constexpr(opr_traits::isModAble<VTypeI,VTypeI>::value)
                         return algEwiseMod(val,arg);
                     else /*Operator Error*/;
-                }else{
-                    /*Operator Error*/;
-                }
+                }else /*Operator Error*/;
                 return VTypeO{};
             }
 
@@ -417,9 +405,23 @@ namespace vtx{
                     if constexpr(opr_traits::getOprDemand<VTypeI,OprStatistics::Quantile>()){
 
                     }else /*Operator Error*/;
-                }else{
-                    /*Operator Error*/;
-                }
+                }else /*Operator Error*/;
+                return VTypeO{};
+            }
+
+            VTypeO visit(const EwiseUnaryFuncNode<VTypeI,VTypeO> &node,std::size_t row,std::size_t col) const override{
+                if(node.opr_==OprArithm::EwiseUnaryFunc){
+                    VTypeI val=node.node_->evalAt(row,col);
+                    return node.func_(val);
+                }else /*Operator Error*/;
+                return VTypeO{};
+            }
+            VTypeO visit(const EwiseBinaryFuncNode<VTypeI,VTypeO> &node,std::size_t row,std::size_t col) const override{
+                if(node.opr_==OprArithm::EwiseBinaryFunc){
+                    VTypeI lhs=node.lhs_->evalAt(row,col);
+                    VTypeI rhs=node.rhs_->evalAt(row,col);
+                    return node.func_(lhs,rhs);
+                }else /*Operator Error*/;
                 return VTypeO{};
             }
     };

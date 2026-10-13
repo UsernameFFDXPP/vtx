@@ -61,9 +61,7 @@ namespace vtx{
         }else if(opr==OprLayout::Transpose){
             this->rowLength_=node->colLength();
             this->colLength_=node->rowLength();
-        }else{
-            /*Operator Error*/
-        }
+        }else /*Operator Error*/;
     }
     template<typename VTypeI,typename VTypeO>
     VTypeO NegLikeNode<VTypeI,VTypeO>::accept(const NodeVisitor<VTypeI,VTypeO> &visitor,std::size_t row,std::size_t col) const{
@@ -89,9 +87,7 @@ namespace vtx{
         }else if(opr==OprArithm::MatDiv){
             //this->rowLength_=lhs->rowLength();
             //this->colLength_=lhs->colLength();
-        }else{
-            /*Operator Error*/
-        }
+        }else /*Operator Error*/;
     }
     template<typename VTypeI,typename VTypeO>
     VTypeO AddLikeNode<VTypeI,VTypeO>::accept(const NodeVisitor<VTypeI,VTypeO> &visitor,std::size_t row,std::size_t col) const{
@@ -141,9 +137,7 @@ namespace vtx{
                 this->rowLength_=node->colLength();
                 this->colLength_=node->colLength();
             }else /*Axis Error*/;
-        }else{
-            /*Operator Error*/
-        }
+        }else /*Operator Error*/;
     }
     template<typename VTypeI,typename VTypeO>
     VTypeO FlipLikeNode<VTypeI,VTypeO>::accept(const NodeVisitor<VTypeI,VTypeO> &visitor,std::size_t row,std::size_t col) const{
@@ -165,9 +159,7 @@ namespace vtx{
             }else if(axis==Axis::None){
                 /*Axis Error*/
             }else;
-        }else{
-            /*Operator Error*/
-        }
+        }else /*Operator Error*/;
     }
     template<typename VTypeI,typename VTypeO>
     VTypeO ConcatLikeNode<VTypeI,VTypeO>::accept(const NodeVisitor<VTypeI,VTypeO> &visitor,std::size_t row,std::size_t col) const{
@@ -182,9 +174,7 @@ namespace vtx{
         if(opr==OprLayout::Reshape || opr==OprLayout::Resize || opr==OprLayout::Broadcast){
             this->rowLength_=idx1;
             this->colLength_=idx2;
-        }else{
-            /*Operator Error*/
-        }
+        }else /*Operator Error*/;
     }
     template<typename VTypeI,typename VTypeO>
     VTypeO ResizeLikeNode<VTypeI,VTypeO>::accept(const NodeVisitor<VTypeI,VTypeO> &visitor,std::size_t row,std::size_t col) const{
@@ -216,9 +206,7 @@ namespace vtx{
             }else if(axis==Axis::None){
                 /*Axis Error*/
             }else;
-        }else{
-            /*Operator Error*/
-        }
+        }else /*Operator Error*/;
     }
     template<typename VTypeI,typename VTypeO>
     VTypeO DropLikeNode<VTypeI,VTypeO>::accept(const NodeVisitor<VTypeI,VTypeO> &visitor,std::size_t row,std::size_t col) const{
@@ -243,9 +231,7 @@ namespace vtx{
             }else if(axis==Axis::None){
                 /*Axis Error*/
             }else;
-        }else{
-            /*Operator Error*/
-        }
+        }else /*Operator Error*/;
     }
     template<typename VTypeI,typename VTypeO>
     VTypeO SwapLikeNode<VTypeI,VTypeO>::accept(const NodeVisitor<VTypeI,VTypeO> &visitor,std::size_t row,std::size_t col) const{
@@ -282,12 +268,39 @@ namespace vtx{
                 this->rowLength_=1;
                 this->colLength_=1;
             }else;
-        }else{
-            /*Operator Error*/
-        }
+        }else /*Operator Error*/;
     }
     template<typename VTypeI,typename VTypeO>
     VTypeO QuantileLikeNode<VTypeI,VTypeO>::accept(const NodeVisitor<VTypeI,VTypeO> &visitor,std::size_t row,std::size_t col) const{
+        return visitor.visit(*this,row,col);
+    }
+
+    /*EwiseUnaryFuncNode*/
+    template<typename VTypeI,typename VTypeO>
+    EwiseUnaryFuncNode<VTypeI,VTypeO>::EwiseUnaryFuncNode(Operator opr,typename EwiseUnaryFuncNode<VTypeI,VTypeO>::func_type func,typename EwiseUnaryFuncNode<VTypeI,VTypeO>::node_sptr node):
+    node_(node),func_(func){
+        this->opr_=opr;
+        if(opr==OprArithm::EwiseUnaryFunc){
+            this->rowLength_=node->rowLength();
+            this->colLength_=node->colLength();
+        }else /*Operator Error*/;
+    }
+    template<typename VTypeI,typename VTypeO>
+    VTypeO EwiseUnaryFuncNode<VTypeI,VTypeO>::accept(const NodeVisitor<VTypeI,VTypeO> &visitor,std::size_t row,std::size_t col) const{
+        return visitor.visit(*this,row,col);
+    }
+    /*EwiseBinaryFuncNode*/
+    template<typename VTypeI,typename VTypeO>
+    EwiseBinaryFuncNode<VTypeI,VTypeO>::EwiseBinaryFuncNode(Operator opr,typename EwiseBinaryFuncNode<VTypeI,VTypeO>::func_type func,typename EwiseBinaryFuncNode<VTypeI,VTypeO>::node_sptr lhs,typename EwiseBinaryFuncNode<VTypeI,VTypeO>::node_sptr rhs):
+    lhs_(lhs),rhs_(rhs),func_(func){
+        this->opr_=opr;
+        if(opr==OprArithm::EwiseBinaryFunc){
+            this->rowLength_=lhs->rowLength();
+            this->colLength_=lhs->colLength();
+        }else /*Operator Error*/;
+    }
+    template<typename VTypeI,typename VTypeO>
+    VTypeO EwiseBinaryFuncNode<VTypeI,VTypeO>::accept(const NodeVisitor<VTypeI,VTypeO> &visitor,std::size_t row,std::size_t col) const{
         return visitor.visit(*this,row,col);
     }
 }//namespace vtx
