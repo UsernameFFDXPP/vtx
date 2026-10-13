@@ -14,6 +14,7 @@ namespace vtx{
             using value_type=typename Source::value_type;
             using size_type=std::size_t;
 
+            View()=default;
             View(const Source *source,Axis axis=Axis::None,std::size_t index=0):
             source_(source),axis_(axis),index_(index){}
 
@@ -50,8 +51,8 @@ namespace vtx{
             }
 
         private:
-            const Source *source_;
-            Axis axis_;
-            std::size_t index_;
+            const Source *source_=nullptr;
+            Axis axis_=Axis::None;
+            std::size_t index_=0;
     };
 }//namespace vtx
