@@ -14,3 +14,6 @@
 #include"vtx/alg/layout/MatrixLayout.hpp"
 #include"vtx/alg/reduction/MatrixReduction.hpp"
 #include"vtx/alg/statistics/MatrixStatistics.hpp"
+
+#include"vtx/alg/arithm/ExpressionArithm.hpp"
+#include"vtx/alg/layout/ExpressionLayout.hpp"
