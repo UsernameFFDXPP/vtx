@@ -9,6 +9,7 @@
 #include"vtx/alg/Operator.hpp"
 #include"vtx/alg/arithm/Arithm.hpp"
 #include"vtx/alg/compare/Compare.hpp"
+#include"vtx/alg/reduction/Reduction.hpp"
 
 namespace vtx{
     template<typename VType> class NodeBase;
@@ -188,23 +189,63 @@ namespace vtx{
                     }else /*Operator Error*/;
                 }else if(node.opr_==OprReduction::Sum){
                     if constexpr(opr_traits::getOprDemand<VTypeI,OprReduction::Sum>()){
-
+                        View<NodeBase<VTypeI>> line;
+                        if(node.axis_==Axis::Row){
+                            line=View<NodeBase<VTypeI>>(node.node_.get(),Axis::Row,row);
+                        }else if(node.axis_==Axis::Col){
+                            line=View<NodeBase<VTypeI>>(node.node_.get(),Axis::Col,col);
+                        }else if(node.axis_==Axis::None){
+                            line=View<NodeBase<VTypeI>>(node.node_.get(),Axis::None,row*(node.node_->colLength())+col);
+                        }else /*Axis Error*/;
+                        return algSum(line);
                     }else /*Operator Error*/;
                 }else if(node.opr_==OprReduction::Max){
                     if constexpr(opr_traits::getOprDemand<VTypeI,OprReduction::Max>()){
-
+                        View<NodeBase<VTypeI>> line;
+                        if(node.axis_==Axis::Row){
+                            line=View<NodeBase<VTypeI>>(node.node_.get(),Axis::Row,row);
+                        }else if(node.axis_==Axis::Col){
+                            line=View<NodeBase<VTypeI>>(node.node_.get(),Axis::Col,col);
+                        }else if(node.axis_==Axis::None){
+                            line=View<NodeBase<VTypeI>>(node.node_.get(),Axis::None,row*(node.node_->colLength())+col);
+                        }else /*Axis Error*/;
+                        return algMax(line);
                     }else /*Operator Error*/;
                 }else if(node.opr_==OprReduction::Min){
                     if constexpr(opr_traits::getOprDemand<VTypeI,OprReduction::Min>()){
-
+                        View<NodeBase<VTypeI>> line;
+                        if(node.axis_==Axis::Row){
+                            line=View<NodeBase<VTypeI>>(node.node_.get(),Axis::Row,row);
+                        }else if(node.axis_==Axis::Col){
+                            line=View<NodeBase<VTypeI>>(node.node_.get(),Axis::Col,col);
+                        }else if(node.axis_==Axis::None){
+                            line=View<NodeBase<VTypeI>>(node.node_.get(),Axis::None,row*(node.node_->colLength())+col);
+                        }else /*Axis Error*/;
+                        return algMin(line);
                     }else /*Operator Error*/;
                 }else if(node.opr_==OprReduction::ArgMax){
                     if constexpr(opr_traits::getOprDemand<VTypeI,OprReduction::ArgMax>()){
-
+                        View<NodeBase<VTypeI>> line;
+                        if(node.axis_==Axis::Row){
+                            line=View<NodeBase<VTypeI>>(node.node_.get(),Axis::Row,row);
+                        }else if(node.axis_==Axis::Col){
+                            line=View<NodeBase<VTypeI>>(node.node_.get(),Axis::Col,col);
+                        }else if(node.axis_==Axis::None){
+                            line=View<NodeBase<VTypeI>>(node.node_.get(),Axis::None,row*(node.node_->colLength())+col);
+                        }else /*Axis Error*/;
+                        return algArgMax(line);
                     }else /*Operator Error*/;
                 }else if(node.opr_==OprReduction::ArgMin){
                     if constexpr(opr_traits::getOprDemand<VTypeI,OprReduction::ArgMin>()){
-
+                        View<NodeBase<VTypeI>> line;
+                        if(node.axis_==Axis::Row){
+                            line=View<NodeBase<VTypeI>>(node.node_.get(),Axis::Row,row);
+                        }else if(node.axis_==Axis::Col){
+                            line=View<NodeBase<VTypeI>>(node.node_.get(),Axis::Col,col);
+                        }else if(node.axis_==Axis::None){
+                            line=View<NodeBase<VTypeI>>(node.node_.get(),Axis::None,row*(node.node_->colLength())+col);
+                        }else /*Axis Error*/;
+                        return algArgMin(line);
                     }else /*Operator Error*/;
                 }else if(node.opr_==OprStatistics::Covariance){
                     if constexpr(opr_traits::getOprDemand<VTypeI,OprStatistics::Covariance>()){
