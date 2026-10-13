@@ -18,3 +18,4 @@
 #include"vtx/alg/arithm/ExpressionArithm.hpp"
 #include"vtx/alg/layout/ExpressionLayout.hpp"
 #include"vtx/alg/reduction/ExpressionReduction.hpp"
+#include"vtx/alg/statistics/ExpressionStatistics.hpp"

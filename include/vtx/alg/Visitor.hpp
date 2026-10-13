@@ -258,31 +258,63 @@ namespace vtx{
                     }else /*Operator Error*/;
                 }else if(node.opr_==OprStatistics::Mean){
                     if constexpr(opr_traits::getOprDemand<VTypeI,OprStatistics::Mean>()){
-
+                        View<NodeBase<VTypeI>> line;
+                        if(node.axis_==Axis::Row){
+                            line=View<NodeBase<VTypeI>>(node.node_.get(),Axis::Row,row);
+                        }else if(node.axis_==Axis::Col){
+                            line=View<NodeBase<VTypeI>>(node.node_.get(),Axis::Col,col);
+                        }else if(node.axis_==Axis::None){
+                            line=View<NodeBase<VTypeI>>(node.node_.get(),Axis::None,row*(node.node_->colLength())+col);
+                        }else /*Axis Error*/;
+                        return algMean(line);
                     }else /*Operator Error*/;
                 }else if(node.opr_==OprStatistics::Variance){
                     if constexpr(opr_traits::getOprDemand<VTypeI,OprStatistics::Variance>()){
-
+                        View<NodeBase<VTypeI>> line;
+                        if(node.axis_==Axis::Row){
+                            line=View<NodeBase<VTypeI>>(node.node_.get(),Axis::Row,row);
+                        }else if(node.axis_==Axis::Col){
+                            line=View<NodeBase<VTypeI>>(node.node_.get(),Axis::Col,col);
+                        }else if(node.axis_==Axis::None){
+                            line=View<NodeBase<VTypeI>>(node.node_.get(),Axis::None,row*(node.node_->colLength())+col);
+                        }else /*Axis Error*/;
+                        return algVariance(line);
                     }else /*Operator Error*/;
                 }else if(node.opr_==OprStatistics::SampleVariance){
                     if constexpr(opr_traits::getOprDemand<VTypeI,OprStatistics::SampleVariance>()){
-
+                        View<NodeBase<VTypeI>> line;
+                        if(node.axis_==Axis::Row){
+                            line=View<NodeBase<VTypeI>>(node.node_.get(),Axis::Row,row);
+                        }else if(node.axis_==Axis::Col){
+                            line=View<NodeBase<VTypeI>>(node.node_.get(),Axis::Col,col);
+                        }else if(node.axis_==Axis::None){
+                            line=View<NodeBase<VTypeI>>(node.node_.get(),Axis::None,row*(node.node_->colLength())+col);
+                        }else /*Axis Error*/;
+                        return algSampleVariance(line);
                     }else /*Operator Error*/;
                 }else if(node.opr_==OprStatistics::Median){
                     if constexpr(opr_traits::getOprDemand<VTypeI,OprStatistics::Median>()){
-
+                        View<NodeBase<VTypeI>> line;
+                        if(node.axis_==Axis::Row){
+                            line=View<NodeBase<VTypeI>>(node.node_.get(),Axis::Row,row);
+                        }else if(node.axis_==Axis::Col){
+                            line=View<NodeBase<VTypeI>>(node.node_.get(),Axis::Col,col);
+                        }else if(node.axis_==Axis::None){
+                            line=View<NodeBase<VTypeI>>(node.node_.get(),Axis::None,row*(node.node_->colLength())+col);
+                        }else /*Axis Error*/;
+                        return algMedian(line);
                     }else /*Operator Error*/;
                 }else if(node.opr_==OprStatistics::Center){
                     if constexpr(opr_traits::getOprDemand<VTypeI,OprStatistics::Center>()){
-                        
+                        //None
                     }else /*Operator Error*/;
                 }else if(node.opr_==OprStatistics::Standardize){
                     if constexpr(opr_traits::getOprDemand<VTypeI,OprStatistics::Standardize>()){
-
+                        //None
                     }else /*Operator Error*/;
                 }else if(node.opr_==OprStatistics::SampleStandardize){
                     if constexpr(opr_traits::getOprDemand<VTypeI,OprStatistics::SampleStandardize>()){
-
+                        //None
                     }else /*Operator Error*/;
                 }else /*Operator Error*/;
                 return VTypeO{};
@@ -403,7 +435,15 @@ namespace vtx{
             VTypeO visit(const QuantileLikeNode<VTypeI,VTypeO> &node,std::size_t row,std::size_t col) const override{
                 if(node.opr_==OprStatistics::Quantile){
                     if constexpr(opr_traits::getOprDemand<VTypeI,OprStatistics::Quantile>()){
-
+                        View<NodeBase<VTypeI>> line;
+                        if(node.axis_==Axis::Row){
+                            line=View<NodeBase<VTypeI>>(node.node_.get(),Axis::Row,row);
+                        }else if(node.axis_==Axis::Col){
+                            line=View<NodeBase<VTypeI>>(node.node_.get(),Axis::Col,col);
+                        }else if(node.axis_==Axis::None){
+                            line=View<NodeBase<VTypeI>>(node.node_.get(),Axis::None,row*(node.node_->colLength())+col);
+                        }else /*Axis Error*/;
+                        return algQuantile(line,node.arg_);
                     }else /*Operator Error*/;
                 }else /*Operator Error*/;
                 return VTypeO{};
