@@ -8,6 +8,7 @@
 #include"vtx/core/View.hpp"
 #include"vtx/alg/Operator.hpp"
 #include"vtx/alg/arithm/Arithm.hpp"
+#include"vtx/alg/compare/Compare.hpp"
 
 namespace vtx{
     template<typename VType> class NodeBase;
@@ -134,27 +135,39 @@ namespace vtx{
                     }else /*Operator Error*/;
                 }else if(node.opr_==OprCompare::Equal){
                     if constexpr(opr_traits::getOprDemand<VTypeI,OprCompare::Equal>()){
-
+                        VTypeI lhs=node.lhs_->evalAt(row,col);
+                        VTypeI rhs=node.rhs_->evalAt(row,col);
+                        return algEqual(lhs,rhs);
                     }else /*Operator Error*/;
                 }else if(node.opr_==OprCompare::Greater){
                     if constexpr(opr_traits::getOprDemand<VTypeI,OprCompare::Greater>()){
-
+                        VTypeI lhs=node.lhs_->evalAt(row,col);
+                        VTypeI rhs=node.rhs_->evalAt(row,col);
+                        return algGreater(lhs,rhs);
                     }else /*Operator Error*/;
                 }else if(node.opr_==OprCompare::GreaterEqual){
                     if constexpr(opr_traits::getOprDemand<VTypeI,OprCompare::GreaterEqual>()){
-
+                        VTypeI lhs=node.lhs_->evalAt(row,col);
+                        VTypeI rhs=node.rhs_->evalAt(row,col);
+                        return algGreaterEqual(lhs,rhs);
                     }else /*Operator Error*/;
                 }else if(node.opr_==OprCompare::Less){
                     if constexpr(opr_traits::getOprDemand<VTypeI,OprCompare::Less>()){
-
+                        VTypeI lhs=node.lhs_->evalAt(row,col);
+                        VTypeI rhs=node.rhs_->evalAt(row,col);
+                        return algLess(lhs,rhs);
                     }else /*Operator Error*/;
                 }else if(node.opr_==OprCompare::LessEqual){
                     if constexpr(opr_traits::getOprDemand<VTypeI,OprCompare::LessEqual>()){
-
+                        VTypeI lhs=node.lhs_->evalAt(row,col);
+                        VTypeI rhs=node.rhs_->evalAt(row,col);
+                        return algLessEqual(lhs,rhs);
                     }else /*Operator Error*/;
                 }else if(node.opr_==OprCompare::NotEqual){
                     if constexpr(opr_traits::getOprDemand<VTypeI,OprCompare::NotEqual>()){
-
+                        VTypeI lhs=node.lhs_->evalAt(row,col);
+                        VTypeI rhs=node.rhs_->evalAt(row,col);
+                        return algNotEqual(lhs,rhs);
                     }else /*Operator Error*/;
                 }else{
                     /*Operator Error*/;

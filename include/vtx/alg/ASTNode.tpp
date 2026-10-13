@@ -75,7 +75,12 @@ namespace vtx{
     AddLikeNode<VTypeI,VTypeO>::AddLikeNode(Operator opr,typename AddLikeNode<VTypeI,VTypeO>::node_sptr lhs,typename AddLikeNode<VTypeI,VTypeO>::node_sptr rhs):
     lhs_(lhs),rhs_(rhs){
         this->opr_=opr;
-        if(opr==OprArithm::Add || opr==OprArithm::Sub){
+        if(
+            opr==OprArithm::Add || opr==OprArithm::Sub ||
+            opr==OprCompare::Equal || opr==OprCompare::NotEqual ||
+            opr==OprCompare::Greater || opr==OprCompare::LessEqual ||
+            opr==OprCompare::Less || opr==OprCompare::GreaterEqual
+        ){
             this->rowLength_=lhs->rowLength();
             this->colLength_=lhs->colLength();
         }else if(opr==OprArithm::MatMul){
