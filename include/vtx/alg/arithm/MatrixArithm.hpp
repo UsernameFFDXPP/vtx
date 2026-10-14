@@ -152,27 +152,23 @@ namespace vtx{
     /*MatMul*/
     template<typename VType>
     Matrix<VType> matMul(const Matrix<VType> &lhs,const Matrix<VType> &rhs){
-        if constexpr(opr_traits::isMulAble<VType,VType>::value){
-            Matrix<VType> rsl(lhs.rowLength(),rhs.colLength());
-            for(std::size_t row=0;row<lhs.rowLength();++row){
-                for(std::size_t col=0;col<rhs.colLength();++col){
-                    rsl(row,col)=algMatMul(View<Matrix<VType>>(&lhs,Axis::Row,row),View<Matrix<VType>>(&rhs,Axis::Col,col));
-                }
+        Matrix<VType> rsl(lhs.rowLength(),rhs.colLength());
+        for(std::size_t row=0;row<lhs.rowLength();++row){
+            for(std::size_t col=0;col<rhs.colLength();++col){
+                rsl(row,col)=algMatMul(View<Matrix<VType>>(&lhs,Axis::Row,row),View<Matrix<VType>>(&rhs,Axis::Col,col));
             }
-            return rsl;
-        }else /*Operator Error*/;
+        }
+        return rsl;
     }
     template<typename VType>
     Matrix<VType> &matMul_(Matrix<VType> &lhs,const Matrix<VType> &rhs){
-        if constexpr(opr_traits::isMulAble<VType,VType>::value){
-            Matrix<VType> rsl(lhs.rowLength(),rhs.colLength());
-            for(std::size_t row=0;row<lhs.rowLength();++row){
-                for(std::size_t col=0;col<rhs.rowLength();++col){
-                    rsl(row,col)=algMatMul(View<Matrix<VType>>(&lhs,Axis::Row,row),View<Matrix<VType>>(&rhs,Axis::Col,col));
-                }
+        Matrix<VType> rsl(lhs.rowLength(),rhs.colLength());
+        for(std::size_t row=0;row<lhs.rowLength();++row){
+            for(std::size_t col=0;col<rhs.rowLength();++col){
+                rsl(row,col)=algMatMul(View<Matrix<VType>>(&lhs,Axis::Row,row),View<Matrix<VType>>(&rhs,Axis::Col,col));
             }
-            lhs=std::move(rsl);
-        }else /*Operator Error*/;
+        }
+        lhs=std::move(rsl);
         return lhs;
     }
     /*MatDiv*/
