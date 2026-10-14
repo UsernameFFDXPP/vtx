@@ -164,7 +164,7 @@ namespace vtx{
     Matrix<VType> &matMul_(Matrix<VType> &lhs,const Matrix<VType> &rhs){
         Matrix<VType> rsl(lhs.rowLength(),rhs.colLength());
         for(std::size_t row=0;row<lhs.rowLength();++row){
-            for(std::size_t col=0;col<rhs.rowLength();++col){
+            for(std::size_t col=0;col<rhs.colLength();++col){
                 rsl(row,col)=algMatMul(View<Matrix<VType>>(&lhs,Axis::Row,row),View<Matrix<VType>>(&rhs,Axis::Col,col));
             }
         }
@@ -177,7 +177,7 @@ namespace vtx{
     Matrix<VTypeO> ewiseUnaryFunc(VTypeO (*func)(VTypeI),const Matrix<VTypeI> &mat){
         Matrix<VTypeO> rsl(mat.rowLength(),mat.colLength());
         for(std::size_t row=0;row<mat.rowLength();++row){
-            for(std::size_t col=0;col<mat.rowLength();++col){
+            for(std::size_t col=0;col<mat.colLength();++col){
                 rsl(row,col)=func(mat(row,col));
             }
         }
@@ -187,7 +187,7 @@ namespace vtx{
     Matrix<VTypeO> ewiseUnaryFunc(std::function<VTypeO(VTypeI)> func,const Matrix<VTypeI> &mat){
         Matrix<VTypeO> rsl(mat.rowLength(),mat.colLength());
         for(std::size_t row=0;row<mat.rowLength();++row){
-            for(std::size_t col=0;col<mat.rowLength();++col){
+            for(std::size_t col=0;col<mat.colLength();++col){
                 rsl(row,col)=func(mat(row,col));
             }
         }
@@ -198,7 +198,7 @@ namespace vtx{
     Matrix<VTypeO> ewiseBinaryFunc(VTypeO (*func)(VTypeI,VTypeI),const Matrix<VTypeI> &lhs,const Matrix<VTypeI> &rhs){
         Matrix<VTypeO> rsl(lhs.rowLength(),lhs.colLength());
         for(std::size_t row=0;row<lhs.rowLength();++row){
-            for(std::size_t col=0;col<rhs.rowLength();++col){
+            for(std::size_t col=0;col<rhs.colLength();++col){
                 rsl(row,col)=func(lhs(row,col),rhs(row,col));
             }
         }
@@ -208,7 +208,7 @@ namespace vtx{
     Matrix<VTypeO> ewiseBinaryFunc(std::function<VTypeO(VTypeI,VTypeI)> func,const Matrix<VTypeI> &lhs,const Matrix<VTypeI> &rhs){
         Matrix<VTypeO> rsl(lhs.rowLength(),lhs.colLength());
         for(std::size_t row=0;row<lhs.rowLength();++row){
-            for(std::size_t col=0;col<rhs.rowLength();++col){
+            for(std::size_t col=0;col<rhs.colLength();++col){
                 rsl(row,col)=func(lhs(row,col),rhs(row,col));
             }
         }
