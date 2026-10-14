@@ -48,16 +48,16 @@ namespace vtx{
 
     template<typename VType>
     Matrix<VType> operator*(const Matrix<VType> &lhs,const VType &arg){
-        return ewiseMul(lhs,arg);
+        return scalarMul(lhs,arg);
     }
     template<typename VType>
     Matrix<VType> &operator*=(Matrix<VType> &lhs,const VType &arg){
-        return ewiseMul_(lhs,arg);
+        return scalarMul_(lhs,arg);
     }
-
+    
     template<typename VType>
     Matrix<VType> operator*(const VType &arg,const Matrix<VType> &rhs){
-        return ewiseMul(arg,rhs);
+        return scalarMul(arg,rhs);
     }
 
     template<typename VType>
@@ -71,20 +71,20 @@ namespace vtx{
 
     template<typename VType>
     Matrix<VType> operator/(const Matrix<VType> &lhs,const VType &arg){
-        return ewiseDiv(lhs,arg);
+        return scalarDiv(lhs,arg);
     }
     template<typename VType>
     Matrix<VType> &operator/=(Matrix<VType> &lhs,const VType &arg){
-        return ewiseDiv_(lhs,arg);
+        return scalarDiv_(lhs,arg);
     }
 
     template<typename VType>
     Matrix<VType> operator%(const Matrix<VType> &lhs,const VType &arg){
-        return ewiseMod(lhs,arg);
+        return scalarMod(lhs,arg);
     }
     template<typename VType>
     Matrix<VType> &operator%=(Matrix<VType> &lhs,const VType &arg){
-        return ewiseMod_(lhs,arg);
+        return scalarMod_(lhs,arg);
     }
 
     template<typename VType>

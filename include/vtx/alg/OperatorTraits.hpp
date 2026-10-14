@@ -78,11 +78,14 @@ namespace vtx{
             Opr==OprArithm::Neg?
                 isNegAble<VType>::value
             :Opr==OprArithm::EwiseInv ||
+             Opr==OprArithm::ScalarDiv ||
              Opr==OprArithm::EwiseDiv?
                 isDivAble<VType,VType>::value
-            :Opr==OprArithm::EwiseMul?
+            :Opr==OprArithm::ScalarMul ||
+             Opr==OprArithm::EwiseMul?
                 isMulAble<VType,VType>::value
-            :Opr==OprArithm::EwiseMod?
+            :Opr==OprArithm::ScalarMod ||
+             Opr==OprArithm::EwiseMod?
                 isModAble<VType,VType>::value
             :Opr==OprArithm::Add?
                 isAddAble<VType,VType>::value

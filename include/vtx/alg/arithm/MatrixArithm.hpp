@@ -32,58 +32,58 @@ namespace vtx{
         map::mapUnaryEwise(mat,OprArithm::EwiseInv,mat);
         return mat;
     }
-    /*EwiseMul*/
+    /*ScalarMul*/
     template<typename VType>
-    Matrix<VType> ewiseMul(const Matrix<VType> &mat,const VType &arg){
+    Matrix<VType> scalarMul(const Matrix<VType> &mat,const VType &arg){
         Matrix<VType> rsl(mat.rowLength(),mat.colLength());
-        map::mapBroadcastEwise(rsl,OprArithm::EwiseMul,mat,arg);
+        map::mapBroadcastEwise(rsl,OprArithm::ScalarMul,mat,arg);
         return rsl;
     }
     template<typename VType>
-    Matrix<VType> &ewiseMul_(Matrix<VType> &mat,const VType &arg){
-        map::mapBroadcastEwise(mat,OprArithm::EwiseMul,mat,arg);
+    Matrix<VType> &scalarMul_(Matrix<VType> &mat,const VType &arg){
+        map::mapBroadcastEwise(mat,OprArithm::ScalarMul,mat,arg);
         return mat;
     }
     template<typename VType>
-    Matrix<VType> ewiseMul(VType arg,const Matrix<VType> &mat){
+    Matrix<VType> scalarMul(VType arg,const Matrix<VType> &mat){
         Matrix<VType> rsl(mat.rowLength(),mat.colLength());
-        map::mapBroadcastEwise(rsl,OprArithm::EwiseMul,mat,arg);
+        map::mapBroadcastEwise(rsl,OprArithm::ScalarMul,mat,arg);
         return rsl;
     }
-    /*EwiseDiv*/
+    /*ScalarDiv*/
     template<typename VType>
-    Matrix<VType> ewiseDiv(const Matrix<VType> &mat,const VType &arg){
+    Matrix<VType> scalarDiv(const Matrix<VType> &mat,const VType &arg){
         Matrix<VType> rsl(mat.rowLength(),mat.colLength());
-        map::mapBroadcastEwise(rsl,OprArithm::EwiseDiv,mat,arg);
+        map::mapBroadcastEwise(rsl,OprArithm::ScalarDiv,mat,arg);
         return rsl;
     }
     template<typename VType>
-    Matrix<VType> &ewiseDiv_(Matrix<VType> &mat,const VType &arg){
-        map::mapBroadcastEwise(mat,OprArithm::EwiseDiv,mat,arg);
+    Matrix<VType> &scalarDiv_(Matrix<VType> &mat,const VType &arg){
+        map::mapBroadcastEwise(mat,OprArithm::ScalarDiv,mat,arg);
         return mat;
     }
     template<typename VType>
-    Matrix<VType> ewiseDiv(const VType &arg,const Matrix<VType> &mat){
+    Matrix<VType> scalarDiv(const VType &arg,const Matrix<VType> &mat){
         Matrix<VType> rsl(mat.rowLength(),mat.colLength());
-        map::mapBroadcastEwise(rsl,OprArithm::EwiseDiv,arg,mat);
+        map::mapBroadcastEwise(rsl,OprArithm::ScalarDiv,arg,mat);
         return rsl;
     }
-    /*EwiseMod*/
+    /*ScalarMod*/
     template<typename VType>
-    Matrix<VType> ewiseMod(const Matrix<VType> &mat,const VType &arg){
+    Matrix<VType> scalarMod(const Matrix<VType> &mat,const VType &arg){
         Matrix<VType> rsl(mat.rowLength(),mat.colLength());
-        map::mapBroadcastEwise(rsl,OprArithm::EwiseMod,mat,arg);
+        map::mapBroadcastEwise(rsl,OprArithm::ScalarMod,mat,arg);
         return rsl;
     }
     template<typename VType>
-    Matrix<VType> &ewiseMod_(Matrix<VType> &mat,const VType &arg){
-        map::mapBroadcastEwise(mat,OprArithm::EwiseMod,mat,arg);
+    Matrix<VType> &scalarMod_(Matrix<VType> &mat,const VType &arg){
+        map::mapBroadcastEwise(mat,OprArithm::ScalarMod,mat,arg);
         return mat;
     }
     template<typename VType>
-    Matrix<VType> ewiseMod(const VType &arg,const Matrix<VType> &mat){
+    Matrix<VType> scalarMod(const VType &arg,const Matrix<VType> &mat){
         Matrix<VType> rsl(mat.rowLength(),mat.colLength());
-        map::mapBroadcastEwise(rsl,OprArithm::EwiseMod,arg,mat);
+        map::mapBroadcastEwise(rsl,OprArithm::ScalarMod,arg,mat);
         return rsl;
     }
     /*Add*/
@@ -108,6 +108,42 @@ namespace vtx{
     template<typename VType>
     Matrix<VType> &sub_(Matrix<VType> &lhs,const Matrix<VType> &rhs){
         map::mapBinaryEwise(lhs,OprArithm::Sub,lhs,rhs);
+        return lhs;
+    }
+    /*EwiseMul*/
+    template<typename VType>
+    Matrix<VType> ewiseMul(const Matrix<VType> &lhs,const Matrix<VType> &rhs){
+        Matrix<VType> rsl(lhs.rowLength(),lhs.colLength());
+        map::mapBinaryEwise(rsl,OprArithm::EwiseMul,lhs,rhs);
+        return rsl;
+    }
+    template<typename VType>
+    Matrix<VType> &ewiseMul_(Matrix<VType> &lhs,const Matrix<VType> &rhs){
+        map::mapBinaryEwise(lhs,OprArithm::EwiseMul,lhs,rhs);
+        return lhs;
+    }
+    /*EwiseDiv*/
+    template<typename VType>
+    Matrix<VType> ewiseDiv(const Matrix<VType> &lhs,const Matrix<VType> &rhs){
+        Matrix<VType> rsl(lhs.rowLength(),lhs.colLength());
+        map::mapBinaryEwise(rsl,OprArithm::EwiseDiv,lhs,rhs);
+        return rsl;
+    }
+    template<typename VType>
+    Matrix<VType> &ewiseDiv_(Matrix<VType> &lhs,const Matrix<VType> &rhs){
+        map::mapBinaryEwise(lhs,OprArithm::EwiseDiv,lhs,rhs);
+        return lhs;
+    }
+    /*EwiseMod*/
+    template<typename VType>
+    Matrix<VType> ewiseMod(const Matrix<VType> &lhs,const Matrix<VType> &rhs){
+        Matrix<VType> rsl(lhs.rowLength(),lhs.colLength());
+        map::mapBinaryEwise(rsl,OprArithm::EwiseMod,lhs,rhs);
+        return rsl;
+    }
+    template<typename VType>
+    Matrix<VType> &ewiseMod_(Matrix<VType> &lhs,const Matrix<VType> &rhs){
+        map::mapBinaryEwise(lhs,OprArithm::EwiseMod,lhs,rhs);
         return lhs;
     }
     /*MatInv*/

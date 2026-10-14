@@ -75,6 +75,7 @@ namespace vtx{
         this->opr_=opr;
         if(
             opr==OprArithm::Add || opr==OprArithm::Sub ||
+            opr==OprArithm::EwiseMul || opr==OprArithm::EwiseDiv || opr==OprArithm::EwiseMod ||
             opr==OprCompare::Equal || opr==OprCompare::NotEqual ||
             opr==OprCompare::Greater || opr==OprCompare::LessEqual ||
             opr==OprCompare::Less || opr==OprCompare::GreaterEqual

@@ -31,6 +31,18 @@ namespace vtx{
                         if constexpr(opr_traits::getOprDemand<VTypeI,OprArithm::Sub>())
                             rsl(row,col)=algSub(lhs(row,col),rhs(row,col));
                         else /*Operator Error*/;
+                    }else if(opr==OprArithm::EwiseMul){
+                        if constexpr(opr_traits::getOprDemand<VTypeI,OprArithm::EwiseMul>())
+                            rsl(row,col)=algEwiseMul(lhs(row,col),rhs(row,col));
+                        else /*Operator Error*/;
+                    }else if(opr==OprArithm::EwiseDiv){
+                        if constexpr(opr_traits::getOprDemand<VTypeI,OprArithm::EwiseDiv>())
+                            rsl(row,col)=algEwiseDiv(lhs(row,col),rhs(row,col));
+                        else /*Operator Error*/;
+                    }else if(opr==OprArithm::EwiseMod){
+                        if constexpr(opr_traits::getOprDemand<VTypeI,OprArithm::EwiseMod>())
+                            rsl(row,col)=algEwiseMod(lhs(row,col),rhs(row,col));
+                        else /*Operator Error*/;
                     }else if(opr==OprCompare::Equal){
                         if constexpr(opr_traits::getOprDemand<VTypeI,OprCompare::Equal>())
                             rsl(row,col)=algEqual(lhs(row,col),rhs(row,col));
@@ -74,17 +86,17 @@ namespace vtx{
                         if constexpr(opr_traits::getOprDemand<VTypeI,OprArithm::Sub>())
                             rsl(row,col)=algSub(lhs(lrow,lcol),rhs(rrow,rcol));
                         else /*Operator Error*/;
-                    }else if(opr==OprArithm::EwiseMul){
-                        if constexpr(opr_traits::getOprDemand<VTypeI,OprArithm::EwiseMul>())
-                            rsl(row,col)=algEwiseMul(lhs(lrow,lcol),rhs(rrow,rcol));
+                    }else if(opr==OprArithm::ScalarMul){
+                        if constexpr(opr_traits::getOprDemand<VTypeI,OprArithm::ScalarMul>())
+                            rsl(row,col)=algScalarMul(lhs(lrow,lcol),rhs(rrow,rcol));
                         else /*Operator Error*/;
-                    }else if(opr==OprArithm::EwiseDiv){
-                        if constexpr(opr_traits::getOprDemand<VTypeI,OprArithm::EwiseDiv>())
-                            rsl(row,col)=algEwiseDiv(lhs(lrow,lcol),rhs(rrow,rcol));
+                    }else if(opr==OprArithm::ScalarDiv){
+                        if constexpr(opr_traits::getOprDemand<VTypeI,OprArithm::ScalarDiv>())
+                            rsl(row,col)=algScalarDiv(lhs(lrow,lcol),rhs(rrow,rcol));
                         else /*Operator Error*/;
-                    }else if(opr==OprArithm::EwiseMod){
-                        if constexpr(opr_traits::getOprDemand<VTypeI,OprArithm::EwiseMod>())
-                            rsl(row,col)=algEwiseMod(lhs(lrow,lcol),rhs(rrow,rcol));
+                    }else if(opr==OprArithm::ScalarMod){
+                        if constexpr(opr_traits::getOprDemand<VTypeI,OprArithm::ScalarMod>())
+                            rsl(row,col)=algScalarMod(lhs(lrow,lcol),rhs(rrow,rcol));
                         else /*Operator Error*/;
                     }else /*Operator Error*/;
                 }
@@ -95,17 +107,17 @@ namespace vtx{
             for(std::size_t row=0;row<rsl.rowLength();++row){
                 for(std::size_t col=0;col<rsl.colLength();++col){
                     std::size_t lrow=row%lhs.rowLength(),lcol=col%lhs.colLength();
-                    if(opr==OprArithm::EwiseMul){
-                        if constexpr(opr_traits::getOprDemand<VTypeI,OprArithm::EwiseMul>())
-                            rsl(row,col)=algEwiseMul(lhs(lrow,lcol),arg);
+                    if(opr==OprArithm::ScalarMul){
+                        if constexpr(opr_traits::getOprDemand<VTypeI,OprArithm::ScalarMul>())
+                            rsl(row,col)=algScalarMul(lhs(lrow,lcol),arg);
                         else /*Operator Error*/;
-                    }else if(opr==OprArithm::EwiseDiv){
-                        if constexpr(opr_traits::getOprDemand<VTypeI,OprArithm::EwiseDiv>())
-                            rsl(row,col)=algEwiseDiv(lhs(lrow,lcol),arg);
+                    }else if(opr==OprArithm::ScalarDiv){
+                        if constexpr(opr_traits::getOprDemand<VTypeI,OprArithm::ScalarDiv>())
+                            rsl(row,col)=algScalarDiv(lhs(lrow,lcol),arg);
                         else /*Operator Error*/;
-                    }else if(opr==OprArithm::EwiseMod){
-                        if constexpr(opr_traits::getOprDemand<VTypeI,OprArithm::EwiseMod>())
-                            rsl(row,col)=algEwiseMod(lhs(lrow,lcol),arg);
+                    }else if(opr==OprArithm::ScalarMod){
+                        if constexpr(opr_traits::getOprDemand<VTypeI,OprArithm::ScalarMod>())
+                            rsl(row,col)=algScalarMod(lhs(lrow,lcol),arg);
                         else /*Operator Error*/;
                     }else /*Operator Error*/;
                 }
@@ -116,17 +128,17 @@ namespace vtx{
             for(std::size_t row=0;row<rsl.rowLength();++row){
                 for(std::size_t col=0;col<rsl.colLength();++col){
                     std::size_t rrow=row%rhs.rowLength(),rcol=col%rhs.colLength();
-                    if(opr==OprArithm::EwiseMul){
-                        if constexpr(opr_traits::getOprDemand<VTypeI,OprArithm::EwiseMul>())
-                            rsl(row,col)=algEwiseMul(arg,rhs(rrow,rcol));
+                    if(opr==OprArithm::ScalarMul){
+                        if constexpr(opr_traits::getOprDemand<VTypeI,OprArithm::ScalarMul>())
+                            rsl(row,col)=algScalarMul(arg,rhs(rrow,rcol));
                         else /*Operator Error*/;
-                    }else if(opr==OprArithm::EwiseDiv){
-                        if constexpr(opr_traits::getOprDemand<VTypeI,OprArithm::EwiseDiv>())
-                            rsl(row,col)=algEwiseDiv(arg,rhs(rrow,rcol));
+                    }else if(opr==OprArithm::ScalarDiv){
+                        if constexpr(opr_traits::getOprDemand<VTypeI,OprArithm::ScalarDiv>())
+                            rsl(row,col)=algScalarDiv(arg,rhs(rrow,rcol));
                         else /*Operator Error*/;
-                    }else if(opr==OprArithm::EwiseMod){
-                        if constexpr(opr_traits::getOprDemand<VTypeI,OprArithm::EwiseMod>())
-                            rsl(row,col)=algEwiseMod(arg,rhs(rrow,rcol));
+                    }else if(opr==OprArithm::ScalarMod){
+                        if constexpr(opr_traits::getOprDemand<VTypeI,OprArithm::ScalarMod>())
+                            rsl(row,col)=algScalarMod(arg,rhs(rrow,rcol));
                         else /*Operator Error*/;
                     }else /*Operator Error*/;
                 }

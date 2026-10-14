@@ -23,6 +23,41 @@ namespace vtx{
     >{
         return VType{}/val;
     }
+    /*ScalarMul*/
+    template<typename VType>
+    auto algScalarMul(const VType &lhs,const VType &rhs)->std::enable_if_t<
+        opr_traits::getOprDemand<VType,OprArithm::ScalarMul>(),VType
+    >{
+        return lhs*rhs;
+    }
+    /*ScalarDiv*/
+    template<typename VType>
+    auto algScalarDiv(const VType &lhs,const VType &rhs)->std::enable_if_t<
+        opr_traits::getOprDemand<VType,OprArithm::ScalarDiv>(),VType
+    >{
+        return lhs/rhs;
+    }
+    /*ScalarMod*/
+    template<typename VType>
+    auto algScalarMod(const VType &lhs,const VType &rhs)->std::enable_if_t<
+        opr_traits::getOprDemand<VType,OprArithm::ScalarMod>(),VType
+    >{
+        return lhs%rhs;
+    }
+    /*Add*/
+    template<typename VType>
+    auto algAdd(const VType &lhs,const VType &rhs)->std::enable_if_t<
+        opr_traits::getOprDemand<VType,OprArithm::Add>(),VType
+    >{
+        return lhs+rhs;
+    }
+    /*Sub*/
+    template<typename VType>
+    auto algSub(const VType &rhs,const VType &lhs)->std::enable_if_t<
+        opr_traits::getOprDemand<VType,OprArithm::Sub>(),VType
+    >{
+        return rhs-lhs;
+    }
     /*EwiseMul*/
     template<typename VType>
     auto algEwiseMul(const VType &lhs,const VType &rhs)->std::enable_if_t<
@@ -43,20 +78,6 @@ namespace vtx{
         opr_traits::getOprDemand<VType,OprArithm::EwiseMod>(),VType
     >{
         return lhs%rhs;
-    }
-    /*Add*/
-    template<typename VType>
-    auto algAdd(const VType &lhs,const VType &rhs)->std::enable_if_t<
-        opr_traits::getOprDemand<VType,OprArithm::Add>(),VType
-    >{
-        return lhs+rhs;
-    }
-    /*Sub*/
-    template<typename VType>
-    auto algSub(const VType &rhs,const VType &lhs)->std::enable_if_t<
-        opr_traits::getOprDemand<VType,OprArithm::Sub>(),VType
-    >{
-        return rhs-lhs;
     }
     /*MatMul*/
     template<typename Lhs,typename Rhs,typename VType=typename Lhs::value_type>

@@ -31,12 +31,15 @@ namespace vtx{
         EwiseInv,
         MatInv,
         /*1 Operand 1 Arg*/
-        EwiseMul,
-        EwiseDiv,
-        EwiseMod,
+        ScalarMul,
+        ScalarDiv,
+        ScalarMod,
         /*2 Operand*/
         Add,
         Sub,
+        EwiseMul,
+        EwiseDiv,
+        EwiseMod,
         MatMul,
         MatDiv,
         /*Func*/

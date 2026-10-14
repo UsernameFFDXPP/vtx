@@ -26,47 +26,47 @@ namespace vtx{
         expr=Expression<VType>(static_cast<Operator>(OprArithm::EwiseInv),expr);
         return expr;
     }
-    /*EwiseMul*/
+    /*ScalarMul*/
     template<typename VType>
-    Expression<VType> ewiseMul(const Expression<VType> &expr,const VType &arg){
-        return Expression<VType>(static_cast<Operator>(OprArithm::EwiseMul),expr,arg);
+    Expression<VType> scalarMul(const Expression<VType> &expr,const VType &arg){
+        return Expression<VType>(static_cast<Operator>(OprArithm::ScalarMul),expr,arg);
     }
     template<typename VType>
-    Expression<VType> &ewiseMul_(Expression<VType> &expr,const VType &arg){
-        expr=Expression<VType>(static_cast<Operator>(OprArithm::EwiseMul),expr,arg);
+    Expression<VType> &scalarMul_(Expression<VType> &expr,const VType &arg){
+        expr=Expression<VType>(static_cast<Operator>(OprArithm::ScalarMul),expr,arg);
         return expr;
     }
     template<typename VType>
-    Expression<VType> ewiseMul(const VType &arg,const Expression<VType> &expr){
-        return Expression<VType>(static_cast<Operator>(OprArithm::EwiseMul),arg,expr);
+    Expression<VType> scalarMul(const VType &arg,const Expression<VType> &expr){
+        return Expression<VType>(static_cast<Operator>(OprArithm::ScalarMul),arg,expr);
     }
-    /*EwiseDiv*/
+    /*ScalarDiv*/
     template<typename VType>
-    Expression<VType> ewiseDiv(const Expression<VType> &expr,const VType &arg){
-        return Expression<VType>(static_cast<Operator>(OprArithm::EwiseDiv),expr,arg);
+    Expression<VType> scalarDiv(const Expression<VType> &expr,const VType &arg){
+        return Expression<VType>(static_cast<Operator>(OprArithm::ScalarDiv),expr,arg);
     }
     template<typename VType>
-    Expression<VType> &ewiseDiv_(Expression<VType> &expr,const VType &arg){
-        expr=Expression<VType>(static_cast<Operator>(OprArithm::EwiseDiv),expr,arg);
+    Expression<VType> &scalarDiv_(Expression<VType> &expr,const VType &arg){
+        expr=Expression<VType>(static_cast<Operator>(OprArithm::ScalarDiv),expr,arg);
         return expr;
     }
     template<typename VType>
-    Expression<VType> ewiseDiv(const VType &arg,const Expression<VType> &expr){
-        return Expression<VType>(static_cast<Operator>(OprArithm::EwiseDiv),arg,expr);
+    Expression<VType> scalarDiv(const VType &arg,const Expression<VType> &expr){
+        return Expression<VType>(static_cast<Operator>(OprArithm::ScalarDiv),arg,expr);
     }
-    /*EwiseMod*/
+    /*ScalarMod*/
     template<typename VType>
-    Expression<VType> ewiseMod(const Expression<VType> &expr,const VType &arg){
-        return Expression<VType>(static_cast<Operator>(OprArithm::EwiseMod),expr,arg);
+    Expression<VType> scalarMod(const Expression<VType> &expr,const VType &arg){
+        return Expression<VType>(static_cast<Operator>(OprArithm::ScalarMod),expr,arg);
     }
     template<typename VType>
-    Expression<VType> &ewiseMod_(Expression<VType> &expr,const VType &arg){
-        expr=Expression<VType>(static_cast<Operator>(OprArithm::EwiseMod),expr,arg);
+    Expression<VType> &scalarMod_(Expression<VType> &expr,const VType &arg){
+        expr=Expression<VType>(static_cast<Operator>(OprArithm::ScalarMod),expr,arg);
         return expr;
     }
     template<typename VType>
-    Expression<VType> ewiseMod(const VType &arg,const Expression<VType> &expr){
-        return Expression<VType>(static_cast<Operator>(OprArithm::EwiseMod),arg,expr);
+    Expression<VType> scalarMod(const VType &arg,const Expression<VType> &expr){
+        return Expression<VType>(static_cast<Operator>(OprArithm::ScalarMod),arg,expr);
     }
     /*Add*/
     template<typename VType>
@@ -86,6 +86,36 @@ namespace vtx{
     template<typename VType>
     Expression<VType> &sub_(Expression<VType> &lhs,const Expression<VType> &rhs){
         lhs=Expression<VType>(static_cast<Operator>(OprArithm::Sub),lhs,rhs);
+        return lhs;
+    }
+    /*EwiseMul*/
+    template<typename VType>
+    Expression<VType> ewiseMul(const Expression<VType> &lhs,const Expression<VType> &rhs){
+        return Expression<VType>(static_cast<Operator>(OprArithm::EwiseMul),lhs,rhs);
+    }
+    template<typename VType>
+    Expression<VType> &ewiseMul_(Expression<VType> &lhs,const Expression<VType> &rhs){
+        lhs=Expression<VType>(static_cast<Operator>(OprArithm::EwiseMul),lhs,rhs);
+        return lhs;
+    }
+    /*EwiseDiv*/
+    template<typename VType>
+    Expression<VType> ewiseDiv(const Expression<VType> &lhs,const Expression<VType> &rhs){
+        return Expression<VType>(static_cast<Operator>(OprArithm::EwiseDiv),lhs,rhs);
+    }
+    template<typename VType>
+    Expression<VType> &ewiseDiv_(Expression<VType> &lhs,const Expression<VType> &rhs){
+        lhs=Expression<VType>(static_cast<Operator>(OprArithm::EwiseDiv),lhs,rhs);
+        return lhs;
+    }
+    /*EwiseMod*/
+    template<typename VType>
+    Expression<VType> ewiseMod(const Expression<VType> &lhs,const Expression<VType> &rhs){
+        return Expression<VType>(static_cast<Operator>(OprArithm::EwiseMod),lhs,rhs);
+    }
+    template<typename VType>
+    Expression<VType> &ewiseMod_(Expression<VType> &lhs,const Expression<VType> &rhs){
+        lhs=Expression<VType>(static_cast<Operator>(OprArithm::EwiseMod),lhs,rhs);
         return lhs;
     }
     /*MatMul*/

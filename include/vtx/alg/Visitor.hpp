@@ -125,6 +125,24 @@ namespace vtx{
                         VTypeI rhs=node.rhs_->evalAt(row,col);
                         return algSub(lhs,rhs);
                     }else /*Operator Error*/;
+                }else if(node.opr_==OprArithm::EwiseMul){
+                    if constexpr(opr_traits::isMulAble<VTypeI,VTypeI>::value){
+                        VTypeI lhs=node.lhs_->evalAt(row,col);
+                        VTypeI rhs=node.rhs_->evalAt(row,col);
+                        return algEwiseMul(lhs,rhs);
+                    }else /*Operator Error*/;
+                }else if(node.opr_==OprArithm::EwiseDiv){
+                    if constexpr(opr_traits::isDivAble<VTypeI,VTypeI>::value){
+                        VTypeI lhs=node.lhs_->evalAt(row,col);
+                        VTypeI rhs=node.rhs_->evalAt(row,col);
+                        return algEwiseDiv(lhs,rhs);
+                    }else /*Operator Error*/;
+                }else if(node.opr_==OprArithm::EwiseMod){
+                    if constexpr(opr_traits::isModAble<VTypeI,VTypeI>::value){
+                        VTypeI lhs=node.lhs_->evalAt(row,col);
+                        VTypeI rhs=node.rhs_->evalAt(row,col);
+                        return algEwiseMod(lhs,rhs);
+                    }else /*Operator Error*/;
                 }else if(node.opr_==OprArithm::MatMul){
                     if constexpr(opr_traits::isMulAble<VTypeI,VTypeI>::value){
                         View<NodeBase<VTypeI>> lhs(node.lhs_.get(),Axis::Row,row);
@@ -416,17 +434,17 @@ namespace vtx{
             VTypeO visit(const EwiseLikeNode<VTypeI,VTypeO> &node,std::size_t row,std::size_t col) const override{
                 VTypeI val=node.node_->evalAt(row,col);
                 VTypeI arg=node.arg_;
-                if(node.opr_==OprArithm::EwiseMul){
+                if(node.opr_==OprArithm::ScalarMul){
                     if constexpr(opr_traits::isMulAble<VTypeI,VTypeI>::value)
-                        return algEwiseMul(val,arg);
+                        return algScalarMul(val,arg);
                     else /*Operator Error*/;
-                }else if(node.opr_==OprArithm::EwiseDiv){
+                }else if(node.opr_==OprArithm::ScalarDiv){
                     if constexpr(opr_traits::isDivAble<VTypeI,VTypeI>::value)
-                        return algEwiseDiv(val,arg);
+                        return algScalarDiv(val,arg);
                     else /*Operator Error*/;
-                }else if(node.opr_==OprArithm::EwiseMod){
+                }else if(node.opr_==OprArithm::ScalarMod){
                     if constexpr(opr_traits::isModAble<VTypeI,VTypeI>::value)
-                        return algEwiseMod(val,arg);
+                        return algScalarMod(val,arg);
                     else /*Operator Error*/;
                 }else /*Operator Error*/;
                 return VTypeO{};

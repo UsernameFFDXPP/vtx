@@ -90,7 +90,7 @@ namespace vtx{
         Matrix<VType> rsl(mat.rowLength(),mat.colLength());
         Matrix<VType> var=variance(mat,axis);
         for(std::size_t i=0;i<var.size();++i) var(i)=std::sqrt(var(i));
-        map::mapBroadcastEwise(rsl,OprArithm::EwiseDiv,center(mat,axis),var);
+        map::mapBroadcastEwise(rsl,OprArithm::ScalarDiv,center(mat,axis),var);
         return rsl;
     }
     /*SampleStandardize*/
@@ -99,7 +99,7 @@ namespace vtx{
         Matrix<VType> rsl(mat.rowLength(),mat.colLength());
         Matrix<VType> var=sampleVariance(mat,axis);
         for(std::size_t i=0;i<var.size();++i) var(i)=std::sqrt(var(i));
-        map::mapBroadcastEwise(rsl,OprArithm::EwiseDiv,center(mat,axis),var);
+        map::mapBroadcastEwise(rsl,OprArithm::ScalarDiv,center(mat,axis),var);
         return rsl;
     }
     /*Quantile*/
