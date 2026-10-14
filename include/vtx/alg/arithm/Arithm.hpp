@@ -21,7 +21,7 @@ namespace vtx{
     auto algEwiseInv(const VType &val)->std::enable_if_t<
         opr_traits::getOprDemand<VType,OprArithm::EwiseInv>(),VType
     >{
-        return VType{}/val;
+        return VType{1}/val;
     }
     /*ScalarMul*/
     template<typename VType>
