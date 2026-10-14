@@ -14,10 +14,10 @@ namespace vtx{
     Matrix<VType> covariance(const Matrix<VType> &mat,Axis axis=Axis::None){
         if(axis==Axis::Row){
             Matrix<VType> rsl=matMul(center(mat,axis),transpose(center(mat,axis)));
-            return rsl/static_cast<VType>(mat.colLength()-1);
+            return scalarDiv(rsl,static_cast<VType>(mat.colLength()-1));
         }else if(axis==Axis::Col){
             Matrix<VType> rsl=matMul(transpose(center(mat,axis)),center(mat,axis));
-            return rsl/static_cast<VType>(mat.rowLength()-1);
+            return scalarDiv(rsl,static_cast<VType>(mat.rowLength()-1));
         }else /*Axis Error*/;
         return Matrix<VType>{};
     }
@@ -26,10 +26,10 @@ namespace vtx{
     Matrix<VType> correlation(const Matrix<VType> &mat,Axis axis=Axis::None){
         if(axis==Axis::Row){
             Matrix<VType>rsl=matMul(sampleStandardize(mat,axis),transpose(sampleStandardize(mat,axis)));
-            return rsl/static_cast<VType>(mat.colLength()-1);
+            return scalarDiv(rsl,static_cast<VType>(mat.colLength()-1));
         }else if(axis==Axis::Col){
             Matrix<VType>rsl=matMul(transpose(sampleStandardize(mat,axis)),sampleStandardize(mat,axis));
-            return rsl/static_cast<VType>(mat.rowLength()-1);
+            return scalarDiv(rsl,static_cast<VType>(mat.rowLength()-1));
         }else /*Axis Error*/;
         return Matrix<VType>{};
     }
@@ -90,7 +90,7 @@ namespace vtx{
         Matrix<VType> rsl(mat.rowLength(),mat.colLength());
         Matrix<VType> var=variance(mat,axis);
         for(std::size_t i=0;i<var.size();++i) var(i)=std::sqrt(var(i));
-        map::mapBroadcastEwise(rsl,OprArithm::ScalarDiv,center(mat,axis),var);
+        map::mapBroadcastEwise(rsl,OprArithm::EwiseDiv,center(mat,axis),var);
         return rsl;
     }
     /*SampleStandardize*/
@@ -99,7 +99,7 @@ namespace vtx{
         Matrix<VType> rsl(mat.rowLength(),mat.colLength());
         Matrix<VType> var=sampleVariance(mat,axis);
         for(std::size_t i=0;i<var.size();++i) var(i)=std::sqrt(var(i));
-        map::mapBroadcastEwise(rsl,OprArithm::ScalarDiv,center(mat,axis),var);
+        map::mapBroadcastEwise(rsl,OprArithm::EwiseDiv,center(mat,axis),var);
         return rsl;
     }
     /*Quantile*/

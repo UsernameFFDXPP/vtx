@@ -7,11 +7,19 @@
 namespace vtx{
     template<typename VType>
     Expression<VType> covariance(const Expression<VType> &expr,Axis axis){
+        auto centerExpr=center(expr,axis);
+        if(axis==Axis::Row) return scalarDiv(matMul(centerExpr,transpose(centerExpr)),static_cast<VType>(expr.colLength()-1));
+        else if(axis==Axis::Col) return scalarDiv(matMul(transpose(centerExpr),centerExpr),static_cast<VType>(expr.rowLength()-1));
+        else /*Axis Error*/;
         return Expression<VType>(OprStatistics::Covariance,expr,axis);
     }
 
     template<typename VType>
     Expression<VType> correlation(const Expression<VType> &expr,Axis axis){
+        auto stdExpr=sampleStandardize(expr,axis);
+        if(axis==Axis::Row) return scalarDiv(matMul(stdExpr,transpose(stdExpr)),static_cast<VType>(expr.colLength()-1));
+        else if(axis==Axis::Col) return scalarDiv(matMul(transpose(stdExpr),stdExpr),static_cast<VType>(expr.rowLength()-1));
+        else /*Axis Error*/;
         return Expression<VType>(OprStatistics::Correlation,expr,axis);
     }
 
